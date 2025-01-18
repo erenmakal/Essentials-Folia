@@ -1,6 +1,6 @@
-From 332b25675c9ef88bfb52207695e861f67c3d7953 Mon Sep 17 00:00:00 2001
+From 260514b298da8d5f7cd150e8dc984adad49ff111 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 10 Dec 2024 20:01:50 +0100
+Date: Sat, 18 Jan 2025 21:13:40 +0100
 Subject: [PATCH 8/9] Fix Stop Server task
 
 ---
@@ -57,5 +57,5 @@ index 07c050e90..0351649bd 100644
          Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getPluginManager().callEvent(event));
          }*/ // Euphyllia
 -- 
-2.47.1.windows.1
+2.47.1.windows.2
 

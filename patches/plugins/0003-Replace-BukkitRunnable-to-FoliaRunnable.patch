@@ -1,6 +1,6 @@
-From a41f48cbe70dd679b08fe407dd010131f3ca6ff3 Mon Sep 17 00:00:00 2001
+From f4da02ac3c867647c763aaa1f3f1b091afabbaaa Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 10 Dec 2024 20:01:47 +0100
+Date: Sat, 18 Jan 2025 21:13:38 +0100
 Subject: [PATCH 3/9] Replace BukkitRunnable to FoliaRunnable
 
 ---
@@ -287,10 +287,10 @@ index 000000000..00ae5275f
 +    }
 +}
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
-index 1d65353ef..d460b8e67 100644
+index fa97ff2ff..03989c0de 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
-@@ -505,7 +505,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -509,7 +509,7 @@ public class Commandessentials extends EssentialsCommand {
          }
  
          currentTune = new TuneRunnable(NYAN_TUNE, NOTE_HARP, ess::getOnlinePlayers);
@@ -299,7 +299,7 @@ index 1d65353ef..d460b8e67 100644
      }
  
      // Cow farts.
-@@ -900,7 +900,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -904,7 +904,7 @@ public class Commandessentials extends EssentialsCommand {
          return Collections.emptyList();
      }
  
@@ -308,7 +308,7 @@ index 1d65353ef..d460b8e67 100644
          private static final Map<String, Float> noteMap = ImmutableMap.<String, Float>builder()
              .put("1F#", 0.5f)
              .put("1G", 0.53f)
-@@ -934,6 +934,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -938,6 +938,7 @@ public class Commandessentials extends EssentialsCommand {
          private int i = 0;
  
          TuneRunnable(final String tuneStr, final Sound sound, final Supplier<Collection<Player>> players) {
@@ -317,5 +317,5 @@ index 1d65353ef..d460b8e67 100644
              this.sound = sound;
              this.players = players;
 -- 
-2.47.1.windows.1
+2.47.1.windows.2
 

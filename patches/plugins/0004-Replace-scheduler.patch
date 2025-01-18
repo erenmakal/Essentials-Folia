@@ -1,6 +1,6 @@
-From 5ae9f2adff88ea916e3b3305846b9820e1c49713 Mon Sep 17 00:00:00 2001
+From 9445f7736cfd6dc8ed5f4aae76dfd2347404c2a0 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 10 Dec 2024 20:01:48 +0100
+Date: Sat, 18 Jan 2025 21:13:39 +0100
 Subject: [PATCH 4/9] Replace scheduler
 
 ---
@@ -202,10 +202,10 @@ index 4008b3fe5..aa265ef49 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index 9e360f538..b10a11df8 100644
+index 2ae888dec..60f994a5b 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -528,7 +528,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -450,7 +450,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              alternativeCommandsHandler = new AlternativeCommandsHandler(this);
  
              timer = new EssentialsTimer(this);
@@ -214,7 +214,7 @@ index 9e360f538..b10a11df8 100644
  
              Economy.setEss(this);
              execTimer.mark("RegHandler");
-@@ -538,7 +538,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -460,7 +460,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              PermissionsDefaults.registerAllHatDefaults();
  
              updateChecker = new UpdateChecker(this);
@@ -223,7 +223,7 @@ index 9e360f538..b10a11df8 100644
                  getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("versionFetching")));
                  for (final Component component : updateChecker.getVersionMessages(false, true, new CommandSource(this, Bukkit.getConsoleSender()))) {
                      getLogger().log(getSettings().isUpdateCheckEnabled() ? Level.WARNING : Level.INFO, AdventureUtil.adventureToLegacy(component));
-@@ -970,9 +970,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -895,9 +895,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitScheduler getScheduler() {
@@ -256,7 +256,7 @@ index 9e360f538..b10a11df8 100644
      @Override
      public IJails getJails() {
          return jails;
-@@ -1277,31 +1300,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -1202,31 +1225,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitTask runTaskAsynchronously(final Runnable run) {
@@ -295,10 +295,10 @@ index 9e360f538..b10a11df8 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsBlockListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsBlockListener.java
-index c0a861ce7..d15ca2904 100644
+index 2890bc2a7..82a762717 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsBlockListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsBlockListener.java
-@@ -42,14 +42,14 @@ public class EssentialsBlockListener implements Listener {
+@@ -44,14 +44,14 @@ public class EssentialsBlockListener implements Listener {
  
          final User user = ess.getUser(event.getPlayer());
          if (user.hasUnlimited(is) && user.getBase().getGameMode() == GameMode.SURVIVAL) {
@@ -329,10 +329,10 @@ index 1305ba91c..cd4cd4438 100644
                      event.setCancelled(true);
                      return;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index e6b5043e0..aaadfca2a 100644
+index 65d495c99..354b3d4c9 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-@@ -81,7 +81,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
+@@ -84,7 +84,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
  
  public class EssentialsPlayerListener implements Listener, FakeAccessor {
      private final transient IEssentials ess;
@@ -341,7 +341,7 @@ index e6b5043e0..aaadfca2a 100644
  
      public EssentialsPlayerListener(final IEssentials parent) {
          this.ess = parent;
-@@ -268,9 +268,9 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -271,9 +271,9 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
      public void onPlayerQuit(final PlayerQuitEvent event) {
          final User user = ess.getUser(event.getPlayer());
  
@@ -353,7 +353,7 @@ index e6b5043e0..aaadfca2a 100644
          }
  
          if (hideJoinQuitMessages() || (ess.getSettings().allowSilentJoinQuit() && user.isAuthorized("essentials.silentquit"))) {
-@@ -323,7 +323,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -326,7 +326,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
      @EventHandler(priority = EventPriority.HIGHEST)
      public void onPlayerJoin(final PlayerJoinEvent event) {
          final String joinMessage = event.getJoinMessage();
@@ -362,7 +362,7 @@ index e6b5043e0..aaadfca2a 100644
  
          if (hideJoinQuitMessages() || ess.getSettings().allowSilentJoinQuit() || ess.getSettings().isCustomJoinMessage()) {
              event.setJoinMessage(null);
-@@ -418,13 +418,13 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -421,13 +421,13 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                      effectiveMessage = message;
                  }
  
@@ -378,7 +378,7 @@ index e6b5043e0..aaadfca2a 100644
                      } else {
                          motdTask.run();
                      }
-@@ -441,7 +441,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -444,7 +444,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                  }
  
                  if (user.isAuthorized("essentials.updatecheck")) {
@@ -387,7 +387,7 @@ index e6b5043e0..aaadfca2a 100644
                          for (final Component component : ess.getUpdateChecker().getVersionMessages(false, false, user.getSource())) {
                              user.sendComponent(component);
                          }
-@@ -516,7 +516,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -519,7 +519,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
              }
          }
  
@@ -396,7 +396,7 @@ index e6b5043e0..aaadfca2a 100644
      }
  
      // Makes the compass item ingame always point to the first essentials home.  #EasterEgg
-@@ -602,7 +602,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -605,7 +605,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          final User user = ess.getUser(event.getPlayer());
          if (user.hasUnlimited(new ItemStack(event.getBucket()))) {
              event.getItemStack().setType(event.getBucket());
@@ -405,7 +405,7 @@ index e6b5043e0..aaadfca2a 100644
          }
      }
  
-@@ -851,7 +851,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -854,7 +854,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                  }
              }
  
@@ -414,7 +414,7 @@ index e6b5043e0..aaadfca2a 100644
          } catch (final Exception ex) {
              if (ess.getSettings().isDebug()) {
                  ess.getLogger().log(Level.WARNING, ex.getMessage(), ex);
-@@ -882,7 +882,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -885,7 +885,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                      }
                  }
  
@@ -423,7 +423,7 @@ index e6b5043e0..aaadfca2a 100644
  
              }
          }
-@@ -943,7 +943,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -947,7 +947,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -433,7 +433,7 @@ index e6b5043e0..aaadfca2a 100644
          }
      }
  
-@@ -985,7 +986,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -990,7 +991,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -444,10 +444,10 @@ index e6b5043e0..aaadfca2a 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/IEssentials.java b/Essentials/src/main/java/com/earth2me/essentials/IEssentials.java
-index 598b1abe5..e7cc0168a 100644
+index bdcaa1dca..91c71f219 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/IEssentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/IEssentials.java
-@@ -99,6 +99,16 @@ public interface IEssentials extends Plugin {
+@@ -81,6 +81,16 @@ public interface IEssentials extends Plugin {
  
      BukkitScheduler getScheduler();
  
@@ -465,10 +465,10 @@ index 598b1abe5..e7cc0168a 100644
  
      IWarps getWarps();
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
-index 1529fd744..b790cf866 100644
+index 163e76dca..d0940d514 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
-@@ -147,9 +147,12 @@ public class RandomTeleport implements IConf {
+@@ -149,9 +149,12 @@ public class RandomTeleport implements IConf {
  
      // Prompts caching random valid locations, up to a maximum number of attempts.
      public void cacheRandomLocations(final String name) {
@@ -484,10 +484,10 @@ index 1529fd744..b790cf866 100644
                          this.getCachedLocations(name).add(location);
                      }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Settings.java b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-index f817dca92..3372cbd9e 100644
+index 4f490d584..5226948f9 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-@@ -824,7 +824,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -830,7 +830,7 @@ public class Settings implements net.ess3.api.ISettings {
              if (reloadCount.get() < 2) {
                  // on startup: add plugins again in case they registered commands with the new API
                  // we need to schedule this task before any of the below tasks using _addAlternativeCommand.
@@ -496,7 +496,7 @@ index f817dca92..3372cbd9e 100644
                      for (final Plugin plugin : ess.getServer().getPluginManager().getPlugins()) {
                          if (plugin.isEnabled()) {
                              ess.getAlternativeCommandsHandler().addPlugin(plugin);
-@@ -850,7 +850,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -856,7 +856,7 @@ public class Settings implements net.ess3.api.ISettings {
  
                      // This is 2 because Settings are reloaded twice in the startup lifecycle
                      if (reloadCount.get() < 2) {
@@ -505,14 +505,14 @@ index f817dca92..3372cbd9e 100644
                      } else {
                          _addAlternativeCommand(effectiveAlias, toDisable);
                      }
-@@ -863,7 +863,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -871,7 +871,7 @@ public class Settings implements net.ess3.api.ISettings {
                      ess.getLogger().log(Level.INFO, "Syncing commands");
                  }
                  if (reloadCount.get() < 2) {
--                    ess.scheduleSyncDelayedTask(() -> ess.getSyncCommandsProvider().syncCommands());
-+                    ess.getGlobalRegionScheduler().execute(ess, () -> ess.getSyncCommandsProvider().syncCommands()); // Euphyllia
+-                    ess.scheduleSyncDelayedTask(syncCommandsProvider::syncCommands);
++                    ess.getGlobalRegionScheduler().execute(ess, syncCommandsProvider::syncCommands); // Euphyllia
                  } else {
-                     ess.getSyncCommandsProvider().syncCommands();
+                     syncCommandsProvider.syncCommands();
                  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/TimedTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/TimedTeleport.java
 index cfca5f607..cb384213a 100644
@@ -566,10 +566,10 @@ index cfca5f607..cb384213a 100644
      }
  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/User.java b/Essentials/src/main/java/com/earth2me/essentials/User.java
-index 595c659f6..e74eb3bd9 100644
+index ec823e206..0fe3228e7 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/User.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/User.java
-@@ -317,7 +317,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
+@@ -318,7 +318,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
      }
  
      public void dispose() {
@@ -578,7 +578,7 @@ index 595c659f6..e74eb3bd9 100644
      }
  
      private void _dispose() {
-@@ -828,7 +828,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
+@@ -829,7 +829,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
      public void updateActivityOnChat(final boolean broadcast) {
          if (ess.getSettings().cancelAfkOnChat()) {
              //Chat happens async, make sure we have a sync context
@@ -655,10 +655,10 @@ index 19e156f66..0f37ebfbe 100644
  
  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandcreatekit.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandcreatekit.java
-index eda36424c..8630fbd13 100644
+index 7325a75b7..3bf9a0f94 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandcreatekit.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandcreatekit.java
-@@ -70,7 +70,7 @@ public class Commandcreatekit extends EssentialsCommand {
+@@ -72,7 +72,7 @@ public class Commandcreatekit extends EssentialsCommand {
      }
  
      private void uploadPaste(final CommandSource sender, final String kitName, final long delay, final List<String> list) {
@@ -668,10 +668,10 @@ index eda36424c..8630fbd13 100644
                  final StringWriter sw = new StringWriter();
                  final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().sink(() -> new BufferedWriter(sw)).indent(2).nodeStyle(NodeStyle.BLOCK).build();
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
-index d460b8e67..81b16232b 100644
+index 03989c0de..fa8811a95 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
-@@ -36,7 +36,7 @@ import org.bukkit.inventory.ItemStack;
+@@ -38,7 +38,7 @@ import org.bukkit.inventory.ItemStack;
  import org.bukkit.plugin.Plugin;
  import org.bukkit.plugin.PluginDescriptionFile;
  import org.bukkit.plugin.PluginManager;
@@ -680,7 +680,7 @@ index d460b8e67..81b16232b 100644
  
  import java.io.File;
  import java.io.IOException;
-@@ -338,7 +338,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -340,7 +340,7 @@ public class Commandessentials extends EssentialsCommand {
          final Map<String, String> disabledCommandsCopy = new HashMap<>(ess.getAlternativeCommandsHandler().disabledCommands());
  
          // Further operations will be heavy IO
@@ -689,7 +689,7 @@ index d460b8e67..81b16232b 100644
              boolean config = false;
              boolean discord = false;
              boolean kits = false;
-@@ -545,7 +545,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -549,7 +549,7 @@ public class Commandessentials extends EssentialsCommand {
          final double moneyArg = args.length >= 3 ? FloatUtil.parseDouble(args[2].replaceAll("[^0-9.]", "")) : 0;
          final int homesArg = args.length >= 4 && NumberUtil.isInt(args[3]) ? Integer.parseInt(args[3]) : 0;
  
@@ -698,7 +698,7 @@ index d460b8e67..81b16232b 100644
              final long currTime = System.currentTimeMillis();
              for (final UUID u : ess.getUsers().getAllUserUUIDs()) {
                  final User user = ess.getUsers().loadUncachedUser(u);
-@@ -596,7 +596,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -600,7 +600,7 @@ public class Commandessentials extends EssentialsCommand {
          switch (args[1]) {
              case "fix":
                  sender.sendTl("fixingHomes");
@@ -707,7 +707,7 @@ index d460b8e67..81b16232b 100644
                      for (final UUID u : ess.getUsers().getAllUserUUIDs()) {
                          final User user = ess.getUsers().loadUncachedUser(u);
                          if (user == null) {
-@@ -625,7 +625,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -629,7 +629,7 @@ public class Commandessentials extends EssentialsCommand {
                  } else {
                      sender.sendTl("deletingHomes");
                  }
@@ -716,7 +716,7 @@ index d460b8e67..81b16232b 100644
                      for (final UUID u : ess.getUsers().getAllUserUUIDs()) {
                          final User user = ess.getUsers().loadUncachedUser(u);
                          if (user == null) {
-@@ -674,7 +674,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -678,7 +678,7 @@ public class Commandessentials extends EssentialsCommand {
                  sender.sendTl("usermapPurge", String.valueOf(seppuku));
  
                  final Set<UUID> uuids = new HashSet<>(ess.getUsers().getAllUserUUIDs());
@@ -725,7 +725,7 @@ index d460b8e67..81b16232b 100644
                      final File userdataFolder = new File(ess.getDataFolder(), "userdata");
                      final File backupFolder = new File(ess.getDataFolder(), "userdata-npc-backup-boogaloo-" + System.currentTimeMillis());
  
-@@ -835,7 +835,7 @@ public class Commandessentials extends EssentialsCommand {
+@@ -839,7 +839,7 @@ public class Commandessentials extends EssentialsCommand {
          }
  
          sender.sendTl("versionFetching");
@@ -1432,5 +1432,5 @@ index 9b2d54c8c..a4365f295 100644
    setxmpp:
      description: Sets your XMPP address.
 -- 
-2.47.1.windows.1
+2.47.1.windows.2
 

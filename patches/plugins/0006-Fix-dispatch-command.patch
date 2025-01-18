@@ -1,6 +1,6 @@
-From 7af440bf80a49fe6c5b310c761ec6cfcee76307b Mon Sep 17 00:00:00 2001
+From fde04c758c329af0c29bccae5b8b47df7e57e709 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 10 Dec 2024 20:01:49 +0100
+Date: Sat, 18 Jan 2025 21:13:40 +0100
 Subject: [PATCH 6/9] Fix dispatch command
 
 ---
@@ -22,10 +22,10 @@ index ecda39ad9..4ae2cf229 100644
              taskLock.complete(new Object());
              return;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Kit.java b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
-index 322fad65f..ec264537d 100644
+index 2c9753e04..6b81c4d8a 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Kit.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
-@@ -260,9 +260,13 @@ public class Kit {
+@@ -262,9 +262,13 @@ public class Kit {
                  t.pay(user, OverflowType.DROP);
              }
  
@@ -43,5 +43,5 @@ index 322fad65f..ec264537d 100644
              if (spew) {
                  user.sendTl("kitInvFull");
 -- 
-2.47.1.windows.1
+2.47.1.windows.2
 

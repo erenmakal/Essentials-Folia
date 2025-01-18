@@ -1,6 +1,6 @@
-From e05feea1e54efadf8a633e66baa0d0aca8c570f9 Mon Sep 17 00:00:00 2001
+From 476a41749cdb2a3f1446c63e9854ce1beda20dae Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 10 Dec 2024 20:01:49 +0100
+Date: Sat, 18 Jan 2025 21:13:39 +0100
 Subject: [PATCH 5/9] Fix command time
 
 ---
@@ -59,5 +59,5 @@ index 4e85d7b4c..5d78dc2ce 100644
  
      private void getWorldsTime(final CommandSource sender, final Collection<World> worlds) {
 -- 
-2.47.1.windows.1
+2.47.1.windows.2
 
