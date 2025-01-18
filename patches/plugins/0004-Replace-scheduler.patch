@@ -1,6 +1,6 @@
-From 9445f7736cfd6dc8ed5f4aae76dfd2347404c2a0 Mon Sep 17 00:00:00 2001
+From 28152813db7e43570442d84da4b79dfefd9aa2d2 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sat, 18 Jan 2025 21:13:39 +0100
+Date: Sat, 18 Jan 2025 21:33:44 +0100
 Subject: [PATCH 4/9] Replace scheduler
 
 ---
@@ -38,6 +38,7 @@ Subject: [PATCH 4/9] Replace scheduler
  .../interactions/commands/MessageCommand.java |  2 +-
  .../discord/listeners/BukkitChatListener.java |  4 +--
  .../listeners/DiscordCommandDispatcher.java   |  2 +-
+ .../listeners/EssentialsChatListener.java     |  4 +--
  .../discord/util/ConsoleInjector.java         | 10 +++---
  .../discord/util/DiscordCommandSender.java    | 10 +++---
  .../essentialsx/discord/util/DiscordUtil.java | 10 +++---
@@ -51,8 +52,7 @@ Subject: [PATCH 4/9] Replace scheduler
  .../spawn/EssentialsSpawnPlayerListener.java  | 12 +++----
  EssentialsSpawn/src/main/resources/plugin.yml |  1 +
  .../earth2me/essentials/xmpp/XMPPManager.java |  2 +-
- EssentialsXMPP/src/main/resources/plugin.yml  |  1 +
- 48 files changed, 203 insertions(+), 143 deletions(-)
+ 48 files changed, 204 insertions(+), 145 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 index 4d0cedd55..9aa6ef062 100644
@@ -1100,6 +1100,26 @@ index c735aa7bd..0deef2354 100644
                  try {
                      Bukkit.dispatchCommand(new DiscordCommandSender(jda, Bukkit.getConsoleSender(), message ->
                              event.getMessage().reply(message).queue()).getSender(), command);
+diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/EssentialsChatListener.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/EssentialsChatListener.java
+index debd6783d..1c26faf35 100644
+--- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/EssentialsChatListener.java
++++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/EssentialsChatListener.java
+@@ -31,13 +31,13 @@ public class EssentialsChatListener implements Listener {
+     private void processChatEvent(ChatEvent event) {
+         final Player player = event.getPlayer();
+ 
+-        Bukkit.getScheduler().runTask(jda.getPlugin(), () -> {
++        player.getScheduler().run(jda.getPlugin(), task -> {
+             final DiscordChatMessageEvent chatEvent = new DiscordChatMessageEvent(event.getPlayer(), event.getMessage(), event.getChatType());
+             Bukkit.getPluginManager().callEvent(chatEvent);
+ 
+             if (!chatEvent.isCancelled()) {
+                 jda.sendChatMessage(event.getChatType(), player, chatEvent.getMessage());
+             }
+-        });
++        }, null);
+     }
+ }
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/util/ConsoleInjector.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/util/ConsoleInjector.java
 index 52ea96c64..748c48360 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/util/ConsoleInjector.java
@@ -1419,18 +1439,6 @@ index a5199f921..13e90a733 100644
                  try {
                      parent.getServer().dispatchCommand(Console.getInstance().getCommandSender(), message.substring(1));
                  } catch (final Exception ex) {
-diff --git a/EssentialsXMPP/src/main/resources/plugin.yml b/EssentialsXMPP/src/main/resources/plugin.yml
-index 9b2d54c8c..a4365f295 100644
---- a/EssentialsXMPP/src/main/resources/plugin.yml
-+++ b/EssentialsXMPP/src/main/resources/plugin.yml
-@@ -8,6 +8,7 @@ description: Provides XMPP communication.
- authors: [snowleo, SupaHam, mdcfe]
- depend: [Essentials]
- api-version: 1.13
-+folia-supported: true # Euphyllia
- commands:
-   setxmpp:
-     description: Sets your XMPP address.
 -- 
 2.47.1.windows.2
 
