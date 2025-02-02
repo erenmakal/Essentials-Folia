@@ -1,27 +1,27 @@
-From 49ba257b01cf8578053fb8f8504c09acb2a64a3f Mon Sep 17 00:00:00 2001
+From 9b621adf1ce78b78768e5ba7b2ed7704933ce924 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sat, 18 Jan 2025 21:33:41 +0100
+Date: Sun, 2 Feb 2025 13:27:47 +0100
 Subject: [PATCH 1/9] Rebrand
 
 ---
- Essentials/src/main/resources/plugin.yml               |  1 +
- .../java/com/earth2me/essentials/EconomyTest.java      |  0
- .../java/com/earth2me/essentials/MessagingTest.java    |  0
- .../java/com/earth2me/essentials/StorageTest.java      |  0
- .../java/com/earth2me/essentials/ToggleTest.java       |  0
- .../java/com/earth2me/essentials/UserTest.java         |  0
- .../java/com/earth2me/essentials/UtilTest.java         |  0
- .../com/earth2me/essentials/utils/FormatUtilTest.java  |  0
- .../com/earth2me/essentials/utils/StringUtilTest.java  |  0
- EssentialsDiscord/build.gradle                         |  2 +-
- .../main/kotlin/essentials.base-conventions.gradle.kts |  6 +++---
- .../kotlin/essentials.module-conventions.gradle.kts    |  9 +++++++++
- .../main/kotlin/essentials.shadow-module.gradle.kts    |  9 +++++++++
- build.gradle                                           |  2 +-
- providers/BaseProviders/build.gradle                   | 10 ++++++++++
- .../ess3/provider/providers/BukkitSenderProvider.java  |  7 +++++++
- providers/PaperProvider/build.gradle                   |  4 ++--
- 17 files changed, 43 insertions(+), 7 deletions(-)
+ Essentials/src/main/resources/plugin.yml      |  1 +
+ .../com/earth2me/essentials/EconomyTest.java  |  0
+ .../earth2me/essentials/MessagingTest.java    |  0
+ .../com/earth2me/essentials/StorageTest.java  |  0
+ .../com/earth2me/essentials/ToggleTest.java   |  0
+ .../com/earth2me/essentials/UserTest.java     |  0
+ .../com/earth2me/essentials/UtilTest.java     |  0
+ .../essentials/utils/FormatUtilTest.java      |  0
+ .../essentials/utils/StringUtilTest.java      |  0
+ EssentialsDiscord/build.gradle                |  2 +-
+ .../essentials.base-conventions.gradle.kts    |  6 ++---
+ .../essentials.module-conventions.gradle.kts  |  9 +++++++
+ .../essentials.shadow-module.gradle.kts       |  9 +++++++
+ build.gradle                                  |  2 +-
+ providers/BaseProviders/build.gradle          | 24 +++++++++++++------
+ .../providers/BukkitSenderProvider.java       |  7 ++++++
+ providers/PaperProvider/build.gradle          |  4 ++--
+ 17 files changed, 50 insertions(+), 14 deletions(-)
  rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/EconomyTest.java (100%)
  rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/MessagingTest.java (100%)
  rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/StorageTest.java (100%)
@@ -175,13 +175,24 @@ index 4a859e015..37d054805 100644
  project.ext {
      GIT_COMMIT = !indraGit.isPresent() ? "unknown" : indraGit.commit().abbreviate(7).name()
 diff --git a/providers/BaseProviders/build.gradle b/providers/BaseProviders/build.gradle
-index 99176e222..b255f304b 100644
+index 99176e222..ef6b5616c 100644
 --- a/providers/BaseProviders/build.gradle
 +++ b/providers/BaseProviders/build.gradle
-@@ -5,3 +5,13 @@ plugins {
- essentials {
-     injectBstats.set(false)
- }
+@@ -1,7 +1,17 @@
+-plugins {
+-    id("essentials.base-conventions")
+-}
+-
+-essentials {
+-    injectBstats.set(false)
+-}
++plugins {
++    id("essentials.base-conventions")
++}
++
++essentials {
++    injectBstats.set(false)
++}
 +
 +// Rebrand
 +dependencies {

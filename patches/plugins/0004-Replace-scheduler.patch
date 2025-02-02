@@ -1,6 +1,6 @@
-From 28152813db7e43570442d84da4b79dfefd9aa2d2 Mon Sep 17 00:00:00 2001
+From 9e532d44a5934f158ef10e28fa3bcae067082bd6 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sat, 18 Jan 2025 21:33:44 +0100
+Date: Sun, 2 Feb 2025 13:27:49 +0100
 Subject: [PATCH 4/9] Replace scheduler
 
 ---
@@ -48,11 +48,11 @@ Subject: [PATCH 4/9] Replace scheduler
  .../discordlink/rolesync/RoleSyncManager.java |  6 ++--
  .../src/main/resources/plugin.yml             |  1 +
  EssentialsGeoIP/src/main/resources/plugin.yml |  1 +
- .../src/main/resources/plugin.yml             |  1 +
+ .../src/main/resources/plugin.yml             | 21 ++++++------
  .../spawn/EssentialsSpawnPlayerListener.java  | 12 +++----
  EssentialsSpawn/src/main/resources/plugin.yml |  1 +
  .../earth2me/essentials/xmpp/XMPPManager.java |  2 +-
- 48 files changed, 204 insertions(+), 145 deletions(-)
+ 48 files changed, 214 insertions(+), 155 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 index 4d0cedd55..9aa6ef062 100644
@@ -202,10 +202,10 @@ index 4008b3fe5..aa265ef49 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index 2ae888dec..60f994a5b 100644
+index 0c90a3689..863a9e292 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -450,7 +450,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -454,7 +454,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              alternativeCommandsHandler = new AlternativeCommandsHandler(this);
  
              timer = new EssentialsTimer(this);
@@ -214,7 +214,7 @@ index 2ae888dec..60f994a5b 100644
  
              Economy.setEss(this);
              execTimer.mark("RegHandler");
-@@ -460,7 +460,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -464,7 +464,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              PermissionsDefaults.registerAllHatDefaults();
  
              updateChecker = new UpdateChecker(this);
@@ -223,7 +223,7 @@ index 2ae888dec..60f994a5b 100644
                  getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("versionFetching")));
                  for (final Component component : updateChecker.getVersionMessages(false, true, new CommandSource(this, Bukkit.getConsoleSender()))) {
                      getLogger().log(getSettings().isUpdateCheckEnabled() ? Level.WARNING : Level.INFO, AdventureUtil.adventureToLegacy(component));
-@@ -895,9 +895,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -899,9 +899,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitScheduler getScheduler() {
@@ -256,7 +256,7 @@ index 2ae888dec..60f994a5b 100644
      @Override
      public IJails getJails() {
          return jails;
-@@ -1202,31 +1225,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -1206,31 +1229,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitTask runTaskAsynchronously(final Runnable run) {
@@ -329,10 +329,10 @@ index 1305ba91c..cd4cd4438 100644
                      event.setCancelled(true);
                      return;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index 65d495c99..354b3d4c9 100644
+index 84a190a02..04cb68478 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-@@ -84,7 +84,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
+@@ -85,7 +85,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
  
  public class EssentialsPlayerListener implements Listener, FakeAccessor {
      private final transient IEssentials ess;
@@ -341,7 +341,7 @@ index 65d495c99..354b3d4c9 100644
  
      public EssentialsPlayerListener(final IEssentials parent) {
          this.ess = parent;
-@@ -271,9 +271,9 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -272,9 +272,9 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
      public void onPlayerQuit(final PlayerQuitEvent event) {
          final User user = ess.getUser(event.getPlayer());
  
@@ -353,7 +353,7 @@ index 65d495c99..354b3d4c9 100644
          }
  
          if (hideJoinQuitMessages() || (ess.getSettings().allowSilentJoinQuit() && user.isAuthorized("essentials.silentquit"))) {
-@@ -326,7 +326,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -327,7 +327,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
      @EventHandler(priority = EventPriority.HIGHEST)
      public void onPlayerJoin(final PlayerJoinEvent event) {
          final String joinMessage = event.getJoinMessage();
@@ -362,7 +362,7 @@ index 65d495c99..354b3d4c9 100644
  
          if (hideJoinQuitMessages() || ess.getSettings().allowSilentJoinQuit() || ess.getSettings().isCustomJoinMessage()) {
              event.setJoinMessage(null);
-@@ -421,13 +421,13 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -422,13 +422,13 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                      effectiveMessage = message;
                  }
  
@@ -378,7 +378,7 @@ index 65d495c99..354b3d4c9 100644
                      } else {
                          motdTask.run();
                      }
-@@ -444,7 +444,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -445,7 +445,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                  }
  
                  if (user.isAuthorized("essentials.updatecheck")) {
@@ -387,7 +387,7 @@ index 65d495c99..354b3d4c9 100644
                          for (final Component component : ess.getUpdateChecker().getVersionMessages(false, false, user.getSource())) {
                              user.sendComponent(component);
                          }
-@@ -519,7 +519,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -520,7 +520,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
              }
          }
  
@@ -396,7 +396,7 @@ index 65d495c99..354b3d4c9 100644
      }
  
      // Makes the compass item ingame always point to the first essentials home.  #EasterEgg
-@@ -605,7 +605,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -617,7 +617,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          final User user = ess.getUser(event.getPlayer());
          if (user.hasUnlimited(new ItemStack(event.getBucket()))) {
              event.getItemStack().setType(event.getBucket());
@@ -405,7 +405,7 @@ index 65d495c99..354b3d4c9 100644
          }
      }
  
-@@ -854,7 +854,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -872,7 +872,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                  }
              }
  
@@ -414,7 +414,7 @@ index 65d495c99..354b3d4c9 100644
          } catch (final Exception ex) {
              if (ess.getSettings().isDebug()) {
                  ess.getLogger().log(Level.WARNING, ex.getMessage(), ex);
-@@ -885,7 +885,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -903,7 +903,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                      }
                  }
  
@@ -423,7 +423,7 @@ index 65d495c99..354b3d4c9 100644
  
              }
          }
-@@ -947,7 +947,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -965,7 +965,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -433,7 +433,7 @@ index 65d495c99..354b3d4c9 100644
          }
      }
  
-@@ -990,7 +991,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -1008,7 +1009,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -484,7 +484,7 @@ index 163e76dca..d0940d514 100644
                          this.getCachedLocations(name).add(location);
                      }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Settings.java b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-index 4f490d584..5226948f9 100644
+index 4c09d57d4..00dcd9028 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 @@ -830,7 +830,7 @@ public class Settings implements net.ess3.api.ISettings {
@@ -566,10 +566,10 @@ index cfca5f607..cb384213a 100644
      }
  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/User.java b/Essentials/src/main/java/com/earth2me/essentials/User.java
-index ec823e206..0fe3228e7 100644
+index c5cf54e45..dc55c74f8 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/User.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/User.java
-@@ -318,7 +318,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
+@@ -319,7 +319,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
      }
  
      public void dispose() {
@@ -578,7 +578,7 @@ index ec823e206..0fe3228e7 100644
      }
  
      private void _dispose() {
-@@ -829,7 +829,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
+@@ -830,7 +830,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
      public void updateActivityOnChat(final boolean broadcast) {
          if (ess.getSettings().cancelAfkOnChat()) {
              //Chat happens async, make sure we have a sync context
@@ -882,7 +882,7 @@ index 6827650c5..051765f0a 100644
              for (final UUID u : ess.getUsers().getAllUserUUIDs()) {
                  final User user = ess.getUsers().loadUncachedUser(u);
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandskull.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandskull.java
-index e91a3addb..efde35246 100644
+index e491a22f7..8e1e420d1 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandskull.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandskull.java
 @@ -105,7 +105,7 @@ public class Commandskull extends EssentialsCommand {
@@ -1352,13 +1352,30 @@ index 2ddee7b12..e3346d465 100644
  api-version: 1.13
 +folia-supported: true # Euphyllia
 diff --git a/EssentialsProtect/src/main/resources/plugin.yml b/EssentialsProtect/src/main/resources/plugin.yml
-index 65764be4a..4c361b0b2 100644
+index 65764be4a..c681f4683 100644
 --- a/EssentialsProtect/src/main/resources/plugin.yml
 +++ b/EssentialsProtect/src/main/resources/plugin.yml
-@@ -8,3 +8,4 @@ description: Provides protection for various parts of the world.
- authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
- softdepend: [Essentials]
- api-version: 1.13
+@@ -1,10 +1,11 @@
+-# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
+-name: EssentialsProtect
+-main: com.earth2me.essentials.protect.EssentialsProtect
+-# Note to developers: This next line cannot change, or the automatic versioning system will break.
+-version: ${full.version}
+-website: https://essentialsx.net/
+-description: Provides protection for various parts of the world.
+-authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
+-softdepend: [Essentials]
+-api-version: 1.13
++# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
++name: EssentialsProtect
++main: com.earth2me.essentials.protect.EssentialsProtect
++# Note to developers: This next line cannot change, or the automatic versioning system will break.
++version: ${full.version}
++website: https://essentialsx.net/
++description: Provides protection for various parts of the world.
++authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
++softdepend: [Essentials]
++api-version: 1.13
 +folia-supported: true # Euphyllia
 \ No newline at end of file
 diff --git a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
