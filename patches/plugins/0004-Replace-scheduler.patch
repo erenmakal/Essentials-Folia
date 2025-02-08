@@ -1,6 +1,6 @@
-From 9e532d44a5934f158ef10e28fa3bcae067082bd6 Mon Sep 17 00:00:00 2001
+From e975d38e7e9e4e4ae8de170655e45dfe569018f7 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sun, 2 Feb 2025 13:27:49 +0100
+Date: Sat, 8 Feb 2025 15:51:03 +0100
 Subject: [PATCH 4/9] Replace scheduler
 
 ---
@@ -15,7 +15,6 @@ Subject: [PATCH 4/9] Replace scheduler
  .../com/earth2me/essentials/IEssentials.java  | 10 ++++++
  .../earth2me/essentials/RandomTeleport.java   |  7 ++--
  .../com/earth2me/essentials/Settings.java     |  6 ++--
- .../earth2me/essentials/TimedTeleport.java    | 12 +++----
  .../java/com/earth2me/essentials/User.java    |  4 +--
  .../commands/Commandbalancetop.java           | 16 ++++-----
  .../essentials/commands/Commandbeezooka.java  |  4 +--
@@ -48,11 +47,12 @@ Subject: [PATCH 4/9] Replace scheduler
  .../discordlink/rolesync/RoleSyncManager.java |  6 ++--
  .../src/main/resources/plugin.yml             |  1 +
  EssentialsGeoIP/src/main/resources/plugin.yml |  1 +
- .../src/main/resources/plugin.yml             | 21 ++++++------
+ .../src/main/resources/plugin.yml             |  1 +
  .../spawn/EssentialsSpawnPlayerListener.java  | 12 +++----
  EssentialsSpawn/src/main/resources/plugin.yml |  1 +
+ .../xmpp/EssentialsXMPPPlayerListener.java    |  6 ++--
  .../earth2me/essentials/xmpp/XMPPManager.java |  2 +-
- 48 files changed, 214 insertions(+), 155 deletions(-)
+ 48 files changed, 201 insertions(+), 142 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 index 4d0cedd55..9aa6ef062 100644
@@ -202,7 +202,7 @@ index 4008b3fe5..aa265ef49 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index 0c90a3689..863a9e292 100644
+index a81daa597..08e928b02 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 @@ -454,7 +454,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
@@ -484,7 +484,7 @@ index 163e76dca..d0940d514 100644
                          this.getCachedLocations(name).add(location);
                      }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Settings.java b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-index 4c09d57d4..00dcd9028 100644
+index 2334d93e1..dd4d6ab22 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 @@ -830,7 +830,7 @@ public class Settings implements net.ess3.api.ISettings {
@@ -514,62 +514,11 @@ index 4c09d57d4..00dcd9028 100644
                  } else {
                      syncCommandsProvider.syncCommands();
                  }
-diff --git a/Essentials/src/main/java/com/earth2me/essentials/TimedTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/TimedTeleport.java
-index cfca5f607..cb384213a 100644
---- a/Essentials/src/main/java/com/earth2me/essentials/TimedTeleport.java
-+++ b/Essentials/src/main/java/com/earth2me/essentials/TimedTeleport.java
-@@ -27,7 +27,7 @@ public class TimedTeleport implements Runnable {
-     private final boolean timer_canMove;
-     private final Trade timer_chargeFor;
-     private final TeleportCause timer_cause;
--    private int timer_task;
-+    private io.papermc.paper.threadedregions.scheduler.ScheduledTask timer_task; // Euphyllia
-     private double timer_health;
- 
-     TimedTeleport(final IUser user, final IEssentials ess, final Teleport teleport, final long delay, final IUser teleportUser, final ITarget target, final Trade chargeFor, final TeleportCause cause, final boolean respawn) {
-@@ -47,7 +47,7 @@ public class TimedTeleport implements Runnable {
-         this.timer_respawn = respawn;
-         this.timer_canMove = user.isAuthorized("essentials.teleport.timer.move");
- 
--        timer_task = ess.runTaskTimerAsynchronously(this, 20, 20).getTaskId();
-+        timer_task = ess.getAsyncScheduler().runAtFixedRate(ess, scheduledTask -> this.run(), 20*50, 20*50, java.util.concurrent.TimeUnit.MILLISECONDS); // Euphyllia
-     }
- 
-     @Override
-@@ -115,16 +115,16 @@ public class TimedTeleport implements Runnable {
-             }
-         }
- 
--        ess.scheduleSyncDelayedTask(new DelayedTeleportTask());
-+        ess.getEntityScheduler(teleportUser.getBase()).run(ess, scheduledTask -> new DelayedTeleportTask().run(), null); // Euphyllia
-     }
- 
-     //If we need to cancelTimer a pending teleportPlayer call this method
-     void cancelTimer(final boolean notifyUser) {
--        if (timer_task == -1) {
-+        if (timer_task == null) { // Euphyllia
-             return;
-         }
-         try {
--            ess.getServer().getScheduler().cancelTask(timer_task);
-+            timer_task.cancel(); // Euphyllia
-             if (notifyUser) {
-                 teleportOwner.sendTl("pendingTeleportCancelled");
-                 if (timer_teleportee != null && !timer_teleportee.equals(teleportOwner.getBase().getUniqueId())) {
-@@ -132,7 +132,7 @@ public class TimedTeleport implements Runnable {
-                 }
-             }
-         } finally {
--            timer_task = -1;
-+            timer_task = null; // Euphyllia
-         }
-     }
- }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/User.java b/Essentials/src/main/java/com/earth2me/essentials/User.java
-index c5cf54e45..dc55c74f8 100644
+index df60ff776..72e2f2001 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/User.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/User.java
-@@ -319,7 +319,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
+@@ -315,7 +315,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
      }
  
      public void dispose() {
@@ -578,7 +527,7 @@ index c5cf54e45..dc55c74f8 100644
      }
  
      private void _dispose() {
-@@ -830,7 +830,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
+@@ -809,7 +809,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
      public void updateActivityOnChat(final boolean broadcast) {
          if (ess.getSettings().cancelAfkOnChat()) {
              //Chat happens async, make sure we have a sync context
@@ -1352,30 +1301,13 @@ index 2ddee7b12..e3346d465 100644
  api-version: 1.13
 +folia-supported: true # Euphyllia
 diff --git a/EssentialsProtect/src/main/resources/plugin.yml b/EssentialsProtect/src/main/resources/plugin.yml
-index 65764be4a..c681f4683 100644
+index 65764be4a..4c361b0b2 100644
 --- a/EssentialsProtect/src/main/resources/plugin.yml
 +++ b/EssentialsProtect/src/main/resources/plugin.yml
-@@ -1,10 +1,11 @@
--# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
--name: EssentialsProtect
--main: com.earth2me.essentials.protect.EssentialsProtect
--# Note to developers: This next line cannot change, or the automatic versioning system will break.
--version: ${full.version}
--website: https://essentialsx.net/
--description: Provides protection for various parts of the world.
--authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
--softdepend: [Essentials]
--api-version: 1.13
-+# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
-+name: EssentialsProtect
-+main: com.earth2me.essentials.protect.EssentialsProtect
-+# Note to developers: This next line cannot change, or the automatic versioning system will break.
-+version: ${full.version}
-+website: https://essentialsx.net/
-+description: Provides protection for various parts of the world.
-+authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
-+softdepend: [Essentials]
-+api-version: 1.13
+@@ -8,3 +8,4 @@ description: Provides protection for various parts of the world.
+ authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
+ softdepend: [Essentials]
+ api-version: 1.13
 +folia-supported: true # Euphyllia
 \ No newline at end of file
 diff --git a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
@@ -1443,6 +1375,37 @@ index e0a7b770d..592bfae4d 100644
  commands:
    setspawn:
      description: Sets the spawn point to your current position.
+diff --git a/EssentialsXMPP/src/main/java/com/earth2me/essentials/xmpp/EssentialsXMPPPlayerListener.java b/EssentialsXMPP/src/main/java/com/earth2me/essentials/xmpp/EssentialsXMPPPlayerListener.java
+index 7bb591463..5802b50f4 100644
+--- a/EssentialsXMPP/src/main/java/com/earth2me/essentials/xmpp/EssentialsXMPPPlayerListener.java
++++ b/EssentialsXMPP/src/main/java/com/earth2me/essentials/xmpp/EssentialsXMPPPlayerListener.java
+@@ -24,7 +24,7 @@ class EssentialsXMPPPlayerListener implements Listener {
+     public void onPlayerJoin(final PlayerJoinEvent event) {
+         final User user = ess.getUser(event.getPlayer());
+ 
+-        Bukkit.getScheduler().scheduleSyncDelayedTask(ess, EssentialsXMPP::updatePresence);
++        event.getPlayer().getScheduler().run(ess, task -> EssentialsXMPP.updatePresence(), null); // Euphyllia - not tested
+ 
+         sendMessageToSpyUsers("Player " + user.getDisplayName() + " joined the game");
+     }
+@@ -39,7 +39,7 @@ class EssentialsXMPPPlayerListener implements Listener {
+     public void onPlayerQuit(final PlayerQuitEvent event) {
+         final User user = ess.getUser(event.getPlayer());
+ 
+-        Bukkit.getScheduler().scheduleSyncDelayedTask(ess, EssentialsXMPP::updatePresence);
++        event.getPlayer().getScheduler().run(ess, task -> EssentialsXMPP.updatePresence(), null); // Euphyllia - not tested
+ 
+         sendMessageToSpyUsers("Player " + user.getDisplayName() + " left the game");
+     }
+@@ -49,7 +49,7 @@ class EssentialsXMPPPlayerListener implements Listener {
+             final List<String> users = EssentialsXMPP.getInstance().getSpyUsers();
+             synchronized (users) {
+                 for (final String address : users) {
+-                    Bukkit.getScheduler().scheduleSyncDelayedTask(ess, () -> EssentialsXMPP.getInstance().sendMessage(address, message));
++                    Bukkit.getGlobalRegionScheduler().execute(ess, () -> EssentialsXMPP.getInstance().sendMessage(address, message)); // Euphyllia - not tested
+                 }
+             }
+         } catch (final Exception ignored) {
 diff --git a/EssentialsXMPP/src/main/java/com/earth2me/essentials/xmpp/XMPPManager.java b/EssentialsXMPP/src/main/java/com/earth2me/essentials/xmpp/XMPPManager.java
 index a5199f921..13e90a733 100644
 --- a/EssentialsXMPP/src/main/java/com/earth2me/essentials/xmpp/XMPPManager.java
