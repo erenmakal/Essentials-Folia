@@ -1,0 +1,45 @@
+From a21de242926fbcbf806d5ebed96d7e39dc60afdb Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Sat, 8 Feb 2025 16:14:33 +0100
+Subject: [PATCH 10/10] Fix commands thor player
+
+---
+ .../essentials/commands/Commandlightning.java | 21 ++++++++++++-------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
+index a8a53db62..d3e0c4621 100644
+--- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
+@@ -33,15 +33,20 @@ public class Commandlightning extends EssentialsLoopCommand {
+         }
+         final int finalPower = power;
+         loopOnlinePlayersConsumer(server, sender, false, true, args[0], player -> {
+-            sender.sendTl("lightningUse", player.getDisplayName());
+-            final LightningStrike strike = player.getBase().getWorld().strikeLightningEffect(player.getBase().getLocation());
++            // Euphyllia start - fix lightning commands
++            final org.bukkit.entity.Player realPlayer = player.getBase();
++            realPlayer.getScheduler().run(ess, task -> {
++               sender.sendTl("lightningUse", player.getDisplayName());
++               final LightningStrike strike = player.getBase().getWorld().strikeLightningEffect(player.getBase().getLocation());
+ 
+-            if (!player.isGodModeEnabled()) {
+-                player.getBase().damage(finalPower, strike);
+-            }
+-            if (ess.getSettings().warnOnSmite()) {
+-                player.sendTl("lightningSmited");
+-            }
++               if (!player.isGodModeEnabled()) {
++                   player.getBase().damage(finalPower, strike);
++               }
++               if (ess.getSettings().warnOnSmite()) {
++                   player.sendTl("lightningSmited");
++               }
++            }, null);
++            // Euphyllia end - fix lightning commands
+         });
+         loopOnlinePlayers(server, sender, true, true, args[0], null);
+     }
+-- 
+2.47.1.windows.2
+

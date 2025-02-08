@@ -1,7 +1,7 @@
-From 6029caccc75dbdca71f2c75e96c3dce98a76251c Mon Sep 17 00:00:00 2001
+From 73c0e08d2b44b06b5f69c1a97daed15ded8cf8a2 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sat, 8 Feb 2025 15:51:04 +0100
-Subject: [PATCH 5/9] Fix command time
+Date: Sat, 8 Feb 2025 16:14:32 +0100
+Subject: [PATCH 05/10] Fix command time
 
 ---
  .../essentials/commands/Commandtime.java      | 24 +++++++++++--------
