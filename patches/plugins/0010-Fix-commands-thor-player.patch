@@ -1,6 +1,6 @@
-From a21de242926fbcbf806d5ebed96d7e39dc60afdb Mon Sep 17 00:00:00 2001
+From 49c1f6fb7151b6c8fce773ec6316a71470d628d3 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sat, 8 Feb 2025 16:14:33 +0100
+Date: Sat, 8 Feb 2025 16:22:54 +0100
 Subject: [PATCH 10/10] Fix commands thor player
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH 10/10] Fix commands thor player
  1 file changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
-index a8a53db62..d3e0c4621 100644
+index a8a53db62..0daaa87d3 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
 @@ -33,15 +33,20 @@ public class Commandlightning extends EssentialsLoopCommand {
@@ -20,8 +20,8 @@ index a8a53db62..d3e0c4621 100644
 +            // Euphyllia start - fix lightning commands
 +            final org.bukkit.entity.Player realPlayer = player.getBase();
 +            realPlayer.getScheduler().run(ess, task -> {
-+               sender.sendTl("lightningUse", player.getDisplayName());
-+               final LightningStrike strike = player.getBase().getWorld().strikeLightningEffect(player.getBase().getLocation());
++                sender.sendTl("lightningUse", player.getDisplayName());
++                final LightningStrike strike = player.getBase().getWorld().strikeLightningEffect(player.getBase().getLocation());
  
 -            if (!player.isGodModeEnabled()) {
 -                player.getBase().damage(finalPower, strike);
@@ -29,12 +29,12 @@ index a8a53db62..d3e0c4621 100644
 -            if (ess.getSettings().warnOnSmite()) {
 -                player.sendTl("lightningSmited");
 -            }
-+               if (!player.isGodModeEnabled()) {
-+                   player.getBase().damage(finalPower, strike);
-+               }
-+               if (ess.getSettings().warnOnSmite()) {
-+                   player.sendTl("lightningSmited");
-+               }
++                if (!player.isGodModeEnabled()) {
++                    player.getBase().damage(finalPower, strike);
++                }
++                if (ess.getSettings().warnOnSmite()) {
++                    player.sendTl("lightningSmited");
++                }
 +            }, null);
 +            // Euphyllia end - fix lightning commands
          });
