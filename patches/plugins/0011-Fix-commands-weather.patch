@@ -1,0 +1,44 @@
+From ba7008dbab2aaaa437797d4777a46df34f5b08eb Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Sun, 9 Feb 2025 20:37:32 +0100
+Subject: [PATCH 11/11] Fix commands weather
+
+---
+ .../essentials/commands/Commandweather.java   | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandweather.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandweather.java
+index 242f03052..fe9457cea 100644
+--- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandweather.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandweather.java
+@@ -29,17 +29,18 @@ public class Commandweather extends EssentialsCommand {
+         } else {
+             isStorm = args[0].equalsIgnoreCase("storm");
+         }
++        org.bukkit.Bukkit.getGlobalRegionScheduler().execute(ess, () -> {
++            final World world = user.getWorld();
+ 
+-        final World world = user.getWorld();
+-
+-        if (args.length > 1) {
++            if (args.length > 1) {
++                world.setStorm(isStorm);
++                world.setWeatherDuration(Integer.parseInt(args[1]) * 20);
++                user.sendTl(isStorm ? "weatherStormFor" : "weatherSunFor", world.getName(), args[1]);
++                return;
++            }
+             world.setStorm(isStorm);
+-            world.setWeatherDuration(Integer.parseInt(args[1]) * 20);
+-            user.sendTl(isStorm ? "weatherStormFor" : "weatherSunFor", world.getName(), args[1]);
+-            return;
+-        }
+-        world.setStorm(isStorm);
+-        user.sendTl(isStorm ? "weatherStorm" : "weatherSun", world.getName());
++            user.sendTl(isStorm ? "weatherStorm" : "weatherSun", world.getName());
++        });
+     }
+ 
+     @Override
+-- 
+2.47.1.windows.2
+
