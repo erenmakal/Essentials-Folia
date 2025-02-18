@@ -1,6 +1,6 @@
-From 5db4eeceb5e3164405a49f6f3f2b632961e5db8c Mon Sep 17 00:00:00 2001
+From de99b1c42e4bc9459ed7c7662e867db09b246b86 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sun, 9 Feb 2025 20:29:22 +0100
+Date: Tue, 18 Feb 2025 14:37:39 +0100
 Subject: [PATCH 04/11] Replace scheduler
 
 ---
@@ -21,7 +21,7 @@ Subject: [PATCH 04/11] Replace scheduler
  .../essentials/commands/Commandcreatekit.java |  2 +-
  .../commands/Commandessentials.java           | 14 ++++----
  .../commands/Commandkittycannon.java          |  4 +--
- .../essentials/commands/Commandmail.java      | 22 ++++++++-----
+ .../essentials/commands/Commandmail.java      | 24 +++++++++-----
  .../essentials/commands/Commandnuke.java      | 20 ++++++-----
  .../essentials/commands/Commandseen.java      |  6 ++--
  .../essentials/commands/Commandskull.java     |  6 ++--
@@ -47,12 +47,12 @@ Subject: [PATCH 04/11] Replace scheduler
  .../discordlink/rolesync/RoleSyncManager.java |  6 ++--
  .../src/main/resources/plugin.yml             |  1 +
  EssentialsGeoIP/src/main/resources/plugin.yml |  1 +
- .../src/main/resources/plugin.yml             | 21 ++++++------
+ .../src/main/resources/plugin.yml             |  1 +
  .../spawn/EssentialsSpawnPlayerListener.java  | 12 +++----
  EssentialsSpawn/src/main/resources/plugin.yml |  1 +
  .../xmpp/EssentialsXMPPPlayerListener.java    |  6 ++--
  .../earth2me/essentials/xmpp/XMPPManager.java |  2 +-
- 48 files changed, 211 insertions(+), 152 deletions(-)
+ 48 files changed, 202 insertions(+), 143 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 index 4d0cedd55..9aa6ef062 100644
@@ -537,7 +537,7 @@ index df60ff776..72e2f2001 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandbalancetop.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandbalancetop.java
-index 6ded4a197..eed0d7865 100644
+index 6ded4a197..341201bfc 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandbalancetop.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandbalancetop.java
 @@ -43,7 +43,7 @@ public class Commandbalancetop extends EssentialsCommand {
@@ -581,7 +581,7 @@ index 6ded4a197..eed0d7865 100644
          }
  
 -        ess.runTaskAsynchronously(new Viewer(sender, page, force));
-+        ess.getAsyncScheduler().runNow(ess, scheduledTask -> new Viewer(sender, page.get(), force.get())); // Euphyllia
++        ess.getAsyncScheduler().runNow(ess, scheduledTask -> new Viewer(sender, page.get(), force.get()).run()); // Euphyllia
      }
  
      @Override
@@ -702,18 +702,21 @@ index 18397f82f..c25c5f91c 100644
      }
  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandmail.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandmail.java
-index 7dad73063..27b153ee6 100644
+index 7dad73063..d71af6477 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandmail.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandmail.java
-@@ -151,7 +151,7 @@ public class Commandmail extends EssentialsCommand {
+@@ -151,9 +151,9 @@ public class Commandmail extends EssentialsCommand {
              if (!user.isAuthorized("essentials.mail.sendall")) {
                  throw new TranslatableException("noPerm", "essentials.mail.sendall");
              }
 -            ess.runTaskAsynchronously(new SendAll(user,
 +            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new SendAll(user, // Euphyllia
                      FormatUtil.formatMessage(user, "essentials.mail",
-                             StringUtil.sanitizeString(FormatUtil.stripFormat(getFinalArg(args, 1)))), 0));
+-                            StringUtil.sanitizeString(FormatUtil.stripFormat(getFinalArg(args, 1)))), 0));
++                            StringUtil.sanitizeString(FormatUtil.stripFormat(getFinalArg(args, 1)))), 0).run()); // Euphyllia
              user.sendTl("mailSent");
+             return;
+         }
 @@ -161,9 +161,15 @@ public class Commandmail extends EssentialsCommand {
              if (!user.isAuthorized("essentials.mail.sendtempall")) {
                  throw new TranslatableException("noPerm", "essentials.mail.sendtempall");
@@ -725,7 +728,7 @@ index 7dad73063..27b153ee6 100644
 +                try {
 +                    new SendAll(user, // Euphyllia
 +                            FormatUtil.formatMessage(user, "essentials.mail",
-+                                    StringUtil.sanitizeString(FormatUtil.stripFormat(getFinalArg(args, 2)))), DateUtil.parseDateDiff(args[1], true));
++                                    StringUtil.sanitizeString(FormatUtil.stripFormat(getFinalArg(args, 2)))), DateUtil.parseDateDiff(args[1], true)).run(); // Euphyllia
 +                } catch (Exception e) {
 +                    throw new RuntimeException(e);
 +                }
@@ -738,7 +741,7 @@ index 7dad73063..27b153ee6 100644
              }
  
 -            ess.runTaskAsynchronously(new ClearAll());
-+            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new ClearAll()); // Euphyllia
++            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new ClearAll().run()); // Euphyllia
              user.sendTl("mailClearedAll");
              return;
  
@@ -747,7 +750,7 @@ index 7dad73063..27b153ee6 100644
              return;
          } else if (args.length >= 1 && "clearall".equalsIgnoreCase(args[0])){
 -            ess.runTaskAsynchronously(new ClearAll());
-+            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new ClearAll()); // Euphyllia
++            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new ClearAll().run()); // Euphyllia
              sender.sendTl("mailClearedAll");
              return;
          } else if (args.length >= 3 && "send".equalsIgnoreCase(args[0])) {
@@ -756,13 +759,13 @@ index 7dad73063..27b153ee6 100644
              return;
          } else if (args.length >= 2 && "sendall".equalsIgnoreCase(args[0])) {
 -            ess.runTaskAsynchronously(new SendAll(Console.getInstance(), FormatUtil.replaceFormat(getFinalArg(args, 1)), 0));
-+            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new SendAll(Console.getInstance(), FormatUtil.replaceFormat(getFinalArg(args, 1)), 0)); // Euphyllia
++            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new SendAll(Console.getInstance(), FormatUtil.replaceFormat(getFinalArg(args, 1)), 0).run()); // Euphyllia
              sender.sendTl("mailSent");
              return;
          } else if (args.length >= 3 && "sendtempall".equalsIgnoreCase(args[0])) {
              final long dateDiff = DateUtil.parseDateDiff(args[1], true);
 -            ess.runTaskAsynchronously(new SendAll(Console.getInstance(), FormatUtil.replaceFormat(getFinalArg(args, 2)), dateDiff));
-+            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new SendAll(Console.getInstance(), FormatUtil.replaceFormat(getFinalArg(args, 2)), dateDiff)); // Euphyllia
++            ess.getAsyncScheduler().runNow(ess, scheduledTask -> new SendAll(Console.getInstance(), FormatUtil.replaceFormat(getFinalArg(args, 2)), dateDiff).run()); // Euphyllia
              sender.sendTl("mailSent");
              return;
          } else if (args.length >= 2) {
@@ -1301,30 +1304,13 @@ index 2ddee7b12..e3346d465 100644
  api-version: 1.13
 +folia-supported: true # Euphyllia
 diff --git a/EssentialsProtect/src/main/resources/plugin.yml b/EssentialsProtect/src/main/resources/plugin.yml
-index 65764be4a..c681f4683 100644
+index 65764be4a..4c361b0b2 100644
 --- a/EssentialsProtect/src/main/resources/plugin.yml
 +++ b/EssentialsProtect/src/main/resources/plugin.yml
-@@ -1,10 +1,11 @@
--# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
--name: EssentialsProtect
--main: com.earth2me.essentials.protect.EssentialsProtect
--# Note to developers: This next line cannot change, or the automatic versioning system will break.
--version: ${full.version}
--website: https://essentialsx.net/
--description: Provides protection for various parts of the world.
--authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
--softdepend: [Essentials]
--api-version: 1.13
-+# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
-+name: EssentialsProtect
-+main: com.earth2me.essentials.protect.EssentialsProtect
-+# Note to developers: This next line cannot change, or the automatic versioning system will break.
-+version: ${full.version}
-+website: https://essentialsx.net/
-+description: Provides protection for various parts of the world.
-+authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
-+softdepend: [Essentials]
-+api-version: 1.13
+@@ -8,3 +8,4 @@ description: Provides protection for various parts of the world.
+ authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
+ softdepend: [Essentials]
+ api-version: 1.13
 +folia-supported: true # Euphyllia
 \ No newline at end of file
 diff --git a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
@@ -1437,5 +1423,5 @@ index a5199f921..13e90a733 100644
                      parent.getServer().dispatchCommand(Console.getInstance().getCommandSender(), message.substring(1));
                  } catch (final Exception ex) {
 -- 
-2.47.1.windows.2
+2.48.1.windows.1
 
