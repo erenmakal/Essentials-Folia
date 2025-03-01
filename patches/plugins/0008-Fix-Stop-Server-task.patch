@@ -1,6 +1,6 @@
-From 2d7cb37384b7ead45c317ed3952d0a838694afa8 Mon Sep 17 00:00:00 2001
+From 76136dfb9877d9ca23592388af4172f1c78b822c Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 18 Feb 2025 14:37:40 +0100
+Date: Sat, 1 Mar 2025 13:34:50 +0100
 Subject: [PATCH 08/11] Fix Stop Server task
 
 ---
@@ -44,10 +44,10 @@ index aedec1bdb..b875a98fe 100644
          }
      }
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-index 07c050e90..0351649bd 100644
+index 404679f4d..9b952c83b 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-@@ -267,7 +267,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
+@@ -268,7 +268,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
          }
          final DiscordMessageEvent event = new DiscordMessageEvent(type, FormatUtil.stripFormat(message), allowGroupMentions);
          //if (Bukkit.getServer().isPrimaryThread()) { // Euphyllia

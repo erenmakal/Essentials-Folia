@@ -1,6 +1,6 @@
-From de99b1c42e4bc9459ed7c7662e867db09b246b86 Mon Sep 17 00:00:00 2001
+From 826d5a787d30da71fa14b6e4689eef0ccd9871e4 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 18 Feb 2025 14:37:39 +0100
+Date: Sat, 1 Mar 2025 13:34:49 +0100
 Subject: [PATCH 04/11] Replace scheduler
 
 ---
@@ -38,6 +38,7 @@ Subject: [PATCH 04/11] Replace scheduler
  .../discord/listeners/BukkitChatListener.java |  4 +--
  .../listeners/DiscordCommandDispatcher.java   |  2 +-
  .../listeners/EssentialsChatListener.java     |  4 +--
+ .../discord/listeners/PaperChatListener.java  |  4 +--
  .../discord/util/ConsoleInjector.java         | 10 +++---
  .../discord/util/DiscordCommandSender.java    | 10 +++---
  .../essentialsx/discord/util/DiscordUtil.java | 10 +++---
@@ -52,7 +53,7 @@ Subject: [PATCH 04/11] Replace scheduler
  EssentialsSpawn/src/main/resources/plugin.yml |  1 +
  .../xmpp/EssentialsXMPPPlayerListener.java    |  6 ++--
  .../earth2me/essentials/xmpp/XMPPManager.java |  2 +-
- 48 files changed, 202 insertions(+), 143 deletions(-)
+ 49 files changed, 204 insertions(+), 145 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 index 4d0cedd55..9aa6ef062 100644
@@ -329,7 +330,7 @@ index ee0d998e2..e84ea6448 100644
                      event.setCancelled(true);
                      return;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index 84a190a02..04cb68478 100644
+index 753b3b9a0..f8dd4ea88 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 @@ -85,7 +85,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
@@ -484,10 +485,10 @@ index 163e76dca..d0940d514 100644
                          this.getCachedLocations(name).add(location);
                      }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Settings.java b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-index 2334d93e1..dd4d6ab22 100644
+index f04347ae4..bede23354 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-@@ -830,7 +830,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -835,7 +835,7 @@ public class Settings implements net.ess3.api.ISettings {
              if (reloadCount.get() < 2) {
                  // on startup: add plugins again in case they registered commands with the new API
                  // we need to schedule this task before any of the below tasks using _addAlternativeCommand.
@@ -496,7 +497,7 @@ index 2334d93e1..dd4d6ab22 100644
                      for (final Plugin plugin : ess.getServer().getPluginManager().getPlugins()) {
                          if (plugin.isEnabled()) {
                              ess.getAlternativeCommandsHandler().addPlugin(plugin);
-@@ -856,7 +856,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -861,7 +861,7 @@ public class Settings implements net.ess3.api.ISettings {
  
                      // This is 2 because Settings are reloaded twice in the startup lifecycle
                      if (reloadCount.get() < 2) {
@@ -505,7 +506,7 @@ index 2334d93e1..dd4d6ab22 100644
                      } else {
                          _addAlternativeCommand(effectiveAlias, toDisable);
                      }
-@@ -871,7 +871,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -876,7 +876,7 @@ public class Settings implements net.ess3.api.ISettings {
                      ess.getLogger().log(Level.INFO, "Syncing commands");
                  }
                  if (reloadCount.get() < 2) {
@@ -950,10 +951,10 @@ index e47e25cda..aedec1bdb 100644
                  getLogger().log(Level.SEVERE, AdventureUtil.miniToLegacy(tlLiteral("discordErrorLogin", e.getMessage())));
                  if (ess.getSettings().isDebug()) {
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-index 2843e55af..07c050e90 100644
+index 96a8300a9..404679f4d 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-@@ -237,7 +237,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
+@@ -238,7 +238,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
              logger.log(Level.WARNING, "Error while loading the achievement/advancement listener. You will not receive achievement/advancement notifications on Discord.", e);
          }
  
@@ -962,7 +963,7 @@ index 2843e55af..07c050e90 100644
  
          Bukkit.getServicesManager().register(DiscordService.class, this, plugin, ServicePriority.Normal);
      }
-@@ -266,11 +266,11 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
+@@ -267,11 +267,11 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
              logger.warning("Sending message to channel \"" + type.getKey() + "\" which is an unregistered type! If you are a plugin author, you should be registering your MessageType before using them.");
          }
          final DiscordMessageEvent event = new DiscordMessageEvent(type, FormatUtil.stripFormat(message), allowGroupMentions);
@@ -1068,6 +1069,27 @@ index debd6783d..1c26faf35 100644
              if (!chatEvent.isCancelled()) {
                  jda.sendChatMessage(event.getChatType(), player, chatEvent.getMessage());
              }
+-        });
++        }, null);
+     }
+ }
+diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/PaperChatListener.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/PaperChatListener.java
+index 6f5588fe4..089b54f97 100644
+--- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/PaperChatListener.java
++++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/PaperChatListener.java
+@@ -22,7 +22,7 @@ public class PaperChatListener extends PaperChatListenerProvider {
+         }
+ 
+         final Player player = event.getPlayer();
+-        Bukkit.getScheduler().runTask(jda.getPlugin(), () -> {
++        player.getScheduler().run(jda.getPlugin(), (task) -> {
+             final DiscordChatMessageEvent chatEvent = new DiscordChatMessageEvent(event.getPlayer(), event.getMessage(), ChatType.UNKNOWN);
+             chatEvent.setCancelled(!jda.getSettings().isShowAllChat() && !event.recipients().containsAll(Bukkit.getOnlinePlayers()));
+             Bukkit.getPluginManager().callEvent(chatEvent);
+@@ -31,6 +31,6 @@ public class PaperChatListener extends PaperChatListenerProvider {
+             }
+ 
+             jda.sendChatMessage(player, chatEvent.getMessage());
 -        });
 +        }, null);
      }
