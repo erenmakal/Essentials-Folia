@@ -1082,7 +1082,7 @@ index 6f5588fe4..089b54f97 100644
  
          final Player player = event.getPlayer();
 -        Bukkit.getScheduler().runTask(jda.getPlugin(), () -> {
-+        player.getScheduler().run(jda.getPlugin(), (task) -> {
++        player.getScheduler().run(jda.getPlugin(), task -> {
              final DiscordChatMessageEvent chatEvent = new DiscordChatMessageEvent(event.getPlayer(), event.getMessage(), ChatType.UNKNOWN);
              chatEvent.setCancelled(!jda.getSettings().isShowAllChat() && !event.recipients().containsAll(Bukkit.getOnlinePlayers()));
              Bukkit.getPluginManager().callEvent(chatEvent);
