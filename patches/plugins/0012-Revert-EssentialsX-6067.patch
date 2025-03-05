@@ -1,0 +1,33 @@
+From 5b3aff1a387273ecb145938049d0938a81a78c00 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Wed, 5 Mar 2025 20:37:45 +0100
+Subject: [PATCH 12/12] Revert EssentialsX 6067
+
+---
+ .../ess3/provider/providers/PaperChatListenerProvider.java  | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/providers/PaperProvider/src/main/java/net/ess3/provider/providers/PaperChatListenerProvider.java b/providers/PaperProvider/src/main/java/net/ess3/provider/providers/PaperChatListenerProvider.java
+index 282e548fe..45e237f69 100644
+--- a/providers/PaperProvider/src/main/java/net/ess3/provider/providers/PaperChatListenerProvider.java
++++ b/providers/PaperProvider/src/main/java/net/ess3/provider/providers/PaperChatListenerProvider.java
+@@ -10,13 +10,13 @@ import org.bukkit.event.EventHandler;
+ import org.bukkit.event.EventPriority;
+ import org.bukkit.event.Listener;
+ 
+-import java.util.IdentityHashMap;
+-import java.util.Map;
++import java.util.HashMap; // Euphyllia revert EssentialsX#6067
++//import java.util.Map; // Euphyllia revert EssentialsX#6067
+ 
+ public abstract class PaperChatListenerProvider implements Listener {
+     private final boolean formatParsing;
+     private final LegacyComponentSerializer serializer;
+-    private final Map<AsyncChatEvent, PaperChatEvent> eventMap = new IdentityHashMap<>();
++    private final HashMap<AsyncChatEvent, PaperChatEvent> eventMap = new HashMap<>(); // Euphyllia revert EssentialsX#6067
+ 
+     public PaperChatListenerProvider() {
+         this(true);
+-- 
+2.48.1.windows.1
+

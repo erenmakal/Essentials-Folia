@@ -1,7 +1,7 @@
-From 826d5a787d30da71fa14b6e4689eef0ccd9871e4 Mon Sep 17 00:00:00 2001
+From 3a007ef66abbec6513f57e263b44a7d62484a68c Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sat, 1 Mar 2025 13:34:49 +0100
-Subject: [PATCH 04/11] Replace scheduler
+Date: Wed, 5 Mar 2025 15:44:50 +0100
+Subject: [PATCH 04/12] Replace scheduler
 
 ---
  .../earth2me/essentials/AsyncTeleport.java    |  2 +-
@@ -48,12 +48,12 @@ Subject: [PATCH 04/11] Replace scheduler
  .../discordlink/rolesync/RoleSyncManager.java |  6 ++--
  .../src/main/resources/plugin.yml             |  1 +
  EssentialsGeoIP/src/main/resources/plugin.yml |  1 +
- .../src/main/resources/plugin.yml             |  1 +
+ .../src/main/resources/plugin.yml             | 21 ++++++------
  .../spawn/EssentialsSpawnPlayerListener.java  | 12 +++----
  EssentialsSpawn/src/main/resources/plugin.yml |  1 +
  .../xmpp/EssentialsXMPPPlayerListener.java    |  6 ++--
  .../earth2me/essentials/xmpp/XMPPManager.java |  2 +-
- 49 files changed, 204 insertions(+), 145 deletions(-)
+ 49 files changed, 214 insertions(+), 155 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 index 4d0cedd55..9aa6ef062 100644
@@ -538,7 +538,7 @@ index df60ff776..72e2f2001 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandbalancetop.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandbalancetop.java
-index 6ded4a197..341201bfc 100644
+index baba65c57..a3d7d3a49 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandbalancetop.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandbalancetop.java
 @@ -43,7 +43,7 @@ public class Commandbalancetop extends EssentialsCommand {
@@ -1074,10 +1074,10 @@ index debd6783d..1c26faf35 100644
      }
  }
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/PaperChatListener.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/PaperChatListener.java
-index 6f5588fe4..089b54f97 100644
+index ed178ba6b..ca95f3fff 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/PaperChatListener.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/listeners/PaperChatListener.java
-@@ -22,7 +22,7 @@ public class PaperChatListener extends PaperChatListenerProvider {
+@@ -23,7 +23,7 @@ public class PaperChatListener extends PaperChatListenerProvider {
          }
  
          final Player player = event.getPlayer();
@@ -1086,7 +1086,7 @@ index 6f5588fe4..089b54f97 100644
              final DiscordChatMessageEvent chatEvent = new DiscordChatMessageEvent(event.getPlayer(), event.getMessage(), ChatType.UNKNOWN);
              chatEvent.setCancelled(!jda.getSettings().isShowAllChat() && !event.recipients().containsAll(Bukkit.getOnlinePlayers()));
              Bukkit.getPluginManager().callEvent(chatEvent);
-@@ -31,6 +31,6 @@ public class PaperChatListener extends PaperChatListenerProvider {
+@@ -32,6 +32,6 @@ public class PaperChatListener extends PaperChatListenerProvider {
              }
  
              jda.sendChatMessage(player, chatEvent.getMessage());
@@ -1326,13 +1326,30 @@ index 2ddee7b12..e3346d465 100644
  api-version: 1.13
 +folia-supported: true # Euphyllia
 diff --git a/EssentialsProtect/src/main/resources/plugin.yml b/EssentialsProtect/src/main/resources/plugin.yml
-index 65764be4a..4c361b0b2 100644
+index 65764be4a..c681f4683 100644
 --- a/EssentialsProtect/src/main/resources/plugin.yml
 +++ b/EssentialsProtect/src/main/resources/plugin.yml
-@@ -8,3 +8,4 @@ description: Provides protection for various parts of the world.
- authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
- softdepend: [Essentials]
- api-version: 1.13
+@@ -1,10 +1,11 @@
+-# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
+-name: EssentialsProtect
+-main: com.earth2me.essentials.protect.EssentialsProtect
+-# Note to developers: This next line cannot change, or the automatic versioning system will break.
+-version: ${full.version}
+-website: https://essentialsx.net/
+-description: Provides protection for various parts of the world.
+-authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
+-softdepend: [Essentials]
+-api-version: 1.13
++# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
++name: EssentialsProtect
++main: com.earth2me.essentials.protect.EssentialsProtect
++# Note to developers: This next line cannot change, or the automatic versioning system will break.
++version: ${full.version}
++website: https://essentialsx.net/
++description: Provides protection for various parts of the world.
++authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
++softdepend: [Essentials]
++api-version: 1.13
 +folia-supported: true # Euphyllia
 \ No newline at end of file
 diff --git a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
