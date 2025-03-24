@@ -1,28 +1,28 @@
-From 2d09ab54efbaa9431cfdaf3d96ad08a70d89021d Mon Sep 17 00:00:00 2001
+From e369c5f39c218df501ceec5a2da404e60a1bd9ee Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 24 Mar 2025 15:46:29 +0100
+Date: Mon, 24 Mar 2025 16:45:30 +0100
 Subject: [PATCH 01/12] Rebrand
 
 ---
- Essentials/src/main/resources/plugin.yml      |  1 +
- .../com/earth2me/essentials/EconomyTest.java  |  0
- .../earth2me/essentials/MessagingTest.java    |  0
- .../com/earth2me/essentials/StorageTest.java  |  0
- .../com/earth2me/essentials/ToggleTest.java   |  0
- .../com/earth2me/essentials/UserTest.java     |  0
- .../com/earth2me/essentials/UtilTest.java     |  0
- .../essentials/utils/FormatUtilTest.java      |  0
- .../essentials/utils/StringUtilTest.java      |  0
- EssentialsDiscord/build.gradle                |  2 +-
- EssentialsXMPP/src/main/resources/plugin.yml  |  1 +
- .../essentials.base-conventions.gradle.kts    |  6 ++---
- .../essentials.module-conventions.gradle.kts  |  9 +++++++
- .../essentials.shadow-module.gradle.kts       |  9 +++++++
- build.gradle                                  |  2 +-
- providers/BaseProviders/build.gradle          | 24 +++++++++++++------
- .../providers/BukkitSenderProvider.java       |  7 ++++++
- providers/PaperProvider/build.gradle          |  4 ++--
- 18 files changed, 51 insertions(+), 14 deletions(-)
+ Essentials/src/main/resources/plugin.yml               |  1 +
+ .../java/com/earth2me/essentials/EconomyTest.java      |  0
+ .../java/com/earth2me/essentials/MessagingTest.java    |  0
+ .../java/com/earth2me/essentials/StorageTest.java      |  0
+ .../java/com/earth2me/essentials/ToggleTest.java       |  0
+ .../java/com/earth2me/essentials/UserTest.java         |  0
+ .../java/com/earth2me/essentials/UtilTest.java         |  0
+ .../com/earth2me/essentials/utils/FormatUtilTest.java  |  0
+ .../com/earth2me/essentials/utils/StringUtilTest.java  |  0
+ EssentialsDiscord/build.gradle                         |  2 +-
+ EssentialsXMPP/src/main/resources/plugin.yml           |  1 +
+ .../main/kotlin/essentials.base-conventions.gradle.kts |  6 +++---
+ .../kotlin/essentials.module-conventions.gradle.kts    |  9 +++++++++
+ .../main/kotlin/essentials.shadow-module.gradle.kts    |  9 +++++++++
+ build.gradle                                           |  2 +-
+ providers/BaseProviders/build.gradle                   | 10 ++++++++++
+ .../ess3/provider/providers/BukkitSenderProvider.java  |  7 +++++++
+ providers/PaperProvider/build.gradle                   |  6 +++---
+ 18 files changed, 45 insertions(+), 8 deletions(-)
  rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/EconomyTest.java (100%)
  rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/MessagingTest.java (100%)
  rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/StorageTest.java (100%)
@@ -188,24 +188,13 @@ index 40bd67dec..4804e140d 100644
  project.ext {
      GIT_COMMIT = !indraGit.isPresent() ? "unknown" : indraGit.commit().abbreviate(7).name()
 diff --git a/providers/BaseProviders/build.gradle b/providers/BaseProviders/build.gradle
-index 99176e222..ef6b5616c 100644
+index 99176e222..b255f304b 100644
 --- a/providers/BaseProviders/build.gradle
 +++ b/providers/BaseProviders/build.gradle
-@@ -1,7 +1,17 @@
--plugins {
--    id("essentials.base-conventions")
--}
--
--essentials {
--    injectBstats.set(false)
--}
-+plugins {
-+    id("essentials.base-conventions")
-+}
-+
-+essentials {
-+    injectBstats.set(false)
-+}
+@@ -5,3 +5,13 @@ plugins {
+ essentials {
+     injectBstats.set(false)
+ }
 +
 +// Rebrand
 +dependencies {
@@ -236,12 +225,15 @@ index cf5a739ca..8711e4b05 100644
      public boolean isPermissionSet(String name) {
          return base.isPermissionSet(name);
 diff --git a/providers/PaperProvider/build.gradle b/providers/PaperProvider/build.gradle
-index 8a764dff0..68eab95ce 100644
+index 8a764dff0..019ec1ad6 100644
 --- a/providers/PaperProvider/build.gradle
 +++ b/providers/PaperProvider/build.gradle
-@@ -11,8 +11,8 @@ dependencies {
+@@ -9,10 +9,10 @@ java {
+ 
+ dependencies {
      implementation(project(':providers:BaseProviders')) {
-         exclude(module: 'spigot-api')
+-        exclude(module: 'spigot-api')
++        exclude(module: 'paper-api')
      }
 -    compileOnly 'io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT'
 -    compileOnly 'io.papermc.paper:paper-mojangapi:1.20.4-R0.1-SNAPSHOT'
