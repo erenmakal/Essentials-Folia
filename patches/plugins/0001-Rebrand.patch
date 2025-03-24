@@ -182,8 +182,8 @@ index 4a859e015..37d054805 100644
  }
  
  group = "net.essentialsx"
--version = "2.21.0-SNAPSHOT"
-+version = "2.21.0-SNAPSHOT" + "-Folia" // Rebrand
+-version = "2.21.1-SNAPSHOT"
++version = "2.21.1-SNAPSHOT" + "-Folia" // Rebrand
  
  project.ext {
      GIT_COMMIT = !indraGit.isPresent() ? "unknown" : indraGit.commit().abbreviate(7).name()
