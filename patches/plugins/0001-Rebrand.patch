@@ -1,6 +1,6 @@
-From a49c62c60881d6e827ae4519609867378cf248c3 Mon Sep 17 00:00:00 2001
+From 2d09ab54efbaa9431cfdaf3d96ad08a70d89021d Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 5 Mar 2025 15:44:36 +0100
+Date: Mon, 24 Mar 2025 15:46:29 +0100
 Subject: [PATCH 01/12] Rebrand
 
 ---
@@ -175,7 +175,7 @@ index 635084b87..d9f69320c 100644
 +}
 +// Rebrand
 diff --git a/build.gradle b/build.gradle
-index 4a859e015..37d054805 100644
+index 40bd67dec..4804e140d 100644
 --- a/build.gradle
 +++ b/build.gradle
 @@ -3,7 +3,7 @@ plugins {
@@ -251,5 +251,5 @@ index 8a764dff0..68eab95ce 100644
  
  essentials {
 -- 
-2.48.1.windows.1
+2.49.0.windows.1
 

@@ -1,0 +1,25 @@
+From 3450659c09c0884bb8ba452b00ed70151f1f7da5 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Mon, 24 Mar 2025 16:23:42 +0100
+Subject: [PATCH 12/12] Downgrade spongepowered yaml
+
+---
+ Essentials/build.gradle | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Essentials/build.gradle b/Essentials/build.gradle
+index d04d2800d..cdfc78c81 100644
+--- a/Essentials/build.gradle
++++ b/Essentials/build.gradle
+@@ -10,7 +10,7 @@ dependencies {
+ 
+     api 'io.papermc:paperlib:1.0.6'
+ 
+-    implementation 'org.spongepowered:configurate-yaml:4.2.0'
++    implementation 'org.spongepowered:configurate-yaml:4.1.2'
+     implementation 'org.checkerframework:checker-qual:3.49.0'
+     implementation 'nu.studer:java-ordered-properties:1.0.4'
+ 
+-- 
+2.49.0.windows.1
+

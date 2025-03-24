@@ -1,6 +1,6 @@
-From acdf74ff8df22c269b36b95d03220e5eb276184d Mon Sep 17 00:00:00 2001
+From 5822e36cb91e524d78d7ccad66e6df23880e0135 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 5 Mar 2025 15:44:49 +0100
+Date: Mon, 24 Mar 2025 15:46:42 +0100
 Subject: [PATCH 02/12] Teleport to teleportAsync
 
 ---
@@ -49,5 +49,5 @@ index fc98e97e1..4d0cedd55 100644
                      if (ess.getSettings().isTeleportToCenterLocation()) {
                          loc = LocationUtil.getRoundedDestination(loc);
 -- 
-2.48.1.windows.1
+2.49.0.windows.1
 

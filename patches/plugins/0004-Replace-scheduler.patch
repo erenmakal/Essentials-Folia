@@ -1,6 +1,6 @@
-From 3a007ef66abbec6513f57e263b44a7d62484a68c Mon Sep 17 00:00:00 2001
+From b3feb494ba3bfe763789ce77d86f8c675c86f37f Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 5 Mar 2025 15:44:50 +0100
+Date: Mon, 24 Mar 2025 15:46:44 +0100
 Subject: [PATCH 04/12] Replace scheduler
 
 ---
@@ -203,10 +203,10 @@ index 4008b3fe5..aa265ef49 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index a81daa597..08e928b02 100644
+index 39c7a5966..5530b31e7 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -454,7 +454,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -455,7 +455,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              alternativeCommandsHandler = new AlternativeCommandsHandler(this);
  
              timer = new EssentialsTimer(this);
@@ -215,7 +215,7 @@ index a81daa597..08e928b02 100644
  
              Economy.setEss(this);
              execTimer.mark("RegHandler");
-@@ -464,7 +464,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -465,7 +465,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              PermissionsDefaults.registerAllHatDefaults();
  
              updateChecker = new UpdateChecker(this);
@@ -224,7 +224,7 @@ index a81daa597..08e928b02 100644
                  getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("versionFetching")));
                  for (final Component component : updateChecker.getVersionMessages(false, true, new CommandSource(this, Bukkit.getConsoleSender()))) {
                      getLogger().log(getSettings().isUpdateCheckEnabled() ? Level.WARNING : Level.INFO, AdventureUtil.adventureToLegacy(component));
-@@ -899,9 +899,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -900,9 +900,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitScheduler getScheduler() {
@@ -257,7 +257,7 @@ index a81daa597..08e928b02 100644
      @Override
      public IJails getJails() {
          return jails;
-@@ -1206,31 +1229,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -1207,31 +1230,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitTask runTaskAsynchronously(final Runnable run) {
@@ -330,7 +330,7 @@ index ee0d998e2..e84ea6448 100644
                      event.setCancelled(true);
                      return;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index 753b3b9a0..f8dd4ea88 100644
+index 8b6b2d51f..2d2c56133 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 @@ -85,7 +85,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
@@ -397,7 +397,7 @@ index 753b3b9a0..f8dd4ea88 100644
      }
  
      // Makes the compass item ingame always point to the first essentials home.  #EasterEgg
-@@ -617,7 +617,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -621,7 +621,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          final User user = ess.getUser(event.getPlayer());
          if (user.hasUnlimited(new ItemStack(event.getBucket()))) {
              event.getItemStack().setType(event.getBucket());
@@ -406,7 +406,7 @@ index 753b3b9a0..f8dd4ea88 100644
          }
      }
  
-@@ -872,7 +872,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -879,7 +879,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                  }
              }
  
@@ -415,7 +415,7 @@ index 753b3b9a0..f8dd4ea88 100644
          } catch (final Exception ex) {
              if (ess.getSettings().isDebug()) {
                  ess.getLogger().log(Level.WARNING, ex.getMessage(), ex);
-@@ -903,7 +903,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -910,7 +910,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                      }
                  }
  
@@ -424,7 +424,7 @@ index 753b3b9a0..f8dd4ea88 100644
  
              }
          }
-@@ -965,7 +965,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -972,7 +972,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -434,7 +434,7 @@ index 753b3b9a0..f8dd4ea88 100644
          }
      }
  
-@@ -1008,7 +1009,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -1015,7 +1016,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -1462,5 +1462,5 @@ index a5199f921..13e90a733 100644
                      parent.getServer().dispatchCommand(Console.getInstance().getCommandSender(), message.substring(1));
                  } catch (final Exception ex) {
 -- 
-2.48.1.windows.1
+2.49.0.windows.1
 
