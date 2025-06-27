@@ -129,7 +129,7 @@ index e110e913a..9cbd0d582 100644
  
  group = "net.essentialsx"
 -version = "2.21.2-SNAPSHOT"
-+version = "2.21.2-SNAPSHOT" + "-Euphyllia"
++version = "2.21.2-SNAPSHOT" + "-Folia"
  
  project.ext {
      GIT_COMMIT = !indraGit.isPresent() ? "unknown" : indraGit.commit().abbreviate(7).name()
