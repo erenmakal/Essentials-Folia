@@ -1,45 +1,33 @@
-From 828a4aa0f28b28bc67d4dad9a9f670580a16b984 Mon Sep 17 00:00:00 2001
+From 11c817ee3a75eebe00d8a302dda57d91693d72ed Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 24 Mar 2025 16:45:33 +0100
+Date: Fri, 27 Jun 2025 22:39:35 +0200
 Subject: [PATCH 10/12] Fix commands thor player
 
 ---
- .../essentials/commands/Commandlightning.java | 21 ++++++++++++-------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ .../com/earth2me/essentials/commands/Commandlightning.java     | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
-index a8a53db62..0daaa87d3 100644
+index a8a53db62..89e89dead 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
-@@ -33,15 +33,20 @@ public class Commandlightning extends EssentialsLoopCommand {
+@@ -33,6 +33,7 @@ public class Commandlightning extends EssentialsLoopCommand {
          }
          final int finalPower = power;
          loopOnlinePlayersConsumer(server, sender, false, true, args[0], player -> {
--            sender.sendTl("lightningUse", player.getDisplayName());
--            final LightningStrike strike = player.getBase().getWorld().strikeLightningEffect(player.getBase().getLocation());
-+            // Euphyllia start - fix lightning commands
-+            final org.bukkit.entity.Player realPlayer = player.getBase();
-+            realPlayer.getScheduler().run(ess, task -> {
-+                sender.sendTl("lightningUse", player.getDisplayName());
-+                final LightningStrike strike = player.getBase().getWorld().strikeLightningEffect(player.getBase().getLocation());
++            final org.bukkit.entity.Player realPlayer = player.getBase(); realPlayer.getScheduler().run(ess, task -> {
+             sender.sendTl("lightningUse", player.getDisplayName());
+             final LightningStrike strike = player.getBase().getWorld().strikeLightningEffect(player.getBase().getLocation());
  
--            if (!player.isGodModeEnabled()) {
--                player.getBase().damage(finalPower, strike);
+@@ -41,7 +42,7 @@ public class Commandlightning extends EssentialsLoopCommand {
+             }
+             if (ess.getSettings().warnOnSmite()) {
+                 player.sendTl("lightningSmited");
 -            }
--            if (ess.getSettings().warnOnSmite()) {
--                player.sendTl("lightningSmited");
--            }
-+                if (!player.isGodModeEnabled()) {
-+                    player.getBase().damage(finalPower, strike);
-+                }
-+                if (ess.getSettings().warnOnSmite()) {
-+                    player.sendTl("lightningSmited");
-+                }
-+            }, null);
-+            // Euphyllia end - fix lightning commands
++            }}, null);
          });
          loopOnlinePlayers(server, sender, true, true, args[0], null);
      }
 -- 
-2.49.0.windows.1
+2.50.0.windows.1
 

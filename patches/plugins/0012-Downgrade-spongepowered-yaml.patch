@@ -1,6 +1,6 @@
-From 8a0997c3bd465ade1b956334df8f927b6c18a8aa Mon Sep 17 00:00:00 2001
+From bf194950d9db181afa4575c49d14fd2595257e8d Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 24 Mar 2025 16:45:34 +0100
+Date: Fri, 27 Jun 2025 22:40:56 +0200
 Subject: [PATCH 12/12] Downgrade spongepowered yaml
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH 12/12] Downgrade spongepowered yaml
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Essentials/build.gradle b/Essentials/build.gradle
-index d04d2800d..cdfc78c81 100644
+index 4e04f0932..c16685099 100644
 --- a/Essentials/build.gradle
 +++ b/Essentials/build.gradle
 @@ -10,7 +10,7 @@ dependencies {
@@ -21,5 +21,5 @@ index d04d2800d..cdfc78c81 100644
      implementation 'nu.studer:java-ordered-properties:1.0.4'
  
 -- 
-2.49.0.windows.1
+2.50.0.windows.1
 

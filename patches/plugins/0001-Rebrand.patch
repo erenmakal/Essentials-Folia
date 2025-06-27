@@ -1,94 +1,112 @@
-From e369c5f39c218df501ceec5a2da404e60a1bd9ee Mon Sep 17 00:00:00 2001
+From 5700219897430633956f1f316a8be07d56a08419 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 24 Mar 2025 16:45:30 +0100
+Date: Fri, 27 Jun 2025 21:42:38 +0200
 Subject: [PATCH 01/12] Rebrand
 
 ---
- Essentials/src/main/resources/plugin.yml               |  1 +
- .../java/com/earth2me/essentials/EconomyTest.java      |  0
- .../java/com/earth2me/essentials/MessagingTest.java    |  0
- .../java/com/earth2me/essentials/StorageTest.java      |  0
- .../java/com/earth2me/essentials/ToggleTest.java       |  0
- .../java/com/earth2me/essentials/UserTest.java         |  0
- .../java/com/earth2me/essentials/UtilTest.java         |  0
- .../com/earth2me/essentials/utils/FormatUtilTest.java  |  0
- .../com/earth2me/essentials/utils/StringUtilTest.java  |  0
- EssentialsDiscord/build.gradle                         |  2 +-
- EssentialsXMPP/src/main/resources/plugin.yml           |  1 +
- .../main/kotlin/essentials.base-conventions.gradle.kts |  6 +++---
- .../kotlin/essentials.module-conventions.gradle.kts    |  9 +++++++++
- .../main/kotlin/essentials.shadow-module.gradle.kts    |  9 +++++++++
- build.gradle                                           |  2 +-
- providers/BaseProviders/build.gradle                   | 10 ++++++++++
- .../ess3/provider/providers/BukkitSenderProvider.java  |  7 +++++++
- providers/PaperProvider/build.gradle                   |  6 +++---
- 18 files changed, 45 insertions(+), 8 deletions(-)
- rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/EconomyTest.java (100%)
- rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/MessagingTest.java (100%)
- rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/StorageTest.java (100%)
- rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/ToggleTest.java (100%)
- rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/UserTest.java (100%)
- rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/UtilTest.java (100%)
- rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/utils/FormatUtilTest.java (100%)
- rename Essentials/src/{test => testaaa}/java/com/earth2me/essentials/utils/StringUtilTest.java (100%)
+ Essentials/src/main/resources/plugin.yml            | 1 +
+ EssentialsAntiBuild/src/main/resources/plugin.yml   | 1 +
+ EssentialsChat/src/main/resources/plugin.yml        | 1 +
+ EssentialsDiscord/src/main/resources/plugin.yml     | 1 +
+ EssentialsDiscordLink/src/main/resources/plugin.yml | 1 +
+ EssentialsGeoIP/src/main/resources/plugin.yml       | 1 +
+ EssentialsProtect/src/main/resources/plugin.yml     | 1 +
+ EssentialsSpawn/src/main/resources/plugin.yml       | 1 +
+ EssentialsXMPP/src/main/resources/plugin.yml        | 1 +
+ 9 files changed, 9 insertions(+)
 
 diff --git a/Essentials/src/main/resources/plugin.yml b/Essentials/src/main/resources/plugin.yml
-index 8efb209ad..4b10c67e2 100644
+index 8efb209ad..905a91a9c 100644
 --- a/Essentials/src/main/resources/plugin.yml
 +++ b/Essentials/src/main/resources/plugin.yml
 @@ -8,6 +8,7 @@ description: Provides an essential, core set of commands for Bukkit.
  softdepend: [Vault, LuckPerms]
  authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, md_5, Iaccidentally, drtshock, vemacs, SupaHam, mdcfe, JRoy, pop4959]
  api-version: "1.13"
-+folia-supported: true # Rebrand
++folia-supported: true
  commands:
    afk:
      description: Marks you as away-from-keyboard.
-diff --git a/Essentials/src/test/java/com/earth2me/essentials/EconomyTest.java b/Essentials/src/testaaa/java/com/earth2me/essentials/EconomyTest.java
-similarity index 100%
-rename from Essentials/src/test/java/com/earth2me/essentials/EconomyTest.java
-rename to Essentials/src/testaaa/java/com/earth2me/essentials/EconomyTest.java
-diff --git a/Essentials/src/test/java/com/earth2me/essentials/MessagingTest.java b/Essentials/src/testaaa/java/com/earth2me/essentials/MessagingTest.java
-similarity index 100%
-rename from Essentials/src/test/java/com/earth2me/essentials/MessagingTest.java
-rename to Essentials/src/testaaa/java/com/earth2me/essentials/MessagingTest.java
-diff --git a/Essentials/src/test/java/com/earth2me/essentials/StorageTest.java b/Essentials/src/testaaa/java/com/earth2me/essentials/StorageTest.java
-similarity index 100%
-rename from Essentials/src/test/java/com/earth2me/essentials/StorageTest.java
-rename to Essentials/src/testaaa/java/com/earth2me/essentials/StorageTest.java
-diff --git a/Essentials/src/test/java/com/earth2me/essentials/ToggleTest.java b/Essentials/src/testaaa/java/com/earth2me/essentials/ToggleTest.java
-similarity index 100%
-rename from Essentials/src/test/java/com/earth2me/essentials/ToggleTest.java
-rename to Essentials/src/testaaa/java/com/earth2me/essentials/ToggleTest.java
-diff --git a/Essentials/src/test/java/com/earth2me/essentials/UserTest.java b/Essentials/src/testaaa/java/com/earth2me/essentials/UserTest.java
-similarity index 100%
-rename from Essentials/src/test/java/com/earth2me/essentials/UserTest.java
-rename to Essentials/src/testaaa/java/com/earth2me/essentials/UserTest.java
-diff --git a/Essentials/src/test/java/com/earth2me/essentials/UtilTest.java b/Essentials/src/testaaa/java/com/earth2me/essentials/UtilTest.java
-similarity index 100%
-rename from Essentials/src/test/java/com/earth2me/essentials/UtilTest.java
-rename to Essentials/src/testaaa/java/com/earth2me/essentials/UtilTest.java
-diff --git a/Essentials/src/test/java/com/earth2me/essentials/utils/FormatUtilTest.java b/Essentials/src/testaaa/java/com/earth2me/essentials/utils/FormatUtilTest.java
-similarity index 100%
-rename from Essentials/src/test/java/com/earth2me/essentials/utils/FormatUtilTest.java
-rename to Essentials/src/testaaa/java/com/earth2me/essentials/utils/FormatUtilTest.java
-diff --git a/Essentials/src/test/java/com/earth2me/essentials/utils/StringUtilTest.java b/Essentials/src/testaaa/java/com/earth2me/essentials/utils/StringUtilTest.java
-similarity index 100%
-rename from Essentials/src/test/java/com/earth2me/essentials/utils/StringUtilTest.java
-rename to Essentials/src/testaaa/java/com/earth2me/essentials/utils/StringUtilTest.java
-diff --git a/EssentialsDiscord/build.gradle b/EssentialsDiscord/build.gradle
-index 3fc6ee806..8fcc7087d 100644
---- a/EssentialsDiscord/build.gradle
-+++ b/EssentialsDiscord/build.gradle
-@@ -11,7 +11,7 @@ dependencies {
-     implementation('club.minnced:discord-webhooks:0.8.4') {
-         exclude(module: 'okhttp')
-     }
--    compileOnly 'org.apache.logging.log4j:log4j-core:2.17.1'
-+    compileOnly 'org.apache.logging.log4j:log4j-core:2.23.1' // Rebrand - update
-     compileOnly 'me.clip:placeholderapi:2.11.6'
- }
+diff --git a/EssentialsAntiBuild/src/main/resources/plugin.yml b/EssentialsAntiBuild/src/main/resources/plugin.yml
+index f7dac0e89..3bf09dd7b 100644
+--- a/EssentialsAntiBuild/src/main/resources/plugin.yml
++++ b/EssentialsAntiBuild/src/main/resources/plugin.yml
+@@ -8,6 +8,7 @@ description: Provides build protection.
+ authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, Iaccidentally, drtshock, mdcfe]
+ depend: [Essentials]
+ api-version: "1.13"
++folia-supported: true
  
+ permissions:
+   essentials.exempt.protect:
+diff --git a/EssentialsChat/src/main/resources/plugin.yml b/EssentialsChat/src/main/resources/plugin.yml
+index ab1d85c5a..1e42b22ee 100644
+--- a/EssentialsChat/src/main/resources/plugin.yml
++++ b/EssentialsChat/src/main/resources/plugin.yml
+@@ -7,6 +7,7 @@ website: https://essentialsx.net/
+ description: Provides chat control features for Essentials.  Requires Permissions.
+ authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, md_5, Okamosy, Iaccidentally, mdcfe, JRoy, triagonal]
+ depend: [Essentials]
++folia-supported: true
+ api-version: 1.13
+ commands:
+   toggleshout:
+diff --git a/EssentialsDiscord/src/main/resources/plugin.yml b/EssentialsDiscord/src/main/resources/plugin.yml
+index fad076db5..93e6c56b8 100644
+--- a/EssentialsDiscord/src/main/resources/plugin.yml
++++ b/EssentialsDiscord/src/main/resources/plugin.yml
+@@ -8,6 +8,7 @@ authors: [mdcfe, JRoy, pop4959, Glare]
+ depend: [Essentials]
+ softdepend: [EssentialsChat, PlaceholderAPI]
+ api-version: 1.13
++folia-supported: true
+ commands:
+   discordbroadcast:
+     description: Broadcasts a message to the specified Discord channel.
+diff --git a/EssentialsDiscordLink/src/main/resources/plugin.yml b/EssentialsDiscordLink/src/main/resources/plugin.yml
+index 49df5f7f3..aa0568eab 100644
+--- a/EssentialsDiscordLink/src/main/resources/plugin.yml
++++ b/EssentialsDiscordLink/src/main/resources/plugin.yml
+@@ -7,6 +7,7 @@ description: EssentialsX Discord addon which allows you link your Minecraft and
+ authors: [JRoy]
+ depend: [EssentialsDiscord]
+ api-version: 1.13
++folia-supported: true
+ commands:
+   link:
+     description: Generates a code to link your Minecraft account to Discord.
+diff --git a/EssentialsGeoIP/src/main/resources/plugin.yml b/EssentialsGeoIP/src/main/resources/plugin.yml
+index 2ddee7b12..d099a6893 100644
+--- a/EssentialsGeoIP/src/main/resources/plugin.yml
++++ b/EssentialsGeoIP/src/main/resources/plugin.yml
+@@ -8,3 +8,4 @@ description: Shows the country or city of a user on login and /whois.
+ authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, kjiang, pop4959]
+ depend: [Essentials]
+ api-version: 1.13
++folia-supported: true
+\ No newline at end of file
+diff --git a/EssentialsProtect/src/main/resources/plugin.yml b/EssentialsProtect/src/main/resources/plugin.yml
+index 65764be4a..8fb12986c 100644
+--- a/EssentialsProtect/src/main/resources/plugin.yml
++++ b/EssentialsProtect/src/main/resources/plugin.yml
+@@ -8,3 +8,4 @@ description: Provides protection for various parts of the world.
+ authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
+ softdepend: [Essentials]
+ api-version: 1.13
++folia-supported: true
+\ No newline at end of file
+diff --git a/EssentialsSpawn/src/main/resources/plugin.yml b/EssentialsSpawn/src/main/resources/plugin.yml
+index e0a7b770d..3746812f4 100644
+--- a/EssentialsSpawn/src/main/resources/plugin.yml
++++ b/EssentialsSpawn/src/main/resources/plugin.yml
+@@ -8,6 +8,7 @@ description: Provides spawn control commands, utilizing Essentials.
+ authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, SupaHam, mdcfe, DoNotSpamPls, JRoy]
+ depend: [Essentials]
+ api-version: 1.13
++folia-supported: true
+ commands:
+   setspawn:
+     description: Sets the spawn point to your current position.
 diff --git a/EssentialsXMPP/src/main/resources/plugin.yml b/EssentialsXMPP/src/main/resources/plugin.yml
 index 9b2d54c8c..b7f773722 100644
 --- a/EssentialsXMPP/src/main/resources/plugin.yml
@@ -101,147 +119,6 @@ index 9b2d54c8c..b7f773722 100644
  commands:
    setxmpp:
      description: Sets your XMPP address.
-diff --git a/build-logic/src/main/kotlin/essentials.base-conventions.gradle.kts b/build-logic/src/main/kotlin/essentials.base-conventions.gradle.kts
-index bf8f526d5..491de4a23 100644
---- a/build-logic/src/main/kotlin/essentials.base-conventions.gradle.kts
-+++ b/build-logic/src/main/kotlin/essentials.base-conventions.gradle.kts
-@@ -10,7 +10,7 @@ plugins {
- val baseExtension = extensions.create<EssentialsBaseExtension>("essentials", project)
- 
- val checkstyleVersion = "8.36.2"
--val spigotVersion = "1.21.4-R0.1-SNAPSHOT"
-+val spigotVersion = "1.21.3-R0.1-SNAPSHOT"
- val junit5Version = "5.10.2"
- val mockitoVersion = "3.12.4"
- 
-@@ -35,7 +35,7 @@ tasks.test {
- afterEvaluate {
-     if (baseExtension.injectBukkitApi.get()) {
-         dependencies {
--            api("org.spigotmc", "spigot-api", spigotVersion)
-+            api("io.papermc.paper", "paper-api", spigotVersion); // Rebrand
-         }
-     }
-     if (baseExtension.injectBstats.get()) {
-@@ -124,7 +124,7 @@ indra {
-     }
- 
-     javaVersions {
--        target(8)
-+        target(21) // Rebrand
-         minimumToolchain(21)
-         // Don't enforce running tests on Java 8; we only care about the release for compiling, not running tests
-         strictVersions(false)
-diff --git a/build-logic/src/main/kotlin/essentials.module-conventions.gradle.kts b/build-logic/src/main/kotlin/essentials.module-conventions.gradle.kts
-index 9212b2fad..83618c84b 100644
---- a/build-logic/src/main/kotlin/essentials.module-conventions.gradle.kts
-+++ b/build-logic/src/main/kotlin/essentials.module-conventions.gradle.kts
-@@ -1,3 +1,4 @@
-+import gradle.kotlin.dsl.accessors._d61068e8dd7a4c8c489a14bbbc096322.indra // Rebrand
- plugins {
-     id("essentials.base-conventions")
-     id("xyz.jpenilla.run-paper")
-@@ -27,3 +28,11 @@ tasks {
-         dependsOn(copyJar)
-     }
- }
-+
-+// Rebrand
-+indra {
-+    javaVersions {
-+        target(21)
-+    }
-+}
-+// Rebrand
-diff --git a/build-logic/src/main/kotlin/essentials.shadow-module.gradle.kts b/build-logic/src/main/kotlin/essentials.shadow-module.gradle.kts
-index 635084b87..d9f69320c 100644
---- a/build-logic/src/main/kotlin/essentials.shadow-module.gradle.kts
-+++ b/build-logic/src/main/kotlin/essentials.shadow-module.gradle.kts
-@@ -1,3 +1,4 @@
-+import gradle.kotlin.dsl.accessors._d61068e8dd7a4c8c489a14bbbc096322.indra // Rebrand 
- plugins {
-     id("essentials.module-conventions")
-     id("com.gradleup.shadow")
-@@ -15,3 +16,11 @@ tasks {
- extensions.configure<EssentialsModuleExtension> {
-     archiveFile.set(tasks.shadowJar.flatMap { it.archiveFile })
- }
-+
-+// Rebrand
-+indra {
-+    javaVersions {
-+        target(21)
-+    }
-+}
-+// Rebrand
-diff --git a/build.gradle b/build.gradle
-index 40bd67dec..4804e140d 100644
---- a/build.gradle
-+++ b/build.gradle
-@@ -3,7 +3,7 @@ plugins {
- }
- 
- group = "net.essentialsx"
--version = "2.21.1-SNAPSHOT"
-+version = "2.21.1-SNAPSHOT" + "-Folia" // Rebrand
- 
- project.ext {
-     GIT_COMMIT = !indraGit.isPresent() ? "unknown" : indraGit.commit().abbreviate(7).name()
-diff --git a/providers/BaseProviders/build.gradle b/providers/BaseProviders/build.gradle
-index 99176e222..b255f304b 100644
---- a/providers/BaseProviders/build.gradle
-+++ b/providers/BaseProviders/build.gradle
-@@ -5,3 +5,13 @@ plugins {
- essentials {
-     injectBstats.set(false)
- }
-+
-+// Rebrand
-+dependencies {
-+    compileOnly 'io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT'
-+}
-+
-+java {
-+    JavaVersion.toVersion(21)
-+}
-+// Rebrand
-\ No newline at end of file
-diff --git a/providers/BaseProviders/src/main/java/net/ess3/provider/providers/BukkitSenderProvider.java b/providers/BaseProviders/src/main/java/net/ess3/provider/providers/BukkitSenderProvider.java
-index cf5a739ca..8711e4b05 100644
---- a/providers/BaseProviders/src/main/java/net/ess3/provider/providers/BukkitSenderProvider.java
-+++ b/providers/BaseProviders/src/main/java/net/ess3/provider/providers/BukkitSenderProvider.java
-@@ -67,6 +67,13 @@ public class BukkitSenderProvider implements CommandSender {
-         }
-     }
- 
-+    // Rebrand
-+    @Override
-+    public @org.jetbrains.annotations.NotNull net.kyori.adventure.text.Component name() {
-+        return base.name();
-+    }
-+    // Rebrand
-+
-     @Override
-     public boolean isPermissionSet(String name) {
-         return base.isPermissionSet(name);
-diff --git a/providers/PaperProvider/build.gradle b/providers/PaperProvider/build.gradle
-index 8a764dff0..019ec1ad6 100644
---- a/providers/PaperProvider/build.gradle
-+++ b/providers/PaperProvider/build.gradle
-@@ -9,10 +9,10 @@ java {
- 
- dependencies {
-     implementation(project(':providers:BaseProviders')) {
--        exclude(module: 'spigot-api')
-+        exclude(module: 'paper-api')
-     }
--    compileOnly 'io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT'
--    compileOnly 'io.papermc.paper:paper-mojangapi:1.20.4-R0.1-SNAPSHOT'
-+    compileOnly 'io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT' // Rebrand
-+    //compileOnly 'io.papermc.paper:paper-mojangapi:1.20.4-R0.1-SNAPSHOT' // Rebrand
- }
- 
- essentials {
 -- 
-2.49.0.windows.1
+2.50.0.windows.1
 

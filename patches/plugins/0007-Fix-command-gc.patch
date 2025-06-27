@@ -1,52 +1,50 @@
-From 80f81387a84668a1e4e28ff555df4fd68c239b7e Mon Sep 17 00:00:00 2001
+From cca04a9a41dcd372f98ba39a2f0c22c2ef7f1cbd Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 24 Mar 2025 16:45:32 +0100
+Date: Fri, 27 Jun 2025 22:31:54 +0200
 Subject: [PATCH 07/12] Fix command gc
 
 ---
- .../essentials/commands/Commandgc.java        | 35 +++++++++++--------
- 1 file changed, 21 insertions(+), 14 deletions(-)
+ .../essentials/commands/Commandgc.java        | 24 +++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgc.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgc.java
-index 16082f3c9..495b27b3f 100644
+index 16082f3c9..10c36225d 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgc.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgc.java
-@@ -37,27 +37,34 @@ public class Commandgc extends EssentialsCommand {
+@@ -37,6 +37,11 @@ public class Commandgc extends EssentialsCommand {
  
          final List<World> worlds = server.getWorlds();
          for (final World w : worlds) {
--            String worldType = "World";
--            switch (w.getEnvironment()) {
--                case NETHER:
--                    worldType = "Nether";
--                    break;
--                case THE_END:
--                    worldType = "The End";
--                    break;
--            }
--
--            int tileEntities = 0;
--
-+            // Euphyllia start
-+            final String worldType = switch (w.getEnvironment()) {
-+                case NETHER -> "Nether";
-+                case THE_END -> "The End";
-+                default -> "World";
-+            };
 +            final java.util.concurrent.atomic.AtomicInteger tileEntities = new java.util.concurrent.atomic.AtomicInteger();
 +            final java.util.concurrent.atomic.AtomicInteger entities = new java.util.concurrent.atomic.AtomicInteger(0);
 +            final List<java.util.concurrent.CompletableFuture<Void>> futures = new java.util.ArrayList<>();
 +            final int chunkLoadedLength = w.getLoadedChunks().length;
 +            final String worldName = w.getName();
+             String worldType = "World";
+             switch (w.getEnvironment()) {
+                 case NETHER:
+@@ -46,18 +51,29 @@ public class Commandgc extends EssentialsCommand {
+                     worldType = "The End";
+                     break;
+             }
+-
+-            int tileEntities = 0;
++            final String worldTypeFinal = worldType;
+ 
              try {
                  for (final Chunk chunk : w.getLoadedChunks()) {
 -                    tileEntities += chunk.getTileEntities().length;
 +                    final java.util.concurrent.CompletableFuture<Void> future = new java.util.concurrent.CompletableFuture<>();
 +                    futures.add(future);
-+                    org.bukkit.Bukkit.getRegionScheduler().execute(ess, chunk.getWorld(), chunk.getX(), chunk.getZ(), () -> {
-+                        tileEntities.addAndGet(chunk.getTileEntities().length);
-+                        entities.addAndGet(chunk.getEntities().length);
-+                        future.complete(null);
++                    ess.getRegionScheduler().execute(ess, chunk.getWorld(), chunk.getX(), chunk.getZ(), () -> {
++                        try {
++                            tileEntities.addAndGet(chunk.getTileEntities().length);
++                            entities.addAndGet(chunk.getEntities().length);
++                        } catch (final java.lang.ClassCastException ex) {
++                            ess.getLogger().log(Level.SEVERE, "Corrupted chunk data on world " + w, ex);
++                        } finally {
++                            future.complete(null);
++                        }
 +                    });
                  }
              } catch (final java.lang.ClassCastException ex) {
@@ -55,11 +53,10 @@ index 16082f3c9..495b27b3f 100644
  
 -            sender.sendTl("gcWorld", worldType, w.getName(), w.getLoadedChunks().length, w.getEntities().size(), tileEntities);
 +            java.util.concurrent.CompletableFuture.allOf(futures.toArray(new java.util.concurrent.CompletableFuture[0])).thenRunAsync(() ->
-+                sender.sendTl("gcWorld", worldType, worldName, chunkLoadedLength, entities.get(), tileEntities.get()));
-+            // Euphyllia End
++                    sender.sendTl("gcWorld", worldTypeFinal, worldName, chunkLoadedLength, entities.get(), tileEntities.get()));
          }
      }
  }
 -- 
-2.49.0.windows.1
+2.50.0.windows.1
 

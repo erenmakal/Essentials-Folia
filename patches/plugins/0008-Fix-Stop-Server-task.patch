@@ -1,15 +1,15 @@
-From 64806f59882d4e840a8f4669cb5c45fd74b1de20 Mon Sep 17 00:00:00 2001
+From 2ed14d99e57d1e70cb3001a187e5bb4ecf6d3bbc Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 24 Mar 2025 16:45:33 +0100
+Date: Fri, 27 Jun 2025 22:33:47 +0200
 Subject: [PATCH 08/12] Fix Stop Server task
 
 ---
- .../java/net/essentialsx/discord/EssentialsDiscord.java    | 7 +++++++
- .../java/net/essentialsx/discord/JDADiscordService.java    | 2 +-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ .../java/net/essentialsx/discord/EssentialsDiscord.java     | 6 ++++++
+ .../java/net/essentialsx/discord/JDADiscordService.java     | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/EssentialsDiscord.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/EssentialsDiscord.java
-index aedec1bdb..b875a98fe 100644
+index aedec1bdb..c3e77124a 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/EssentialsDiscord.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/EssentialsDiscord.java
 @@ -26,6 +26,7 @@ public class EssentialsDiscord extends JavaPlugin implements IEssentialsModule {
@@ -28,34 +28,30 @@ index aedec1bdb..b875a98fe 100644
              jda.updateListener();
              jda.updatePresence();
              jda.updatePrimaryChannel();
-@@ -111,9 +113,14 @@ public class EssentialsDiscord extends JavaPlugin implements IEssentialsModule {
-         return isEssentialsChat;
+@@ -91,6 +93,10 @@ public class EssentialsDiscord extends JavaPlugin implements IEssentialsModule {
+         }
      }
  
 +    public boolean isDisabled() {
-+        return isDisabled;
++        return isDisabled || (jda != null && jda.isInvalidStartup());
 +    }
 +
-     @Override
-     public void onDisable() {
-         if (jda != null && !jda.isInvalidStartup()) {
-+            isDisabled = true;
-             jda.shutdown();
-         }
+     public boolean isInvalidStartup() {
+         return jda != null && jda.isInvalidStartup();
      }
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-index 404679f4d..9b952c83b 100644
+index a95941321..85f3b95ed 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-@@ -268,7 +268,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
-         }
-         final DiscordMessageEvent event = new DiscordMessageEvent(type, FormatUtil.stripFormat(message), allowGroupMentions);
-         //if (Bukkit.getServer().isPrimaryThread()) { // Euphyllia
--        getPlugin().getEss().getGlobalRegionScheduler().execute(getPlugin(), () -> Bukkit.getPluginManager().callEvent(event));
+@@ -270,7 +270,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
+         //if (Bukkit.getServer().isPrimaryThread()) {
+         //    Bukkit.getPluginManager().callEvent(event);
+         //} else {
+-              getPlugin().getEss().getGlobalRegionScheduler().execute(getPlugin(), () -> Bukkit.getPluginManager().callEvent(event));
 +        if (!getPlugin().isDisabled()) getPlugin().getEss().getGlobalRegionScheduler().execute(getPlugin(), () -> Bukkit.getPluginManager().callEvent(event));
-         /*} else {
-         Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getPluginManager().callEvent(event));
-         }*/ // Euphyllia
+         //}
+     }
+ 
 -- 
-2.49.0.windows.1
+2.50.0.windows.1
 

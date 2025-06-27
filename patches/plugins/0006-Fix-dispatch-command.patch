@@ -1,18 +1,18 @@
-From 1dc9d82ac100935bfca691f10610ad08b8f93c7a Mon Sep 17 00:00:00 2001
+From fdf680104d617f94593f6bf4ea95e5bf87f7802c Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 24 Mar 2025 16:45:32 +0100
-Subject: [PATCH 06/12] Fix dispatch command
+Date: Fri, 27 Jun 2025 22:26:44 +0200
+Subject: [PATCH 06/12] fix dispatch command
 
 ---
- .../src/main/java/com/earth2me/essentials/Backup.java  |  2 +-
- .../src/main/java/com/earth2me/essentials/Kit.java     | 10 +++++++---
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ .../src/main/java/com/earth2me/essentials/Backup.java     | 4 ++--
+ Essentials/src/main/java/com/earth2me/essentials/Kit.java | 8 +++++---
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Backup.java b/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-index ecda39ad9..4ae2cf229 100644
+index f776b6f7d..24057e13c 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Backup.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-@@ -75,7 +75,7 @@ public class Backup implements Runnable {
+@@ -75,14 +75,14 @@ public class Backup implements Runnable {
          taskLock = new CompletableFuture<>();
          if ("save-all".equalsIgnoreCase(command)) {
              final CommandSender cs = server.getConsoleSender();
@@ -21,27 +21,33 @@ index ecda39ad9..4ae2cf229 100644
              active = false;
              taskLock.complete(new Object());
              return;
+         }
+         ess.getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("backupStarted")));
+         final CommandSender cs = server.getConsoleSender();
+-        server.dispatchCommand(cs, "save-all");
++        ess.getGlobalRegionScheduler().execute(ess, () -> server.dispatchCommand(cs, "save-all")); // Euphyllia - Fix dispatch command
+         server.dispatchCommand(cs, "save-off");
+ 
+        ess.getAsyncScheduler().runNow(ess, scheduledTask -> { // Euphyllia
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Kit.java b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
-index e32ade33e..bb2f4ed02 100644
+index e32ade33e..a33e714e9 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Kit.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
-@@ -262,9 +262,13 @@ public class Kit {
+@@ -262,9 +262,11 @@ public class Kit {
                  t.pay(user, OverflowType.DROP);
              }
  
 -            for (final String cmd : commandQueue) {
 -                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 -            }
-+            // Euphyllia start - Fix dispatch command
-+            ess.getGlobalRegionScheduler().execute(ess, () -> {
++            ess.getGlobalRegionScheduler().execute(ess, () -> { // Euphyllia start - Fix dispatch command
 +                for (final String cmd : commandQueue) {
 +                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 +                }
-+            });
-+            // Euphyllia end - Fix dispatch command
++            }); // Euphyllia end - Fix dispatch command
  
              if (spew) {
                  user.sendTl("kitInvFull");
 -- 
-2.49.0.windows.1
+2.50.0.windows.1
 

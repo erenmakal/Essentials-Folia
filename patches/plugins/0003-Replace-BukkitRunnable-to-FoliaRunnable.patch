@@ -1,6 +1,6 @@
-From 9bd306f734457e7f22d47461d9b6bb647a8cd5b5 Mon Sep 17 00:00:00 2001
+From db9ee04d14c928c9b65312d7b69b35f6d2f5e9f1 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 24 Mar 2025 16:45:30 +0100
+Date: Fri, 27 Jun 2025 21:47:44 +0200
 Subject: [PATCH 03/12] Replace BukkitRunnable to FoliaRunnable
 
 ---
@@ -11,7 +11,7 @@ Subject: [PATCH 03/12] Replace BukkitRunnable to FoliaRunnable
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/api/FoliaRunnable.java b/Essentials/src/main/java/com/earth2me/essentials/api/FoliaRunnable.java
 new file mode 100644
-index 000000000..00ae5275f
+index 000000000..aef3baf48
 --- /dev/null
 +++ b/Essentials/src/main/java/com/earth2me/essentials/api/FoliaRunnable.java
 @@ -0,0 +1,271 @@
@@ -286,8 +286,9 @@ index 000000000..00ae5275f
 +        return this.task = task;
 +    }
 +}
+\ No newline at end of file
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
-index fa97ff2ff..03989c0de 100644
+index fa97ff2ff..09c710b3f 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
 @@ -509,7 +509,7 @@ public class Commandessentials extends EssentialsCommand {
@@ -295,7 +296,7 @@ index fa97ff2ff..03989c0de 100644
  
          currentTune = new TuneRunnable(NYAN_TUNE, NOTE_HARP, ess::getOnlinePlayers);
 -        currentTune.runTaskTimer(ess, 20, 2);
-+        currentTune.runAtFixedRate(ess, 20, 2);
++        currentTune.runAtFixedRate(ess, 20, 2);  // Euphyllia
      }
  
      // Cow farts.
@@ -317,5 +318,5 @@ index fa97ff2ff..03989c0de 100644
              this.sound = sound;
              this.players = players;
 -- 
-2.49.0.windows.1
+2.50.0.windows.1
 
