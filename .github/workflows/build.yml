@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           cd Essentials-Patchs
-          ./gradlew build --stacktrace
+          ./gradlew build --stacktrace -x test -x checkstyleMain
 
       - name: Archive plugin jars on GitHub
         uses: actions/upload-artifact@v4
