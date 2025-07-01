@@ -1215,7 +1215,7 @@ index 6f2b8902a..5128d0d22 100644
  
          if (!spawnRandomly && !"none".equalsIgnoreCase(ess.getSettings().getNewbieSpawn())) {
 -            ess.scheduleSyncDelayedTask(new NewPlayerTeleport(user), 1L);
-+            ess.getEntityScheduler(user.getBase()).runDelayed(ess, scheduledTask -> new NewPlayerTeleport(user), null, 1L);
++            ess.getEntityScheduler(user.getBase()).runDelayed(ess, scheduledTask -> new NewPlayerTeleport(user).run(), null, 1L);
          }
  
 -        ess.scheduleSyncDelayedTask(() -> {
