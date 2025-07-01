@@ -1,20 +1,20 @@
-From f691c9fae5dd6511e6656fbcdc8ce3f21135702f Mon Sep 17 00:00:00 2001
+From 2bfd7e48ca0b8b9f6d47a0e8efbc5d4b596e2569 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Fri, 27 Jun 2025 22:49:04 +0200
+Date: Tue, 1 Jul 2025 11:17:09 +0200
 Subject: [PATCH 01/12] Rebrand
 
 ---
- Essentials/src/main/resources/plugin.yml            | 1 +
- EssentialsAntiBuild/src/main/resources/plugin.yml   | 1 +
- EssentialsChat/src/main/resources/plugin.yml        | 1 +
- EssentialsDiscord/src/main/resources/plugin.yml     | 1 +
- EssentialsDiscordLink/src/main/resources/plugin.yml | 1 +
- EssentialsGeoIP/src/main/resources/plugin.yml       | 1 +
- EssentialsProtect/src/main/resources/plugin.yml     | 1 +
- EssentialsSpawn/src/main/resources/plugin.yml       | 1 +
- EssentialsXMPP/src/main/resources/plugin.yml        | 1 +
- build.gradle                                        | 2 +-
- 10 files changed, 10 insertions(+), 1 deletion(-)
+ Essentials/src/main/resources/plugin.yml      |  1 +
+ .../src/main/resources/plugin.yml             |  1 +
+ EssentialsChat/src/main/resources/plugin.yml  |  1 +
+ .../src/main/resources/plugin.yml             |  1 +
+ .../src/main/resources/plugin.yml             |  1 +
+ EssentialsGeoIP/src/main/resources/plugin.yml | 21 ++++++++++---------
+ .../src/main/resources/plugin.yml             | 21 ++++++++++---------
+ EssentialsSpawn/src/main/resources/plugin.yml |  1 +
+ EssentialsXMPP/src/main/resources/plugin.yml  |  1 +
+ build.gradle                                  |  2 +-
+ 10 files changed, 30 insertions(+), 21 deletions(-)
 
 diff --git a/Essentials/src/main/resources/plugin.yml b/Essentials/src/main/resources/plugin.yml
 index 8efb209ad..905a91a9c 100644
@@ -77,23 +77,57 @@ index 49df5f7f3..aa0568eab 100644
    link:
      description: Generates a code to link your Minecraft account to Discord.
 diff --git a/EssentialsGeoIP/src/main/resources/plugin.yml b/EssentialsGeoIP/src/main/resources/plugin.yml
-index 2ddee7b12..d099a6893 100644
+index 2ddee7b12..9d763a86b 100644
 --- a/EssentialsGeoIP/src/main/resources/plugin.yml
 +++ b/EssentialsGeoIP/src/main/resources/plugin.yml
-@@ -8,3 +8,4 @@ description: Shows the country or city of a user on login and /whois.
- authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, kjiang, pop4959]
- depend: [Essentials]
- api-version: 1.13
+@@ -1,10 +1,11 @@
+-# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
+-name: EssentialsGeoIP
+-main: com.earth2me.essentials.geoip.EssentialsGeoIP
+-# Note to developers: This next line cannot change, or the automatic versioning system will break.
+-version: ${full.version}
+-website: https://essentialsx.net/
+-description: Shows the country or city of a user on login and /whois.
+-authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, kjiang, pop4959]
+-depend: [Essentials]
+-api-version: 1.13
++# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
++name: EssentialsGeoIP
++main: com.earth2me.essentials.geoip.EssentialsGeoIP
++# Note to developers: This next line cannot change, or the automatic versioning system will break.
++version: ${full.version}
++website: https://essentialsx.net/
++description: Shows the country or city of a user on login and /whois.
++authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, kjiang, pop4959]
++depend: [Essentials]
++api-version: 1.13
 +folia-supported: true
 \ No newline at end of file
 diff --git a/EssentialsProtect/src/main/resources/plugin.yml b/EssentialsProtect/src/main/resources/plugin.yml
-index 65764be4a..8fb12986c 100644
+index 65764be4a..ad6990ef1 100644
 --- a/EssentialsProtect/src/main/resources/plugin.yml
 +++ b/EssentialsProtect/src/main/resources/plugin.yml
-@@ -8,3 +8,4 @@ description: Provides protection for various parts of the world.
- authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
- softdepend: [Essentials]
- api-version: 1.13
+@@ -1,10 +1,11 @@
+-# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
+-name: EssentialsProtect
+-main: com.earth2me.essentials.protect.EssentialsProtect
+-# Note to developers: This next line cannot change, or the automatic versioning system will break.
+-version: ${full.version}
+-website: https://essentialsx.net/
+-description: Provides protection for various parts of the world.
+-authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
+-softdepend: [Essentials]
+-api-version: 1.13
++# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
++name: EssentialsProtect
++main: com.earth2me.essentials.protect.EssentialsProtect
++# Note to developers: This next line cannot change, or the automatic versioning system will break.
++version: ${full.version}
++website: https://essentialsx.net/
++description: Provides protection for various parts of the world.
++authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
++softdepend: [Essentials]
++api-version: 1.13
 +folia-supported: true
 \ No newline at end of file
 diff --git a/EssentialsSpawn/src/main/resources/plugin.yml b/EssentialsSpawn/src/main/resources/plugin.yml
@@ -121,7 +155,7 @@ index 9b2d54c8c..b7f773722 100644
    setxmpp:
      description: Sets your XMPP address.
 diff --git a/build.gradle b/build.gradle
-index e110e913a..9cbd0d582 100644
+index e110e913a..fc9481244 100644
 --- a/build.gradle
 +++ b/build.gradle
 @@ -3,7 +3,7 @@ plugins {

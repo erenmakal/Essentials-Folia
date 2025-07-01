@@ -1,6 +1,6 @@
-From 4996b1dce3542509f318b39d67ffd37f9264da5f Mon Sep 17 00:00:00 2001
+From 310ba0fe36d493ec03fcb2da324da3bb3421c33b Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Fri, 27 Jun 2025 22:49:05 +0200
+Date: Tue, 1 Jul 2025 11:17:11 +0200
 Subject: [PATCH 04/12] Replace scheduler
 
 ---
@@ -40,11 +40,12 @@ Subject: [PATCH 04/12] Replace scheduler
  .../discord/util/DiscordCommandSender.java    |  6 ++--
  .../essentialsx/discord/util/DiscordUtil.java | 10 +++---
  .../discordlink/AccountLinkManager.java       |  6 ++--
+ .../listeners/LinkBukkitListener.java         |  2 +-
  .../discordlink/rolesync/RoleSyncManager.java |  6 ++--
- .../spawn/EssentialsSpawnPlayerListener.java  | 10 +++---
+ .../spawn/EssentialsSpawnPlayerListener.java  | 12 +++----
  .../xmpp/EssentialsXMPPPlayerListener.java    |  6 ++--
  .../earth2me/essentials/xmpp/XMPPManager.java |  2 +-
- 40 files changed, 181 insertions(+), 129 deletions(-)
+ 41 files changed, 183 insertions(+), 131 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTimedTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTimedTeleport.java
 index 784b3eb89..dd5eeffcd 100644
@@ -1134,6 +1135,19 @@ index 930bdb2ff..25f67a2d2 100644
      }
  
      private String generateCode() {
+diff --git a/EssentialsDiscordLink/src/main/java/net/essentialsx/discordlink/listeners/LinkBukkitListener.java b/EssentialsDiscordLink/src/main/java/net/essentialsx/discordlink/listeners/LinkBukkitListener.java
+index 8991633a7..989cabe92 100644
+--- a/EssentialsDiscordLink/src/main/java/net/essentialsx/discordlink/listeners/LinkBukkitListener.java
++++ b/EssentialsDiscordLink/src/main/java/net/essentialsx/discordlink/listeners/LinkBukkitListener.java
+@@ -164,7 +164,7 @@ public class LinkBukkitListener implements Listener {
+                 if (Bukkit.isPrimaryThread()) {
+                     kickTask.run();
+                 } else {
+-                    ess.getEss().scheduleSyncDelayedTask(kickTask);
++                    ess.getEss().getEntityScheduler(event.getUser().getBase()).run(ess, scheduledTask -> kickTask.run(), null);
+                 }
+                 break;
+             }
 diff --git a/EssentialsDiscordLink/src/main/java/net/essentialsx/discordlink/rolesync/RoleSyncManager.java b/EssentialsDiscordLink/src/main/java/net/essentialsx/discordlink/rolesync/RoleSyncManager.java
 index 4545b691c..4b0521b69 100644
 --- a/EssentialsDiscordLink/src/main/java/net/essentialsx/discordlink/rolesync/RoleSyncManager.java
@@ -1166,7 +1180,7 @@ index 4545b691c..4b0521b69 100644
                  sync(event.getPlayer().getUniqueId(), ess.getLinkManager().getDiscordId(event.getPlayer().getUniqueId()));
              }
 diff --git a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
-index 6f2b8902a..b6285d519 100644
+index 6f2b8902a..5128d0d22 100644
 --- a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
 +++ b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
 @@ -77,7 +77,7 @@ class EssentialsSpawnPlayerListener implements Listener {
@@ -1196,8 +1210,12 @@ index 6f2b8902a..b6285d519 100644
                  }
              }
  
-@@ -114,7 +114,7 @@ class EssentialsSpawnPlayerListener implements Listener {
-             ess.scheduleSyncDelayedTask(new NewPlayerTeleport(user), 1L);
+@@ -111,10 +111,10 @@ class EssentialsSpawnPlayerListener implements Listener {
+         final boolean spawnRandomly = tryRandomTeleport(user, ess.getSettings().getRandomSpawnLocation());
+ 
+         if (!spawnRandomly && !"none".equalsIgnoreCase(ess.getSettings().getNewbieSpawn())) {
+-            ess.scheduleSyncDelayedTask(new NewPlayerTeleport(user), 1L);
++            ess.getEntityScheduler(user.getBase()).runDelayed(ess, scheduledTask -> new NewPlayerTeleport(user), null, 1L);
          }
  
 -        ess.scheduleSyncDelayedTask(() -> {
