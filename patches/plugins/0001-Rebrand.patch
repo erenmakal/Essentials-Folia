@@ -1,26 +1,26 @@
-From 2bfd7e48ca0b8b9f6d47a0e8efbc5d4b596e2569 Mon Sep 17 00:00:00 2001
+From 3bd8d695a6d19b38e3655f4b43caee9b7da6a6f4 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 1 Jul 2025 11:17:09 +0200
+Date: Wed, 9 Jul 2025 14:48:53 +0200
 Subject: [PATCH 01/12] Rebrand
 
 ---
- Essentials/src/main/resources/plugin.yml      |  1 +
- .../src/main/resources/plugin.yml             |  1 +
- EssentialsChat/src/main/resources/plugin.yml  |  1 +
- .../src/main/resources/plugin.yml             |  1 +
- .../src/main/resources/plugin.yml             |  1 +
- EssentialsGeoIP/src/main/resources/plugin.yml | 21 ++++++++++---------
- .../src/main/resources/plugin.yml             | 21 ++++++++++---------
- EssentialsSpawn/src/main/resources/plugin.yml |  1 +
- EssentialsXMPP/src/main/resources/plugin.yml  |  1 +
- build.gradle                                  |  2 +-
- 10 files changed, 30 insertions(+), 21 deletions(-)
+ Essentials/src/main/resources/plugin.yml            | 1 +
+ EssentialsAntiBuild/src/main/resources/plugin.yml   | 2 ++
+ EssentialsChat/src/main/resources/plugin.yml        | 1 +
+ EssentialsDiscord/src/main/resources/plugin.yml     | 1 +
+ EssentialsDiscordLink/src/main/resources/plugin.yml | 1 +
+ EssentialsGeoIP/src/main/resources/plugin.yml       | 1 +
+ EssentialsProtect/src/main/resources/plugin.yml     | 1 +
+ EssentialsSpawn/src/main/resources/plugin.yml       | 1 +
+ EssentialsXMPP/src/main/resources/plugin.yml        | 1 +
+ build.gradle                                        | 2 +-
+ 10 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/Essentials/src/main/resources/plugin.yml b/Essentials/src/main/resources/plugin.yml
-index 8efb209ad..905a91a9c 100644
+index a8174ccc3..5f1a14004 100644
 --- a/Essentials/src/main/resources/plugin.yml
 +++ b/Essentials/src/main/resources/plugin.yml
-@@ -8,6 +8,7 @@ description: Provides an essential, core set of commands for Bukkit.
+@@ -7,6 +7,7 @@ description: Provides an essential, core set of commands for Bukkit.
  softdepend: [Vault, LuckPerms]
  authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, md_5, Iaccidentally, drtshock, vemacs, SupaHam, mdcfe, JRoy, pop4959]
  api-version: "1.13"
@@ -29,22 +29,21 @@ index 8efb209ad..905a91a9c 100644
    afk:
      description: Marks you as away-from-keyboard.
 diff --git a/EssentialsAntiBuild/src/main/resources/plugin.yml b/EssentialsAntiBuild/src/main/resources/plugin.yml
-index f7dac0e89..3bf09dd7b 100644
+index bbfd21dd7..4824e418b 100644
 --- a/EssentialsAntiBuild/src/main/resources/plugin.yml
 +++ b/EssentialsAntiBuild/src/main/resources/plugin.yml
-@@ -8,6 +8,7 @@ description: Provides build protection.
- authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, Iaccidentally, drtshock, mdcfe]
- depend: [Essentials]
- api-version: "1.13"
+@@ -41,3 +41,5 @@ permissions:
+       essentials.protect.exemptbreak: true
+       essentials.protect.exemptplacement: true
+       essentials.protect.exemptusage: true
++
 +folia-supported: true
- 
- permissions:
-   essentials.exempt.protect:
+\ No newline at end of file
 diff --git a/EssentialsChat/src/main/resources/plugin.yml b/EssentialsChat/src/main/resources/plugin.yml
-index ab1d85c5a..1e42b22ee 100644
+index a6b510340..bb9d425f5 100644
 --- a/EssentialsChat/src/main/resources/plugin.yml
 +++ b/EssentialsChat/src/main/resources/plugin.yml
-@@ -7,6 +7,7 @@ website: https://essentialsx.net/
+@@ -6,6 +6,7 @@ website: https://essentialsx.net/
  description: Provides chat control features for Essentials.  Requires Permissions.
  authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, md_5, Okamosy, Iaccidentally, mdcfe, JRoy, triagonal]
  depend: [Essentials]
@@ -53,7 +52,7 @@ index ab1d85c5a..1e42b22ee 100644
  commands:
    toggleshout:
 diff --git a/EssentialsDiscord/src/main/resources/plugin.yml b/EssentialsDiscord/src/main/resources/plugin.yml
-index fad076db5..93e6c56b8 100644
+index ed6cb51d7..d903782d3 100644
 --- a/EssentialsDiscord/src/main/resources/plugin.yml
 +++ b/EssentialsDiscord/src/main/resources/plugin.yml
 @@ -8,6 +8,7 @@ authors: [mdcfe, JRoy, pop4959, Glare]
@@ -65,7 +64,7 @@ index fad076db5..93e6c56b8 100644
    discordbroadcast:
      description: Broadcasts a message to the specified Discord channel.
 diff --git a/EssentialsDiscordLink/src/main/resources/plugin.yml b/EssentialsDiscordLink/src/main/resources/plugin.yml
-index 49df5f7f3..aa0568eab 100644
+index ff92febcb..2aa180da0 100644
 --- a/EssentialsDiscordLink/src/main/resources/plugin.yml
 +++ b/EssentialsDiscordLink/src/main/resources/plugin.yml
 @@ -7,6 +7,7 @@ description: EssentialsX Discord addon which allows you link your Minecraft and
@@ -77,64 +76,30 @@ index 49df5f7f3..aa0568eab 100644
    link:
      description: Generates a code to link your Minecraft account to Discord.
 diff --git a/EssentialsGeoIP/src/main/resources/plugin.yml b/EssentialsGeoIP/src/main/resources/plugin.yml
-index 2ddee7b12..9d763a86b 100644
+index 5a675bfc6..3537c3731 100644
 --- a/EssentialsGeoIP/src/main/resources/plugin.yml
 +++ b/EssentialsGeoIP/src/main/resources/plugin.yml
-@@ -1,10 +1,11 @@
--# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
--name: EssentialsGeoIP
--main: com.earth2me.essentials.geoip.EssentialsGeoIP
--# Note to developers: This next line cannot change, or the automatic versioning system will break.
--version: ${full.version}
--website: https://essentialsx.net/
--description: Shows the country or city of a user on login and /whois.
--authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, kjiang, pop4959]
--depend: [Essentials]
--api-version: 1.13
-+# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
-+name: EssentialsGeoIP
-+main: com.earth2me.essentials.geoip.EssentialsGeoIP
-+# Note to developers: This next line cannot change, or the automatic versioning system will break.
-+version: ${full.version}
-+website: https://essentialsx.net/
-+description: Shows the country or city of a user on login and /whois.
-+authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, kjiang, pop4959]
-+depend: [Essentials]
-+api-version: 1.13
+@@ -12,3 +12,4 @@ permissions:
+     description: Shows the country or city of a user on login and /whois.
+   essentials.geoip.hide:
+     description: Hides the bearer of this permission from users with essentials.geoip.show
 +folia-supported: true
 \ No newline at end of file
 diff --git a/EssentialsProtect/src/main/resources/plugin.yml b/EssentialsProtect/src/main/resources/plugin.yml
-index 65764be4a..ad6990ef1 100644
+index 027249cc9..19446bc39 100644
 --- a/EssentialsProtect/src/main/resources/plugin.yml
 +++ b/EssentialsProtect/src/main/resources/plugin.yml
-@@ -1,10 +1,11 @@
--# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
--name: EssentialsProtect
--main: com.earth2me.essentials.protect.EssentialsProtect
--# Note to developers: This next line cannot change, or the automatic versioning system will break.
--version: ${full.version}
--website: https://essentialsx.net/
--description: Provides protection for various parts of the world.
--authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
--softdepend: [Essentials]
--api-version: 1.13
-+# This determines the command prefix when there are conflicts (/name:home, /name:help, etc.)
-+name: EssentialsProtect
-+main: com.earth2me.essentials.protect.EssentialsProtect
-+# Note to developers: This next line cannot change, or the automatic versioning system will break.
-+version: ${full.version}
-+website: https://essentialsx.net/
-+description: Provides protection for various parts of the world.
-+authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
-+softdepend: [Essentials]
-+api-version: 1.13
+@@ -42,3 +42,4 @@ permissions:
+     description: Allows the bearer to take lightning damage
+   essentials.protect.damage.wither:
+     description: Allows the bearer to take wither damage
 +folia-supported: true
 \ No newline at end of file
 diff --git a/EssentialsSpawn/src/main/resources/plugin.yml b/EssentialsSpawn/src/main/resources/plugin.yml
-index e0a7b770d..3746812f4 100644
+index 389ab58fd..397811fc3 100644
 --- a/EssentialsSpawn/src/main/resources/plugin.yml
 +++ b/EssentialsSpawn/src/main/resources/plugin.yml
-@@ -8,6 +8,7 @@ description: Provides spawn control commands, utilizing Essentials.
+@@ -7,6 +7,7 @@ description: Provides spawn control commands, utilizing Essentials.
  authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, SupaHam, mdcfe, DoNotSpamPls, JRoy]
  depend: [Essentials]
  api-version: 1.13
@@ -143,10 +108,10 @@ index e0a7b770d..3746812f4 100644
    setspawn:
      description: Sets the spawn point to your current position.
 diff --git a/EssentialsXMPP/src/main/resources/plugin.yml b/EssentialsXMPP/src/main/resources/plugin.yml
-index 9b2d54c8c..b7f773722 100644
+index e267ef5e0..20253d017 100644
 --- a/EssentialsXMPP/src/main/resources/plugin.yml
 +++ b/EssentialsXMPP/src/main/resources/plugin.yml
-@@ -8,6 +8,7 @@ description: Provides XMPP communication.
+@@ -7,6 +7,7 @@ description: Provides XMPP communication.
  authors: [snowleo, SupaHam, mdcfe]
  depend: [Essentials]
  api-version: 1.13

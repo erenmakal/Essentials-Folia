@@ -1,18 +1,18 @@
-From 04a334ead2d4d67a94818ed7d5282ea497c8996a Mon Sep 17 00:00:00 2001
+From cdb94d10ccd5218b32387b63440adb239b88c309 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 1 Jul 2025 11:17:11 +0200
+Date: Wed, 9 Jul 2025 14:48:55 +0200
 Subject: [PATCH 06/12] Fix dispatch command
 
 ---
- .../src/main/java/com/earth2me/essentials/Backup.java     | 4 ++--
+ .../src/main/java/com/earth2me/essentials/Backup.java     | 6 +++---
  Essentials/src/main/java/com/earth2me/essentials/Kit.java | 8 +++++---
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Backup.java b/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-index f776b6f7d..24057e13c 100644
+index 7261b7903..c9285c6e3 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Backup.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-@@ -75,14 +75,14 @@ public class Backup implements Runnable {
+@@ -77,15 +77,15 @@ public class Backup implements Runnable {
          taskLock = new CompletableFuture<>();
          if ("save-all".equalsIgnoreCase(command)) {
              final CommandSender cs = server.getConsoleSender();
@@ -25,10 +25,12 @@ index f776b6f7d..24057e13c 100644
          ess.getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("backupStarted")));
          final CommandSender cs = server.getConsoleSender();
 -        server.dispatchCommand(cs, "save-all");
+-        server.dispatchCommand(cs, "save-off");
 +        ess.getGlobalRegionScheduler().execute(ess, () -> server.dispatchCommand(cs, "save-all")); // Euphyllia - Fix dispatch command
-         server.dispatchCommand(cs, "save-off");
++        ess.getGlobalRegionScheduler().execute(ess, () -> server.dispatchCommand(cs, "save-off")); // Euphyllia - Fix dispatch command
  
-        ess.getAsyncScheduler().runNow(ess, scheduledTask -> { // Euphyllia
+         ess.getAsyncScheduler().runNow(ess, scheduledTask -> { // Euphyllia
+             try {
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Kit.java b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
 index e32ade33e..a33e714e9 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Kit.java
