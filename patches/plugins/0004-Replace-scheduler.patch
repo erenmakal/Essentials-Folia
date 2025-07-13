@@ -1,6 +1,6 @@
-From 8d2bfa2a465e7ec43435d8139274b14bd7c8e196 Mon Sep 17 00:00:00 2001
+From 51735431a43d9b46c833693de528be45389617b7 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 9 Jul 2025 15:11:41 +0200
+Date: Sun, 13 Jul 2025 18:02:21 +0200
 Subject: [PATCH 04/12] Replace scheduler
 
 ---
@@ -184,10 +184,10 @@ index 4008b3fe5..aa265ef49 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index fe58510a1..fc0871ffe 100644
+index 756b1558e..f1655912a 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -410,7 +410,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -414,7 +414,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              alternativeCommandsHandler = new AlternativeCommandsHandler(this);
  
              timer = new EssentialsTimer(this);
@@ -196,7 +196,7 @@ index fe58510a1..fc0871ffe 100644
  
              Economy.setEss(this);
              execTimer.mark("RegHandler");
-@@ -421,7 +421,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -425,7 +425,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
              if (!TESTING) {
                  updateChecker = new UpdateChecker(this);
@@ -205,7 +205,7 @@ index fe58510a1..fc0871ffe 100644
                      getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("versionFetching")));
                      for (final Component component : updateChecker.getVersionMessages(false, true, new CommandSource(this, Bukkit.getConsoleSender()))) {
                          getLogger().log(getSettings().isUpdateCheckEnabled() ? Level.WARNING : Level.INFO, AdventureUtil.adventureToLegacy(component));
-@@ -870,9 +870,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -874,9 +874,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitScheduler getScheduler() {
@@ -238,7 +238,7 @@ index fe58510a1..fc0871ffe 100644
      @Override
      public IJails getJails() {
          return jails;
-@@ -1177,31 +1200,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -1181,31 +1204,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitTask runTaskAsynchronously(final Runnable run) {
@@ -447,10 +447,10 @@ index bdcaa1dca..91c71f219 100644
  
      IWarps getWarps();
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
-index 163e76dca..d0940d514 100644
+index 667e5e93b..18e5349a8 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
-@@ -149,9 +149,12 @@ public class RandomTeleport implements IConf {
+@@ -150,9 +150,12 @@ public class RandomTeleport implements IConf {
  
      // Prompts caching random valid locations, up to a maximum number of attempts.
      public void cacheRandomLocations(final String name) {
@@ -1278,5 +1278,5 @@ index a5199f921..13e90a733 100644
                      parent.getServer().dispatchCommand(Console.getInstance().getCommandSender(), message.substring(1));
                  } catch (final Exception ex) {
 -- 
-2.50.0.windows.1
+2.50.1.windows.1
 

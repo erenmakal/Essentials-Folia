@@ -1,6 +1,6 @@
-From a614b955c066bec6f70748c4fe4edf51fe64599d Mon Sep 17 00:00:00 2001
+From b66e33ecc8626823f3516addc3657ab579cd69ea Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 9 Jul 2025 15:11:44 +0200
+Date: Sun, 13 Jul 2025 18:02:24 +0200
 Subject: [PATCH 12/12] Downgrade spongepowered yaml
 
 ---
@@ -21,5 +21,5 @@ index 4e04f0932..c16685099 100644
      implementation 'nu.studer:java-ordered-properties:1.0.4'
  
 -- 
-2.50.0.windows.1
+2.50.1.windows.1
 

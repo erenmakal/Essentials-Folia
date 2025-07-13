@@ -1,6 +1,6 @@
-From 61a86c006316ed50f1153f8d23a236a23cbb4b82 Mon Sep 17 00:00:00 2001
+From ab2f500c0495957b23cf5818a98b368bf9e11528 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 9 Jul 2025 15:11:42 +0200
+Date: Sun, 13 Jul 2025 18:02:23 +0200
 Subject: [PATCH 08/12] Fix Stop Server task
 
 ---
@@ -53,5 +53,5 @@ index 1fbf3ee94..a1d44e1ad 100644
      }
  
 -- 
-2.50.0.windows.1
+2.50.1.windows.1
 
