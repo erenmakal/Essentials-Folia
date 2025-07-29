@@ -56,7 +56,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ env.tag }}
-          name: ${{ env.project_id_b }} ${{ env.mcversion }} - ${{ env.commit_id }}
+          name: ${{ env.project_id_b }} - ${{ env.commit_id }}
           body: |
             This release is automatically compiled by GitHub Actions
             ### Commit Message
@@ -66,3 +66,14 @@ jobs:
           prerelease: ${{ env.pre }}
           makeLatest: ${{ env.make_latest }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          replacesArtifacts: false
+
+env:
+  flag_release: 'true'
+  tag: v1.0.0
+  project_id_b: EssentialsX-Folia
+  commit_id: ${{ github.sha }}
+  commit_msg: ${{ github.event.head_commit.message }}
+  jar_dir: Essentials-Patchs/jars/
+  pre: false
+  make_latest: true
