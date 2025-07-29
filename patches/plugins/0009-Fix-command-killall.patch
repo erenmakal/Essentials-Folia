@@ -1,6 +1,6 @@
-From 03c390edfad4bf21bd35a50fec81493fd1ad7878 Mon Sep 17 00:00:00 2001
+From cb6bb95b5631692a9b1346ff4f36c154ba57dd61 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sun, 13 Jul 2025 18:02:23 +0200
+Date: Wed, 30 Jul 2025 00:41:59 +0200
 Subject: [PATCH 09/12] Fix command killall
 
 ---

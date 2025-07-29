@@ -1,6 +1,6 @@
-From 51735431a43d9b46c833693de528be45389617b7 Mon Sep 17 00:00:00 2001
+From 459b91b7e87de404c1058c5f2f8860cf5666cd6e Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sun, 13 Jul 2025 18:02:21 +0200
+Date: Wed, 30 Jul 2025 00:41:57 +0200
 Subject: [PATCH 04/12] Replace scheduler
 
 ---
@@ -899,7 +899,7 @@ index e47e25cda..aedec1bdb 100644
                  getLogger().log(Level.SEVERE, AdventureUtil.miniToLegacy(tlLiteral("discordErrorLogin", e.getMessage())));
                  if (ess.getSettings().isDebug()) {
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-index 96a8300a9..1fbf3ee94 100644
+index 210a81b21..a84efbe16 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
 @@ -238,7 +238,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
