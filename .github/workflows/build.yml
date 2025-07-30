@@ -56,7 +56,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ env.tag }}
-          name: ${{ env.project_id_b }} - ${{ env.commit_id }}
+          name: ${{ env.project_id_b }} - ${{ env.run_number }}
           body: |
             This release is automatically compiled by GitHub Actions
             ### Commit Message
@@ -69,7 +69,7 @@ jobs:
           replacesArtifacts: false
 
 env:
-  tag: build-${{ github.ref_name }}-${{ github.sha }}
+  tag: build-${{ github.ref_name }}-${{ github.run_number }}
   project_id_b: EssentialsX-Folia
   commit_id: ${{ github.sha }}
   commit_msg: ${{ github.event.head_commit.message }}
