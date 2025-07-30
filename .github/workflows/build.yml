@@ -61,7 +61,7 @@ jobs:
             This release is automatically compiled by GitHub Actions
             ### Commit Message
             ${{ env.commit_msg }}
-          artifacts: ${{ env.jar_dir }}
+          artifacts: Essentials-Patchs/jars/*.jar
           generateReleaseNotes: true
           prerelease: ${{ env.pre }}
           makeLatest: ${{ env.make_latest }}
@@ -69,11 +69,9 @@ jobs:
           replacesArtifacts: false
 
 env:
-  flag_release: 'true'
-  tag: v1.0.0
+  tag: build-${{ github.ref_name }}-${{ github.run_number }}
   project_id_b: EssentialsX-Folia
   commit_id: ${{ github.sha }}
   commit_msg: ${{ github.event.head_commit.message }}
-  jar_dir: Essentials-Patchs/jars/
   pre: false
   make_latest: true
