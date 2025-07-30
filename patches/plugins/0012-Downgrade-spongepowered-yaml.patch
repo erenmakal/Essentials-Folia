@@ -1,6 +1,6 @@
-From b2b54902ccd88acf797736b749b9144c627a2850 Mon Sep 17 00:00:00 2001
+From 4f2083eb4cfdca76704c539f732e41b02a399619 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 30 Jul 2025 00:42:00 +0200
+Date: Wed, 30 Jul 2025 12:10:49 +0200
 Subject: [PATCH 12/12] Downgrade spongepowered yaml
 
 ---
