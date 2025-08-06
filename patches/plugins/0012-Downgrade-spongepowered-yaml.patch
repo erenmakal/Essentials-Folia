@@ -1,6 +1,6 @@
-From 4f2083eb4cfdca76704c539f732e41b02a399619 Mon Sep 17 00:00:00 2001
+From f4f12f9e451b53b55a5d77c13fa41da1d61daadc Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 30 Jul 2025 12:10:49 +0200
+Date: Wed, 6 Aug 2025 15:10:04 +0200
 Subject: [PATCH 12/12] Downgrade spongepowered yaml
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH 12/12] Downgrade spongepowered yaml
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Essentials/build.gradle b/Essentials/build.gradle
-index bf60d7a58..3278272fa 100644
+index 4240ac4b6..9e8294ea2 100644
 --- a/Essentials/build.gradle
 +++ b/Essentials/build.gradle
 @@ -10,7 +10,7 @@ dependencies {

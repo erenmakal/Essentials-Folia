@@ -1,24 +1,24 @@
-From bbfbc2d2137f5366c2b233d3639e11f9cefed784 Mon Sep 17 00:00:00 2001
+From 76f4e09fa5e0633317c07258297d4699219f981f Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 30 Jul 2025 12:10:45 +0200
+Date: Wed, 6 Aug 2025 15:10:00 +0200
 Subject: [PATCH 01/12] Rebrand
 
 ---
- Essentials/src/main/resources/plugin.yml                        | 1 +
- EssentialsAntiBuild/src/main/resources/plugin.yml               | 2 ++
- EssentialsChat/src/main/resources/plugin.yml                    | 1 +
- EssentialsDiscord/src/main/resources/plugin.yml                 | 1 +
- EssentialsDiscordLink/src/main/resources/plugin.yml             | 1 +
- EssentialsGeoIP/src/main/resources/plugin.yml                   | 1 +
- EssentialsProtect/src/main/resources/plugin.yml                 | 1 +
- EssentialsSpawn/src/main/resources/plugin.yml                   | 1 +
- EssentialsXMPP/src/main/resources/plugin.yml                    | 1 +
- .../src/main/kotlin/essentials.base-conventions.gradle.kts      | 2 +-
- build.gradle                                                    | 2 +-
- 11 files changed, 12 insertions(+), 2 deletions(-)
+ Essentials/src/main/resources/plugin.yml      |  1 +
+ .../src/main/resources/plugin.yml             | 88 +++++++++---------
+ EssentialsChat/src/main/resources/plugin.yml  |  1 +
+ .../src/main/resources/plugin.yml             |  1 +
+ .../src/main/resources/plugin.yml             |  1 +
+ EssentialsGeoIP/src/main/resources/plugin.yml | 29 +++---
+ .../src/main/resources/plugin.yml             | 89 ++++++++++---------
+ EssentialsSpawn/src/main/resources/plugin.yml |  1 +
+ EssentialsXMPP/src/main/resources/plugin.yml  |  1 +
+ .../essentials.base-conventions.gradle.kts    |  2 +-
+ build.gradle                                  |  2 +-
+ 11 files changed, 113 insertions(+), 103 deletions(-)
 
 diff --git a/Essentials/src/main/resources/plugin.yml b/Essentials/src/main/resources/plugin.yml
-index a8174ccc3..5f1a14004 100644
+index 5ae740a88..5b6456037 100644
 --- a/Essentials/src/main/resources/plugin.yml
 +++ b/Essentials/src/main/resources/plugin.yml
 @@ -7,6 +7,7 @@ description: Provides an essential, core set of commands for Bukkit.
@@ -30,13 +30,96 @@ index a8174ccc3..5f1a14004 100644
    afk:
      description: Marks you as away-from-keyboard.
 diff --git a/EssentialsAntiBuild/src/main/resources/plugin.yml b/EssentialsAntiBuild/src/main/resources/plugin.yml
-index bbfd21dd7..4824e418b 100644
+index bbfd21dd7..a1009892f 100644
 --- a/EssentialsAntiBuild/src/main/resources/plugin.yml
 +++ b/EssentialsAntiBuild/src/main/resources/plugin.yml
-@@ -41,3 +41,5 @@ permissions:
-       essentials.protect.exemptbreak: true
-       essentials.protect.exemptplacement: true
-       essentials.protect.exemptusage: true
+@@ -1,43 +1,45 @@
+-name: EssentialsAntiBuild
+-main: com.earth2me.essentials.antibuild.EssentialsAntiBuild
+-# Note to developers: This next line cannot change, or the automatic versioning system will break.
+-version: ${full.version}
+-website: https://essentialsx.net/
+-description: Provides build protection.
+-authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, Iaccidentally, drtshock, mdcfe]
+-depend: [Essentials]
+-api-version: "1.13"
+-
+-permissions:
+-  essentials.build:
+-    description: Allows the bearer to build
+-  essentials.build.place.<material>:
+-    description: Allows the bearer to place the specified material
+-  essentials.build.break.<material>:
+-    description: Allows the bearer to break the specified material
+-  essentials.build.interact.<material>:
+-    description: Allows the bearer to interact with the specified material
+-  essentials.build.craft.<material>:
+-    description: Allows the bearer to craft the specified material
+-  essentials.build.drop.<material>:
+-    description: Allows the bearer to drop the specified material
+-  essentials.build.pickup.<material>:
+-    description: Allows the bearer to pick up the specified material
+-  essentials.protect.alerts:
+-    description: Allows the bearer to receive protect alerts
+-  essentials.protect.alerts.notrigger:
+-    description: Allows the bearer to be exempt from triggering protect alerts
+-  essentials.protect.exemptbreak:
+-    description: Allows the bearer to be exempt from the break blacklist
+-  essentials.protect.exemptplacement:
+-    description: Allows the bearer to be exempt from the place blacklist
+-  essentials.protect.exemptusage:
+-    description: Allows the bearer to be exempt from the usage blacklist
+-  essentials.exempt.protect:
+-    default: false
+-    description: Exempt from EssentialsProtect/EssentialsAntiBuild protections
+-    children:
+-      essentials.protect.alerts.notrigger: true
+-      essentials.protect.exemptbreak: true
+-      essentials.protect.exemptplacement: true
+-      essentials.protect.exemptusage: true
++name: EssentialsAntiBuild
++main: com.earth2me.essentials.antibuild.EssentialsAntiBuild
++# Note to developers: This next line cannot change, or the automatic versioning system will break.
++version: ${full.version}
++website: https://essentialsx.net/
++description: Provides build protection.
++authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, Iaccidentally, drtshock, mdcfe]
++depend: [Essentials]
++api-version: "1.13"
++
++permissions:
++  essentials.build:
++    description: Allows the bearer to build
++  essentials.build.place.<material>:
++    description: Allows the bearer to place the specified material
++  essentials.build.break.<material>:
++    description: Allows the bearer to break the specified material
++  essentials.build.interact.<material>:
++    description: Allows the bearer to interact with the specified material
++  essentials.build.craft.<material>:
++    description: Allows the bearer to craft the specified material
++  essentials.build.drop.<material>:
++    description: Allows the bearer to drop the specified material
++  essentials.build.pickup.<material>:
++    description: Allows the bearer to pick up the specified material
++  essentials.protect.alerts:
++    description: Allows the bearer to receive protect alerts
++  essentials.protect.alerts.notrigger:
++    description: Allows the bearer to be exempt from triggering protect alerts
++  essentials.protect.exemptbreak:
++    description: Allows the bearer to be exempt from the break blacklist
++  essentials.protect.exemptplacement:
++    description: Allows the bearer to be exempt from the place blacklist
++  essentials.protect.exemptusage:
++    description: Allows the bearer to be exempt from the usage blacklist
++  essentials.exempt.protect:
++    default: false
++    description: Exempt from EssentialsProtect/EssentialsAntiBuild protections
++    children:
++      essentials.protect.alerts.notrigger: true
++      essentials.protect.exemptbreak: true
++      essentials.protect.exemptplacement: true
++      essentials.protect.exemptusage: true
 +
 +folia-supported: true
 \ No newline at end of file
@@ -77,23 +160,133 @@ index ff92febcb..2aa180da0 100644
    link:
      description: Generates a code to link your Minecraft account to Discord.
 diff --git a/EssentialsGeoIP/src/main/resources/plugin.yml b/EssentialsGeoIP/src/main/resources/plugin.yml
-index 5a675bfc6..3537c3731 100644
+index 5a675bfc6..5235e49ad 100644
 --- a/EssentialsGeoIP/src/main/resources/plugin.yml
 +++ b/EssentialsGeoIP/src/main/resources/plugin.yml
-@@ -12,3 +12,4 @@ permissions:
-     description: Shows the country or city of a user on login and /whois.
-   essentials.geoip.hide:
-     description: Hides the bearer of this permission from users with essentials.geoip.show
+@@ -1,14 +1,15 @@
+-name: EssentialsGeoIP
+-main: com.earth2me.essentials.geoip.EssentialsGeoIP
+-# Note to developers: This next line cannot change, or the automatic versioning system will break.
+-version: ${full.version}
+-website: https://essentialsx.net/
+-description: Shows the country or city of a user on login and /whois.
+-authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, kjiang, pop4959]
+-depend: [Essentials]
+-api-version: 1.13
+-permissions:
+-  essentials.geoip.show:
+-    description: Shows the country or city of a user on login and /whois.
+-  essentials.geoip.hide:
+-    description: Hides the bearer of this permission from users with essentials.geoip.show
++name: EssentialsGeoIP
++main: com.earth2me.essentials.geoip.EssentialsGeoIP
++# Note to developers: This next line cannot change, or the automatic versioning system will break.
++version: ${full.version}
++website: https://essentialsx.net/
++description: Shows the country or city of a user on login and /whois.
++authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, kjiang, pop4959]
++depend: [Essentials]
++api-version: 1.13
++permissions:
++  essentials.geoip.show:
++    description: Shows the country or city of a user on login and /whois.
++  essentials.geoip.hide:
++    description: Hides the bearer of this permission from users with essentials.geoip.show
 +folia-supported: true
 \ No newline at end of file
 diff --git a/EssentialsProtect/src/main/resources/plugin.yml b/EssentialsProtect/src/main/resources/plugin.yml
-index 027249cc9..19446bc39 100644
+index 027249cc9..effec167d 100644
 --- a/EssentialsProtect/src/main/resources/plugin.yml
 +++ b/EssentialsProtect/src/main/resources/plugin.yml
-@@ -42,3 +42,4 @@ permissions:
-     description: Allows the bearer to take lightning damage
-   essentials.protect.damage.wither:
-     description: Allows the bearer to take wither damage
+@@ -1,44 +1,45 @@
+-name: EssentialsProtect
+-main: com.earth2me.essentials.protect.EssentialsProtect
+-# Note to developers: This next line cannot change, or the automatic versioning system will break.
+-version: ${full.version}
+-website: https://essentialsx.net/
+-description: Provides protection for various parts of the world.
+-authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
+-softdepend: [Essentials]
+-api-version: 1.13
+-permissions:
+-  essentials.protect.entitytarget.bypass:
+-    description: Allows the bearer to be targeted by entities
+-  essentials.protect.pvp:
+-    description: Allows the bearer to participate in PvP when prevent pvp is enabled
+-  essentials.protect.damage.disable:
+-    description: Allows the bearer to not take damage
+-  essentials.protect.damage.contact:
+-    description: Allows the bearer to take damage from cacti and other contact damage
+-  essentials.protect.damage.lava:
+-    description: Allows the bearer to take damage from lava
+-  essentials.protect.damage.tnt:
+-    description: Allows the bearer to take damage from TNT
+-  essentials.protect.damage.creeper:
+-    description: Allows the bearer to take damage from creepers
+-  essentials.protect.damage.fireball:
+-    description: Allows the bearer to take damage from fireballs
+-  essentials.protect.damage.witherskull:
+-    description: Allows the bearer to take damage from wither skulls
+-  essentials.protect.damage.tnt-minecraft:
+-    description: Allows the bearer to take damage from a tnt minecart
+-  essentials.protect.damage.projectiles:
+-    description: Allows the bearer to take damage from projectiles
+-  essentials.protect.damage.fall:
+-    description: Allows the bearer to take fall damage
+-  essentials.protect.damage.suffocation:
+-    description: Allows the bearer to take suffocation damage
+-  essentials.protect.damage.fire:
+-    description: Allows the bearer to take fire damage
+-  essentials.protect.damage.drowning:
+-    description: Allows the bearer to take drowning damage
+-  essentials.protect.damage.lightning:
+-    description: Allows the bearer to take lightning damage
+-  essentials.protect.damage.wither:
+-    description: Allows the bearer to take wither damage
++name: EssentialsProtect
++main: com.earth2me.essentials.protect.EssentialsProtect
++# Note to developers: This next line cannot change, or the automatic versioning system will break.
++version: ${full.version}
++website: https://essentialsx.net/
++description: Provides protection for various parts of the world.
++authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, drtshock]
++softdepend: [Essentials]
++api-version: 1.13
++permissions:
++  essentials.protect.entitytarget.bypass:
++    description: Allows the bearer to be targeted by entities
++  essentials.protect.pvp:
++    description: Allows the bearer to participate in PvP when prevent pvp is enabled
++  essentials.protect.damage.disable:
++    description: Allows the bearer to not take damage
++  essentials.protect.damage.contact:
++    description: Allows the bearer to take damage from cacti and other contact damage
++  essentials.protect.damage.lava:
++    description: Allows the bearer to take damage from lava
++  essentials.protect.damage.tnt:
++    description: Allows the bearer to take damage from TNT
++  essentials.protect.damage.creeper:
++    description: Allows the bearer to take damage from creepers
++  essentials.protect.damage.fireball:
++    description: Allows the bearer to take damage from fireballs
++  essentials.protect.damage.witherskull:
++    description: Allows the bearer to take damage from wither skulls
++  essentials.protect.damage.tnt-minecraft:
++    description: Allows the bearer to take damage from a tnt minecart
++  essentials.protect.damage.projectiles:
++    description: Allows the bearer to take damage from projectiles
++  essentials.protect.damage.fall:
++    description: Allows the bearer to take fall damage
++  essentials.protect.damage.suffocation:
++    description: Allows the bearer to take suffocation damage
++  essentials.protect.damage.fire:
++    description: Allows the bearer to take fire damage
++  essentials.protect.damage.drowning:
++    description: Allows the bearer to take drowning damage
++  essentials.protect.damage.lightning:
++    description: Allows the bearer to take lightning damage
++  essentials.protect.damage.wither:
++    description: Allows the bearer to take wither damage
 +folia-supported: true
 \ No newline at end of file
 diff --git a/EssentialsSpawn/src/main/resources/plugin.yml b/EssentialsSpawn/src/main/resources/plugin.yml
@@ -134,15 +327,15 @@ index ac86c097b..6ff673584 100644
      }
  }
 diff --git a/build.gradle b/build.gradle
-index e110e913a..fc9481244 100644
+index 566f22925..8c006bfc5 100644
 --- a/build.gradle
 +++ b/build.gradle
 @@ -3,7 +3,7 @@ plugins {
  }
  
  group = "net.essentialsx"
--version = "2.21.2-SNAPSHOT"
-+version = "2.21.2-SNAPSHOT" + "-Folia"
+-version = "2.22.0-SNAPSHOT"
++version = "2.22.0-SNAPSHOT" + "-Folia"
  
  project.ext {
      GIT_COMMIT = !indraGit.isPresent() ? "unknown" : indraGit.commit().abbreviate(7).name()

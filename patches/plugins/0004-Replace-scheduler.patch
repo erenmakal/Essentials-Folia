@@ -1,6 +1,6 @@
-From 7e1b9982edfc58e7f69482b491d196785afd15be Mon Sep 17 00:00:00 2001
+From fd68aa50ac21bf60fd5fa1e34c4e53ba5b77f4d9 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 30 Jul 2025 12:10:46 +0200
+Date: Wed, 6 Aug 2025 15:10:01 +0200
 Subject: [PATCH 04/12] Replace scheduler
 
 ---
@@ -298,7 +298,7 @@ index 2890bc2a7..82a762717 100644
      }
  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsEntityListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsEntityListener.java
-index ee0d998e2..e84ea6448 100644
+index 1d1fbff1e..be38466e9 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsEntityListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsEntityListener.java
 @@ -110,7 +110,7 @@ public class EssentialsEntityListener implements Listener {
@@ -311,7 +311,7 @@ index ee0d998e2..e84ea6448 100644
                      event.setCancelled(true);
                      return;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index 8b6b2d51f..975fc92e1 100644
+index 013ef74d6..9a016a2eb 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 @@ -85,7 +85,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
@@ -378,7 +378,7 @@ index 8b6b2d51f..975fc92e1 100644
      }
  
      // Makes the compass item ingame always point to the first essentials home.  #EasterEgg
-@@ -621,7 +621,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -632,7 +632,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          final User user = ess.getUser(event.getPlayer());
          if (user.hasUnlimited(new ItemStack(event.getBucket()))) {
              event.getItemStack().setType(event.getBucket());
@@ -387,7 +387,7 @@ index 8b6b2d51f..975fc92e1 100644
          }
      }
  
-@@ -879,7 +879,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -890,7 +890,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                  }
              }
  
@@ -396,7 +396,7 @@ index 8b6b2d51f..975fc92e1 100644
          } catch (final Exception ex) {
              if (ess.getSettings().isDebug()) {
                  ess.getLogger().log(Level.WARNING, ex.getMessage(), ex);
-@@ -910,7 +910,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -921,7 +921,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                      }
                  }
  
@@ -405,7 +405,7 @@ index 8b6b2d51f..975fc92e1 100644
  
              }
          }
-@@ -972,7 +972,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -983,7 +983,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -415,7 +415,7 @@ index 8b6b2d51f..975fc92e1 100644
          }
      }
  
-@@ -1015,7 +1016,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -1026,7 +1027,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -466,10 +466,10 @@ index 667e5e93b..18e5349a8 100644
                          this.getCachedLocations(name).add(location);
                      }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Settings.java b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-index 8980aa97b..9693fd47f 100644
+index b9cb054e6..916b0748c 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-@@ -835,7 +835,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -836,7 +836,7 @@ public class Settings implements net.ess3.api.ISettings {
              if (reloadCount.get() < 2) {
                  // on startup: add plugins again in case they registered commands with the new API
                  // we need to schedule this task before any of the below tasks using _addAlternativeCommand.
@@ -478,7 +478,7 @@ index 8980aa97b..9693fd47f 100644
                      for (final Plugin plugin : ess.getServer().getPluginManager().getPlugins()) {
                          if (plugin.isEnabled()) {
                              ess.getAlternativeCommandsHandler().addPlugin(plugin);
-@@ -861,7 +861,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -862,7 +862,7 @@ public class Settings implements net.ess3.api.ISettings {
  
                      // This is 2 because Settings are reloaded twice in the startup lifecycle
                      if (reloadCount.get() < 2) {
@@ -487,7 +487,7 @@ index 8980aa97b..9693fd47f 100644
                      } else {
                          _addAlternativeCommand(effectiveAlias, toDisable);
                      }
-@@ -876,7 +876,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -877,7 +877,7 @@ public class Settings implements net.ess3.api.ISettings {
                      ess.getLogger().log(Level.INFO, "Syncing commands");
                  }
                  if (reloadCount.get() < 2) {
@@ -497,7 +497,7 @@ index 8980aa97b..9693fd47f 100644
                      syncCommandsProvider.syncCommands();
                  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/User.java b/Essentials/src/main/java/com/earth2me/essentials/User.java
-index d529a96d1..bc7934891 100644
+index fcdaf17a4..93bac790d 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/User.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/User.java
 @@ -323,7 +323,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
@@ -1090,10 +1090,10 @@ index f8389c9e4..c002eb3ba 100644
  
      private CommandSender getCustomSender(final ConsoleCommandSender consoleSender, final BukkitSenderProvider.MessageHook hook) {
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/util/DiscordUtil.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/util/DiscordUtil.java
-index 01f82a511..14d07b393 100644
+index 4911e9168..b6a96731c 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/util/DiscordUtil.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/util/DiscordUtil.java
-@@ -235,10 +235,10 @@ public final class DiscordUtil {
+@@ -242,10 +242,10 @@ public final class DiscordUtil {
              return;
          }
  
