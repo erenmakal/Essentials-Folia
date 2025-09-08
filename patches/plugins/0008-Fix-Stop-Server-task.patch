@@ -1,6 +1,6 @@
-From 5964935ae1eef2a0451557d5517d25221b821462 Mon Sep 17 00:00:00 2001
+From 24d7465f95f1d98f1ae27e77b4d888dd4d48c2a3 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 6 Aug 2025 15:10:03 +0200
+Date: Mon, 8 Sep 2025 06:57:22 +0200
 Subject: [PATCH 08/12] Fix Stop Server task
 
 ---
@@ -40,10 +40,10 @@ index aedec1bdb..c3e77124a 100644
          return jda != null && jda.isInvalidStartup();
      }
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-index a84efbe16..4cfb0efda 100644
+index e970aa4ee..268bc470b 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-@@ -270,7 +270,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
+@@ -292,7 +292,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
  //        if (Bukkit.getServer().isPrimaryThread()) {
  //            Bukkit.getPluginManager().callEvent(event);
  //        } else {

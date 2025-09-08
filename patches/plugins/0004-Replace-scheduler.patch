@@ -1,6 +1,6 @@
-From fd68aa50ac21bf60fd5fa1e34c4e53ba5b77f4d9 Mon Sep 17 00:00:00 2001
+From 88f4762159f13738382be7bbfc92cbbdb4846d1c Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 6 Aug 2025 15:10:01 +0200
+Date: Mon, 8 Sep 2025 06:57:20 +0200
 Subject: [PATCH 04/12] Replace scheduler
 
 ---
@@ -184,10 +184,10 @@ index 4008b3fe5..aa265ef49 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index 756b1558e..f1655912a 100644
+index dd7c32538..1d637376d 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -414,7 +414,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -418,7 +418,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              alternativeCommandsHandler = new AlternativeCommandsHandler(this);
  
              timer = new EssentialsTimer(this);
@@ -196,7 +196,7 @@ index 756b1558e..f1655912a 100644
  
              Economy.setEss(this);
              execTimer.mark("RegHandler");
-@@ -425,7 +425,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -429,7 +429,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
              if (!TESTING) {
                  updateChecker = new UpdateChecker(this);
@@ -205,7 +205,7 @@ index 756b1558e..f1655912a 100644
                      getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("versionFetching")));
                      for (final Component component : updateChecker.getVersionMessages(false, true, new CommandSource(this, Bukkit.getConsoleSender()))) {
                          getLogger().log(getSettings().isUpdateCheckEnabled() ? Level.WARNING : Level.INFO, AdventureUtil.adventureToLegacy(component));
-@@ -874,9 +874,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -878,9 +878,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitScheduler getScheduler() {
@@ -238,7 +238,7 @@ index 756b1558e..f1655912a 100644
      @Override
      public IJails getJails() {
          return jails;
-@@ -1181,31 +1204,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -1205,31 +1228,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitTask runTaskAsynchronously(final Runnable run) {
@@ -311,10 +311,10 @@ index 1d1fbff1e..be38466e9 100644
                      event.setCancelled(true);
                      return;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index 013ef74d6..9a016a2eb 100644
+index fc602641e..f0eecdfaa 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-@@ -85,7 +85,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
+@@ -88,7 +88,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
  
  public class EssentialsPlayerListener implements Listener, FakeAccessor {
      private final transient IEssentials ess;
@@ -323,7 +323,7 @@ index 013ef74d6..9a016a2eb 100644
  
      public EssentialsPlayerListener(final IEssentials parent) {
          this.ess = parent;
-@@ -272,9 +272,9 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -275,9 +275,9 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
      public void onPlayerQuit(final PlayerQuitEvent event) {
          final User user = ess.getUser(event.getPlayer());
  
@@ -335,7 +335,7 @@ index 013ef74d6..9a016a2eb 100644
          }
  
          if (hideJoinQuitMessages() || (ess.getSettings().allowSilentJoinQuit() && user.isAuthorized("essentials.silentquit"))) {
-@@ -327,7 +327,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -330,7 +330,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
      @EventHandler(priority = EventPriority.HIGHEST)
      public void onPlayerJoin(final PlayerJoinEvent event) {
          final String joinMessage = event.getJoinMessage();
@@ -344,7 +344,7 @@ index 013ef74d6..9a016a2eb 100644
  
          if (hideJoinQuitMessages() || ess.getSettings().allowSilentJoinQuit() || ess.getSettings().isCustomJoinMessage()) {
              event.setJoinMessage(null);
-@@ -422,13 +422,13 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -426,13 +426,13 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                      effectiveMessage = message;
                  }
  
@@ -360,7 +360,7 @@ index 013ef74d6..9a016a2eb 100644
                      } else {
                          motdTask.run();
                      }
-@@ -445,7 +445,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -449,7 +449,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                  }
  
                  if (user.isAuthorized("essentials.updatecheck")) {
@@ -369,7 +369,7 @@ index 013ef74d6..9a016a2eb 100644
                          for (final Component component : ess.getUpdateChecker().getVersionMessages(false, false, user.getSource())) {
                              user.sendComponent(component);
                          }
-@@ -520,7 +520,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -524,7 +524,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
              }
          }
  
@@ -378,7 +378,7 @@ index 013ef74d6..9a016a2eb 100644
      }
  
      // Makes the compass item ingame always point to the first essentials home.  #EasterEgg
-@@ -632,7 +632,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -636,7 +636,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          final User user = ess.getUser(event.getPlayer());
          if (user.hasUnlimited(new ItemStack(event.getBucket()))) {
              event.getItemStack().setType(event.getBucket());
@@ -387,7 +387,7 @@ index 013ef74d6..9a016a2eb 100644
          }
      }
  
-@@ -890,7 +890,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -894,7 +894,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                  }
              }
  
@@ -396,7 +396,7 @@ index 013ef74d6..9a016a2eb 100644
          } catch (final Exception ex) {
              if (ess.getSettings().isDebug()) {
                  ess.getLogger().log(Level.WARNING, ex.getMessage(), ex);
-@@ -921,7 +921,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -925,7 +925,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
                      }
                  }
  
@@ -405,7 +405,7 @@ index 013ef74d6..9a016a2eb 100644
  
              }
          }
-@@ -983,7 +983,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -987,7 +987,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -415,7 +415,7 @@ index 013ef74d6..9a016a2eb 100644
          }
      }
  
-@@ -1026,7 +1027,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
+@@ -1050,7 +1051,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
          }
  
          if (refreshPlayer != null) {
@@ -466,10 +466,10 @@ index 667e5e93b..18e5349a8 100644
                          this.getCachedLocations(name).add(location);
                      }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Settings.java b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-index b9cb054e6..916b0748c 100644
+index daa7a3595..e34c831d8 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-@@ -836,7 +836,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -837,7 +837,7 @@ public class Settings implements net.ess3.api.ISettings {
              if (reloadCount.get() < 2) {
                  // on startup: add plugins again in case they registered commands with the new API
                  // we need to schedule this task before any of the below tasks using _addAlternativeCommand.
@@ -478,7 +478,7 @@ index b9cb054e6..916b0748c 100644
                      for (final Plugin plugin : ess.getServer().getPluginManager().getPlugins()) {
                          if (plugin.isEnabled()) {
                              ess.getAlternativeCommandsHandler().addPlugin(plugin);
-@@ -862,7 +862,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -863,7 +863,7 @@ public class Settings implements net.ess3.api.ISettings {
  
                      // This is 2 because Settings are reloaded twice in the startup lifecycle
                      if (reloadCount.get() < 2) {
@@ -487,7 +487,7 @@ index b9cb054e6..916b0748c 100644
                      } else {
                          _addAlternativeCommand(effectiveAlias, toDisable);
                      }
-@@ -877,7 +877,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -878,7 +878,7 @@ public class Settings implements net.ess3.api.ISettings {
                      ess.getLogger().log(Level.INFO, "Syncing commands");
                  }
                  if (reloadCount.get() < 2) {
@@ -785,7 +785,7 @@ index c06d2f16e..230ee23f0 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandseen.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandseen.java
-index 6827650c5..c3d158be7 100644
+index 0c1065bef..7e2781128 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandseen.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandseen.java
 @@ -61,7 +61,7 @@ public class Commandseen extends EssentialsCommand {
@@ -797,7 +797,7 @@ index 6827650c5..c3d158be7 100644
                  @Override
                  public void run() {
                      final User userFromBukkit = ess.getUsers().getUser(args[0]);
-@@ -199,7 +199,7 @@ public class Commandseen extends EssentialsCommand {
+@@ -203,7 +203,7 @@ public class Commandseen extends EssentialsCommand {
      private void seenIP(final CommandSource sender, final String ipAddress, final String display) {
          sender.sendTl("runningPlayerMatch", AdventureUtil.parsed(AdventureUtil.legacyToMini(display)));
  
@@ -899,10 +899,10 @@ index e47e25cda..aedec1bdb 100644
                  getLogger().log(Level.SEVERE, AdventureUtil.miniToLegacy(tlLiteral("discordErrorLogin", e.getMessage())));
                  if (ess.getSettings().isDebug()) {
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-index 210a81b21..a84efbe16 100644
+index cdaa1ceec..e970aa4ee 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-@@ -238,7 +238,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
+@@ -260,7 +260,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
              logger.log(Level.WARNING, "Error while loading the achievement/advancement listener. You will not receive achievement/advancement notifications on Discord.", e);
          }
  
@@ -911,7 +911,7 @@ index 210a81b21..a84efbe16 100644
  
          Bukkit.getServicesManager().register(DiscordService.class, this, plugin, ServicePriority.Normal);
      }
-@@ -267,11 +267,11 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
+@@ -289,11 +289,11 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
              logger.warning("Sending message to channel \"" + type.getKey() + "\" which is an unregistered type! If you are a plugin author, you should be registering your MessageType before using them.");
          }
          final DiscordMessageEvent event = new DiscordMessageEvent(type, FormatUtil.stripFormat(message), allowGroupMentions);

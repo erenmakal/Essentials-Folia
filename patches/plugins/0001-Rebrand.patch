@@ -1,6 +1,6 @@
-From 76f4e09fa5e0633317c07258297d4699219f981f Mon Sep 17 00:00:00 2001
+From a200e36fdc309a49e24ea40e6ae6116f50369ac3 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 6 Aug 2025 15:10:00 +0200
+Date: Mon, 8 Sep 2025 06:57:02 +0200
 Subject: [PATCH 01/12] Rebrand
 
 ---
@@ -18,7 +18,7 @@ Subject: [PATCH 01/12] Rebrand
  11 files changed, 113 insertions(+), 103 deletions(-)
 
 diff --git a/Essentials/src/main/resources/plugin.yml b/Essentials/src/main/resources/plugin.yml
-index 5ae740a88..5b6456037 100644
+index 844f92319..6081ddfc6 100644
 --- a/Essentials/src/main/resources/plugin.yml
 +++ b/Essentials/src/main/resources/plugin.yml
 @@ -7,6 +7,7 @@ description: Provides an essential, core set of commands for Bukkit.
