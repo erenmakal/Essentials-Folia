@@ -1,7 +1,7 @@
-From 88f4762159f13738382be7bbfc92cbbdb4846d1c Mon Sep 17 00:00:00 2001
+From 2e4a405bbfd528b4256571cd380946c5da01bdce Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 8 Sep 2025 06:57:20 +0200
-Subject: [PATCH 04/12] Replace scheduler
+Date: Sun, 21 Sep 2025 16:56:40 +0200
+Subject: [PATCH 04/13] Replace scheduler
 
 ---
  .../essentials/AsyncTimedTeleport.java        | 12 +++----
@@ -10,7 +10,6 @@ Subject: [PATCH 04/12] Replace scheduler
  .../com/earth2me/essentials/Essentials.java   | 33 +++++++++++++++++--
  .../essentials/EssentialsBlockListener.java   |  4 +--
  .../essentials/EssentialsEntityListener.java  |  2 +-
- .../essentials/EssentialsPlayerListener.java  | 28 ++++++++--------
  .../com/earth2me/essentials/IEssentials.java  | 10 ++++++
  .../earth2me/essentials/RandomTeleport.java   |  7 ++--
  .../com/earth2me/essentials/Settings.java     |  6 ++--
@@ -45,7 +44,7 @@ Subject: [PATCH 04/12] Replace scheduler
  .../spawn/EssentialsSpawnPlayerListener.java  | 12 +++----
  .../xmpp/EssentialsXMPPPlayerListener.java    |  6 ++--
  .../earth2me/essentials/xmpp/XMPPManager.java |  2 +-
- 41 files changed, 184 insertions(+), 130 deletions(-)
+ 40 files changed, 169 insertions(+), 117 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTimedTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTimedTeleport.java
 index 784b3eb89..dd5eeffcd 100644
@@ -310,121 +309,6 @@ index 1d1fbff1e..be38466e9 100644
  
                      event.setCancelled(true);
                      return;
-diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index fc602641e..f0eecdfaa 100644
---- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-+++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-@@ -88,7 +88,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
- 
- public class EssentialsPlayerListener implements Listener, FakeAccessor {
-     private final transient IEssentials ess;
--    private final ConcurrentHashMap<UUID, Integer> pendingMotdTasks = new ConcurrentHashMap<>();
-+    private final ConcurrentHashMap<UUID, io.papermc.paper.threadedregions.scheduler.ScheduledTask> pendingMotdTasks = new ConcurrentHashMap<>(); // Euphyllia
- 
-     public EssentialsPlayerListener(final IEssentials parent) {
-         this.ess = parent;
-@@ -275,9 +275,9 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-     public void onPlayerQuit(final PlayerQuitEvent event) {
-         final User user = ess.getUser(event.getPlayer());
- 
--        final Integer pendingId = pendingMotdTasks.remove(user.getUUID());
-+        final io.papermc.paper.threadedregions.scheduler.ScheduledTask pendingId = pendingMotdTasks.remove(user.getUUID()); // Euphyllia
-         if (pendingId != null) {
--            ess.getScheduler().cancelTask(pendingId);
-+            pendingId.cancel(); // Euphyllia
-         }
- 
-         if (hideJoinQuitMessages() || (ess.getSettings().allowSilentJoinQuit() && user.isAuthorized("essentials.silentquit"))) {
-@@ -330,7 +330,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-     @EventHandler(priority = EventPriority.HIGHEST)
-     public void onPlayerJoin(final PlayerJoinEvent event) {
-         final String joinMessage = event.getJoinMessage();
--        ess.runTaskAsynchronously(() -> delayedJoin(event.getPlayer(), joinMessage));
-+        ess.getAsyncScheduler().runNow(ess, scheduledTask -> delayedJoin(event.getPlayer(), joinMessage)); // Euphyllia
- 
-         if (hideJoinQuitMessages() || ess.getSettings().allowSilentJoinQuit() || ess.getSettings().isCustomJoinMessage()) {
-             event.setJoinMessage(null);
-@@ -426,13 +426,13 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-                     effectiveMessage = message;
-                 }
- 
--                ess.runTaskAsynchronously(() -> ess.getServer().getPluginManager().callEvent(new AsyncUserDataLoadEvent(user, effectiveMessage)));
-+                ess.getAsyncScheduler().runNow(ess, scheduledTask -> ess.getServer().getPluginManager().callEvent(new AsyncUserDataLoadEvent(user, effectiveMessage))); // Euphyllia
- 
-                 if (ess.getSettings().getMotdDelay() >= 0) {
-                     final int motdDelay = ess.getSettings().getMotdDelay() / 50;
-                     final DelayMotdTask motdTask = new DelayMotdTask(user);
-                     if (motdDelay > 0) {
--                        pendingMotdTasks.put(user.getUUID(), ess.scheduleSyncDelayedTask(motdTask, motdDelay));
-+                        pendingMotdTasks.put(user.getUUID(), ess.getEntityScheduler(user.getBase()).runDelayed(ess, scheduledTask -> motdTask.run(), null, motdDelay)); // Euphyllia
-                     } else {
-                         motdTask.run();
-                     }
-@@ -449,7 +449,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-                 }
- 
-                 if (user.isAuthorized("essentials.updatecheck")) {
--                    ess.runTaskAsynchronously(() -> {
-+                   ess.getAsyncScheduler().runNow(ess, scheduledTask -> { // Euphyllia
-                         for (final Component component : ess.getUpdateChecker().getVersionMessages(false, false, user.getSource())) {
-                             user.sendComponent(component);
-                         }
-@@ -524,7 +524,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-             }
-         }
- 
--        ess.scheduleSyncDelayedTask(new DelayJoinTask());
-+        ess.getEntityScheduler(player).run(ess, scheduledTask -> new DelayJoinTask().run(), null); // Euphyllia
-     }
- 
-     // Makes the compass item ingame always point to the first essentials home.  #EasterEgg
-@@ -636,7 +636,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-         final User user = ess.getUser(event.getPlayer());
-         if (user.hasUnlimited(new ItemStack(event.getBucket()))) {
-             event.getItemStack().setType(event.getBucket());
--            ess.scheduleSyncDelayedTask(user.getBase()::updateInventory);
-+            ess.getEntityScheduler(user.getBase()).run(ess, scheduledTask -> user.getBase().updateInventory(), null); // Euphyllia
-         }
-     }
- 
-@@ -894,7 +894,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-                 }
-             }
- 
--            ess.scheduleSyncDelayedTask(new DelayedClickJumpTask());
-+            ess.getEntityScheduler(user.getBase()).run(ess, scheduledTask -> new DelayedClickJumpTask().run(), null); // Euphyllia
-         } catch (final Exception ex) {
-             if (ess.getSettings().isDebug()) {
-                 ess.getLogger().log(Level.WARNING, ex.getMessage(), ex);
-@@ -925,7 +925,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-                     }
-                 }
- 
--                ess.scheduleSyncDelayedTask(new PowerToolUseTask());
-+                ess.getEntityScheduler(user.getBase()).run(ess, scheduledTask -> new PowerToolUseTask().run(), null); // Euphyllia
- 
-             }
-         }
-@@ -987,7 +987,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-         }
- 
-         if (refreshPlayer != null) {
--            ess.scheduleSyncDelayedTask(refreshPlayer::updateInventory, 1);
-+            final Player frp = refreshPlayer; // Euphyllia
-+ess.getEntityScheduler(refreshPlayer).runDelayed(ess, scheduledTask -> frp.updateInventory(), null, 1); // Euphyllia
-         }
-     }
- 
-@@ -1050,7 +1051,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor {
-         }
- 
-         if (refreshPlayer != null) {
--            ess.scheduleSyncDelayedTask(refreshPlayer::updateInventory, 1);
-+            final Player frp = refreshPlayer; // Euphyllia
-+ess.getEntityScheduler(refreshPlayer).runDelayed(ess, scheduledTask -> frp.updateInventory(), null, 1); // Euphyllia
-         }
-     }
- 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/IEssentials.java b/Essentials/src/main/java/com/earth2me/essentials/IEssentials.java
 index bdcaa1dca..91c71f219 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/IEssentials.java
@@ -497,7 +381,7 @@ index daa7a3595..e34c831d8 100644
                      syncCommandsProvider.syncCommands();
                  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/User.java b/Essentials/src/main/java/com/earth2me/essentials/User.java
-index fcdaf17a4..93bac790d 100644
+index e0b7cd402..7a6807edb 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/User.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/User.java
 @@ -323,7 +323,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
