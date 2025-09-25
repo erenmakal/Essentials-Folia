@@ -1,7 +1,7 @@
-From d4d963b83eb3983d275a1de63387ab98d7fddb7e Mon Sep 17 00:00:00 2001
+From 26e2312a458f540aae3bedea9b3405752f4ef4bb Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sun, 21 Sep 2025 16:56:42 +0200
-Subject: [PATCH 12/14] Downgrade spongepowered yaml
+Date: Thu, 25 Sep 2025 21:00:19 +0200
+Subject: [PATCH 11/13] Downgrade spongepowered yaml
 
 ---
  Essentials/build.gradle | 2 +-
