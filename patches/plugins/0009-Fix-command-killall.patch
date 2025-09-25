@@ -1,7 +1,7 @@
 From 0cc7f529e349777ffab9f171a0009546305e6afb Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
 Date: Sun, 21 Sep 2025 16:56:41 +0200
-Subject: [PATCH 09/13] Fix command killall
+Subject: [PATCH 09/14] Fix command killall
 
 ---
  .../essentials/commands/Commandremove.java    | 43 ++++++++++---------
