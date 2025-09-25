@@ -1,7 +1,7 @@
-From de94f3ad0c5dc37c56bd196c6eb4ed25026dc5e3 Mon Sep 17 00:00:00 2001
+From 2bf24551b3e7d7b03dd7cb2c6ea24de1a26a5597 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 25 Sep 2025 21:00:20 +0200
-Subject: [PATCH 12/13] Patch com.earth2me.essentials.EssentialsPlayerListen
+Date: Thu, 25 Sep 2025 21:06:38 +0200
+Subject: [PATCH 13/14] Patch com.earth2me.essentials.EssentialsPlayerListen
 
 ---
  .../essentials/EssentialsPlayerListener.java  | 32 +++++++++----------

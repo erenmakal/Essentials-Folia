@@ -1,7 +1,7 @@
-From 7d5c650be84b893a7defc6ad377abd1fbf050a14 Mon Sep 17 00:00:00 2001
+From a317171144a05af26d06246003bb6fef443ee360 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 25 Sep 2025 21:00:19 +0200
-Subject: [PATCH 10/13] Fix commands weather
+Date: Thu, 25 Sep 2025 21:06:38 +0200
+Subject: [PATCH 11/14] Fix commands weather
 
 ---
  .../java/com/earth2me/essentials/commands/Commandweather.java | 4 ++--

@@ -1,7 +1,7 @@
-From 5f4a093cc7772b6ad852816ada91b2f78c8e8379 Mon Sep 17 00:00:00 2001
+From 815c08829b8982a99fa3cac804535aee1571bfce Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 25 Sep 2025 21:00:17 +0200
-Subject: [PATCH 03/13] Replace scheduler
+Date: Thu, 25 Sep 2025 21:06:35 +0200
+Subject: [PATCH 04/14] Replace scheduler
 
 ---
  .../essentials/AsyncTimedTeleport.java        | 12 +++----
@@ -483,7 +483,7 @@ index 7325a75b7..bb611ccd5 100644
                  final StringWriter sw = new StringWriter();
                  final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().sink(() -> new BufferedWriter(sw)).indent(2).nodeStyle(NodeStyle.BLOCK).build();
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
-index fa97ff2ff..a255e2330 100644
+index 09c710b3f..0c9a8ce87 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
 @@ -38,7 +38,7 @@ import org.bukkit.inventory.ItemStack;

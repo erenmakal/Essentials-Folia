@@ -1,7 +1,7 @@
-From d01ae32769701657ba3ce267b981cefd14fe4acb Mon Sep 17 00:00:00 2001
+From d1320da9526b93f9a5de96301f7072826455cbcc Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 25 Sep 2025 21:01:56 +0200
-Subject: [PATCH 13/13] Temp fix NPE PlayerServerFullCheckEvent
+Date: Thu, 25 Sep 2025 21:06:38 +0200
+Subject: [PATCH 14/14] Temp fix NPE PlayerServerFullCheckEvent
 
 ---
  .../java/com/earth2me/essentials/EssentialsPlayerListener.java   | 1 +
