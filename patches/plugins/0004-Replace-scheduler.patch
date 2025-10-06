@@ -1,6 +1,6 @@
-From 3e012cf878a4f8c01fbad453b93ccbc169f5e2c6 Mon Sep 17 00:00:00 2001
+From 13c1b1f9ab79c7b3898a8ac77c076219036ca770 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sun, 28 Sep 2025 16:21:49 +0200
+Date: Mon, 6 Oct 2025 17:31:43 +0200
 Subject: [PATCH 04/14] Replace scheduler
 
 ---
@@ -170,10 +170,10 @@ index 7ef4a5f10..7261b7903 100644
              }
          });
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/BalanceTopImpl.java b/Essentials/src/main/java/com/earth2me/essentials/BalanceTopImpl.java
-index 4008b3fe5..aa265ef49 100644
+index 2dddd7126..f6a214695 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/BalanceTopImpl.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/BalanceTopImpl.java
-@@ -69,7 +69,7 @@ public class BalanceTopImpl implements BalanceTop {
+@@ -72,7 +72,7 @@ public class BalanceTopImpl implements BalanceTop {
              return cacheLock;
          }
          cacheLock = new CompletableFuture<>();
@@ -183,10 +183,10 @@ index 4008b3fe5..aa265ef49 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index dd7c32538..1d637376d 100644
+index 9697935da..48b5d8e6a 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -418,7 +418,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -419,7 +419,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              alternativeCommandsHandler = new AlternativeCommandsHandler(this);
  
              timer = new EssentialsTimer(this);
@@ -195,7 +195,7 @@ index dd7c32538..1d637376d 100644
  
              Economy.setEss(this);
              execTimer.mark("RegHandler");
-@@ -429,7 +429,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -430,7 +430,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
              if (!TESTING) {
                  updateChecker = new UpdateChecker(this);
@@ -204,7 +204,7 @@ index dd7c32538..1d637376d 100644
                      getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("versionFetching")));
                      for (final Component component : updateChecker.getVersionMessages(false, true, new CommandSource(this, Bukkit.getConsoleSender()))) {
                          getLogger().log(getSettings().isUpdateCheckEnabled() ? Level.WARNING : Level.INFO, AdventureUtil.adventureToLegacy(component));
-@@ -878,9 +878,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -881,9 +881,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitScheduler getScheduler() {
@@ -237,7 +237,7 @@ index dd7c32538..1d637376d 100644
      @Override
      public IJails getJails() {
          return jails;
-@@ -1205,31 +1228,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -1208,31 +1231,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitTask runTaskAsynchronously(final Runnable run) {
@@ -331,10 +331,10 @@ index bdcaa1dca..91c71f219 100644
  
      IWarps getWarps();
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
-index 667e5e93b..18e5349a8 100644
+index 86513571c..af05db0a7 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/RandomTeleport.java
-@@ -150,9 +150,12 @@ public class RandomTeleport implements IConf {
+@@ -156,9 +156,12 @@ public class RandomTeleport implements IConf {
  
      // Prompts caching random valid locations, up to a maximum number of attempts.
      public void cacheRandomLocations(final String name) {
@@ -350,7 +350,7 @@ index 667e5e93b..18e5349a8 100644
                          this.getCachedLocations(name).add(location);
                      }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Settings.java b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-index daa7a3595..e34c831d8 100644
+index 72c47d74d..0fe0d4b60 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 @@ -837,7 +837,7 @@ public class Settings implements net.ess3.api.ISettings {

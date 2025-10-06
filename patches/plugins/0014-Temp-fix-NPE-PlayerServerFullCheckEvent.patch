@@ -1,6 +1,6 @@
-From 21bc02fb9103a1a97e164d000c1a1fdc4de2b0cf Mon Sep 17 00:00:00 2001
+From a473503ceb31a54e82d1ff510c9c5be20ef79ddf Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Sun, 28 Sep 2025 16:21:52 +0200
+Date: Mon, 6 Oct 2025 17:31:45 +0200
 Subject: [PATCH 14/14] Temp fix NPE PlayerServerFullCheckEvent
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH 14/14] Temp fix NPE PlayerServerFullCheckEvent
  1 file changed, 1 insertion(+)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index ce5fbcc88..d1d6e8812 100644
+index 8ddc802fb..82e020024 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-@@ -634,6 +634,7 @@ public class EssentialsPlayerListener implements Listener {
+@@ -637,6 +637,7 @@ public class EssentialsPlayerListener implements Listener {
          @EventHandler(priority = EventPriority.HIGH)
          public void onPlayerListFull(final PlayerServerFullCheckEvent event) {
              final User user = ess.getUser(event.getPlayerProfile().getId());
