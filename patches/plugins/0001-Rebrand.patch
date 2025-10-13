@@ -1,7 +1,7 @@
-From df8a8e53a78365f23e2a3a9c506ddb8b4ff3312e Mon Sep 17 00:00:00 2001
+From 9d95a5d4757600c1d219ae62c5ca1bf184d2623b Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 6 Oct 2025 17:31:42 +0200
-Subject: [PATCH 01/14] Rebrand
+Date: Mon, 13 Oct 2025 12:09:28 +0200
+Subject: [PATCH 01/13] Rebrand
 
 ---
  Essentials/src/main/resources/plugin.yml                        | 1 +
@@ -121,7 +121,7 @@ index e267ef5e0..20253d017 100644
    setxmpp:
      description: Sets your XMPP address.
 diff --git a/build-logic/src/main/kotlin/essentials.base-conventions.gradle.kts b/build-logic/src/main/kotlin/essentials.base-conventions.gradle.kts
-index cfa554586..fb178e666 100644
+index 474b30f1b..3737bf057 100644
 --- a/build-logic/src/main/kotlin/essentials.base-conventions.gradle.kts
 +++ b/build-logic/src/main/kotlin/essentials.base-conventions.gradle.kts
 @@ -77,7 +77,7 @@ afterEvaluate {
