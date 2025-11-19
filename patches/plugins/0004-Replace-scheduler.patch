@@ -1,6 +1,6 @@
-From b17ff7e98c1ae5df1a1c1fa5e3a0bb77f003d564 Mon Sep 17 00:00:00 2001
+From edca1b3fd93e1568cf030feac87f054a902e82a8 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 13 Oct 2025 12:09:29 +0200
+Date: Wed, 19 Nov 2025 14:50:26 +0100
 Subject: [PATCH 04/13] Replace scheduler
 
 ---
@@ -183,7 +183,7 @@ index 2dddd7126..f6a214695 100644
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index 9697935da..48b5d8e6a 100644
+index 8a72fb269..dedb4bfd0 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 @@ -419,7 +419,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
@@ -204,7 +204,7 @@ index 9697935da..48b5d8e6a 100644
                      getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("versionFetching")));
                      for (final Component component : updateChecker.getVersionMessages(false, true, new CommandSource(this, Bukkit.getConsoleSender()))) {
                          getLogger().log(getSettings().isUpdateCheckEnabled() ? Level.WARNING : Level.INFO, AdventureUtil.adventureToLegacy(component));
-@@ -881,9 +881,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -883,9 +883,32 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitScheduler getScheduler() {
@@ -237,7 +237,7 @@ index 9697935da..48b5d8e6a 100644
      @Override
      public IJails getJails() {
          return jails;
-@@ -1208,31 +1231,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -1210,31 +1233,37 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitTask runTaskAsynchronously(final Runnable run) {
@@ -350,10 +350,10 @@ index 86513571c..af05db0a7 100644
                          this.getCachedLocations(name).add(location);
                      }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Settings.java b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-index 72c47d74d..0fe0d4b60 100644
+index b1a694a1c..f0c6d8987 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Settings.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Settings.java
-@@ -837,7 +837,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -838,7 +838,7 @@ public class Settings implements net.ess3.api.ISettings {
              if (reloadCount.get() < 2) {
                  // on startup: add plugins again in case they registered commands with the new API
                  // we need to schedule this task before any of the below tasks using _addAlternativeCommand.
@@ -362,7 +362,7 @@ index 72c47d74d..0fe0d4b60 100644
                      for (final Plugin plugin : ess.getServer().getPluginManager().getPlugins()) {
                          if (plugin.isEnabled()) {
                              ess.getAlternativeCommandsHandler().addPlugin(plugin);
-@@ -863,7 +863,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -864,7 +864,7 @@ public class Settings implements net.ess3.api.ISettings {
  
                      // This is 2 because Settings are reloaded twice in the startup lifecycle
                      if (reloadCount.get() < 2) {
@@ -371,7 +371,7 @@ index 72c47d74d..0fe0d4b60 100644
                      } else {
                          _addAlternativeCommand(effectiveAlias, toDisable);
                      }
-@@ -878,7 +878,7 @@ public class Settings implements net.ess3.api.ISettings {
+@@ -879,7 +879,7 @@ public class Settings implements net.ess3.api.ISettings {
                      ess.getLogger().log(Level.INFO, "Syncing commands");
                  }
                  if (reloadCount.get() < 2) {

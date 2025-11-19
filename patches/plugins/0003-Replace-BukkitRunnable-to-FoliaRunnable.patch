@@ -1,6 +1,6 @@
-From a90f8586ab389305d692855b8f5f577a58bc0543 Mon Sep 17 00:00:00 2001
+From 53e96c071db46c53d0324c282e2ceada8ca70732 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Mon, 13 Oct 2025 12:09:29 +0200
+Date: Wed, 19 Nov 2025 14:50:26 +0100
 Subject: [PATCH 03/13] Replace BukkitRunnable to FoliaRunnable
 
 ---
