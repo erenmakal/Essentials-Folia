@@ -1,14 +1,14 @@
-From 516cb54ba71a4791347de57b6fdbdbd8d478e0ee Mon Sep 17 00:00:00 2001
+From c2e75b7518a1ccd6d0244ae8133a609b7d6d0e85 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 19 Nov 2025 14:50:26 +0100
-Subject: [PATCH 02/13] Teleport to teleportAsync
+Date: Tue, 2 Dec 2025 11:58:15 +0100
+Subject: [PATCH 02/14] Teleport to teleportAsync
 
 ---
  .../main/java/com/earth2me/essentials/AsyncTeleport.java | 9 +++++----
  1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
-index fc98e97e1..10a16d6ab 100644
+index b5e687f25..f691d30d8 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 @@ -140,6 +140,7 @@ public class AsyncTeleport implements IAsyncTeleport {

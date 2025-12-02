@@ -1,7 +1,7 @@
-From 7a43c0e97682debdc9217827c29fcce18443f457 Mon Sep 17 00:00:00 2001
+From 3bce1a094fa553ab04840d2dac2f9bb5048bcb0e Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 19 Nov 2025 14:50:11 +0100
-Subject: [PATCH 01/13] Rebrand
+Date: Tue, 2 Dec 2025 11:58:15 +0100
+Subject: [PATCH 01/14] Rebrand
 
 ---
  Essentials/src/main/resources/plugin.yml                        | 1 +

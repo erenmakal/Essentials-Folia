@@ -1,7 +1,7 @@
-From edca1b3fd93e1568cf030feac87f054a902e82a8 Mon Sep 17 00:00:00 2001
+From 05050f8b2af0cf1e845a9c0d3288e24357a56567 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 19 Nov 2025 14:50:26 +0100
-Subject: [PATCH 04/13] Replace scheduler
+Date: Tue, 2 Dec 2025 11:58:16 +0100
+Subject: [PATCH 04/14] Replace scheduler
 
 ---
  .../essentials/AsyncTimedTeleport.java        | 12 +++----
@@ -47,10 +47,10 @@ Subject: [PATCH 04/13] Replace scheduler
  40 files changed, 169 insertions(+), 117 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTimedTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTimedTeleport.java
-index 784b3eb89..dd5eeffcd 100644
+index d1c37423c..798fc28b5 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/AsyncTimedTeleport.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/AsyncTimedTeleport.java
-@@ -28,7 +28,7 @@ public class AsyncTimedTeleport implements Runnable {
+@@ -31,7 +31,7 @@ public class AsyncTimedTeleport implements Runnable {
      private final boolean timer_canMove;
      private final Trade timer_chargeFor;
      private final TeleportCause timer_cause;
@@ -59,7 +59,7 @@ index 784b3eb89..dd5eeffcd 100644
      private double timer_health;
  
      AsyncTimedTeleport(final IUser user, final IEssentials ess, final AsyncTeleport teleport, final long delay, final IUser teleportUser, final ITarget target, final Trade chargeFor, final TeleportCause cause, final boolean respawn) {
-@@ -52,7 +52,7 @@ public class AsyncTimedTeleport implements Runnable {
+@@ -55,7 +55,7 @@ public class AsyncTimedTeleport implements Runnable {
          this.timer_respawn = respawn;
          this.timer_canMove = user.isAuthorized("essentials.teleport.timer.move");
  
@@ -68,7 +68,7 @@ index 784b3eb89..dd5eeffcd 100644
  
          if (future != null) {
              this.parentFuture = future;
-@@ -139,16 +139,16 @@ public class AsyncTimedTeleport implements Runnable {
+@@ -142,16 +142,16 @@ public class AsyncTimedTeleport implements Runnable {
              }
          }
  
@@ -84,11 +84,11 @@ index 784b3eb89..dd5eeffcd 100644
          }
          try {
 -            ess.getServer().getScheduler().cancelTask(timer_task);
-+            timer_task.cancel(); //ess.getServer().getScheduler().cancelTask(timer_task); // Euphyllia
-             if (notifyUser) {
-                 teleportOwner.sendTl("pendingTeleportCancelled");
-                 if (timer_teleportee != null && !timer_teleportee.equals(teleportOwner.getBase().getUniqueId())) {
-@@ -156,7 +156,7 @@ public class AsyncTimedTeleport implements Runnable {
++            timer_task.cancel();
+ 
+             final IUser teleportUser = ess.getUser(this.timer_teleportee);
+             if (teleportUser != null && teleportUser.getBase() != null) {
+@@ -167,7 +167,7 @@ public class AsyncTimedTeleport implements Runnable {
                  }
              }
          } finally {

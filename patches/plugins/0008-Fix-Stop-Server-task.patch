@@ -1,7 +1,7 @@
-From 8574f3685ba35a9549d0896e6cd77d27f0a20c63 Mon Sep 17 00:00:00 2001
+From ea4ceb403a8529779efc76b498af325dddc65feb Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 19 Nov 2025 14:50:27 +0100
-Subject: [PATCH 08/13] Fix Stop Server task
+Date: Tue, 2 Dec 2025 11:58:17 +0100
+Subject: [PATCH 08/14] Fix Stop Server task
 
 ---
  .../java/net/essentialsx/discord/EssentialsDiscord.java     | 6 ++++++

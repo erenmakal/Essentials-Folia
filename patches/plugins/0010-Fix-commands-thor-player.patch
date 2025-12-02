@@ -1,7 +1,7 @@
-From 6981f45bb2e1f9707207d91b4b77b70a26b9cd8c Mon Sep 17 00:00:00 2001
+From 75fc535ef9d5ae6f2ae421bd511460573b8988da Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 19 Nov 2025 14:50:28 +0100
-Subject: [PATCH 10/13] Fix commands thor player
+Date: Tue, 2 Dec 2025 11:58:17 +0100
+Subject: [PATCH 10/14] Fix commands thor player
 
 ---
  .../com/earth2me/essentials/commands/Commandlightning.java     | 3 ++-
