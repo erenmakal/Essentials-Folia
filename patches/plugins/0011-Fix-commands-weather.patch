@@ -1,6 +1,6 @@
-From 50c7dcc3be27a96cfa84a8368681584f8f7d2cab Mon Sep 17 00:00:00 2001
+From 85540e88dbc6e4285c4dc2bee5e2bead5a364d1f Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 2 Dec 2025 11:58:18 +0100
+Date: Wed, 17 Dec 2025 17:49:24 +0100
 Subject: [PATCH 11/14] Fix commands weather
 
 ---
@@ -30,5 +30,5 @@ index 242f03052..3530a4c36 100644
  
      @Override
 -- 
-2.50.1.windows.1
+2.52.0.windows.1
 

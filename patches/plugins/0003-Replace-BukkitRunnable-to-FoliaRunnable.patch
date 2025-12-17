@@ -1,6 +1,6 @@
-From 95f8cfdfc251f9ffa8e6cdf8ece9f587b0da80c3 Mon Sep 17 00:00:00 2001
+From 597d5bb486bb7ca1653496363d2f4826a6d52587 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 2 Dec 2025 11:58:15 +0100
+Date: Wed, 17 Dec 2025 17:49:21 +0100
 Subject: [PATCH 03/14] Replace BukkitRunnable to FoliaRunnable
 
 ---
@@ -11,7 +11,7 @@ Subject: [PATCH 03/14] Replace BukkitRunnable to FoliaRunnable
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/api/FoliaRunnable.java b/Essentials/src/main/java/com/earth2me/essentials/api/FoliaRunnable.java
 new file mode 100644
-index 000000000..aef3baf48
+index 000000000..cc2ec820e
 --- /dev/null
 +++ b/Essentials/src/main/java/com/earth2me/essentials/api/FoliaRunnable.java
 @@ -0,0 +1,271 @@
@@ -318,5 +318,5 @@ index fa97ff2ff..09c710b3f 100644
              this.sound = sound;
              this.players = players;
 -- 
-2.50.1.windows.1
+2.52.0.windows.1
 

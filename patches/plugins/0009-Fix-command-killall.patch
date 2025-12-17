@@ -1,6 +1,6 @@
-From 6123dc34c4de38f53a27b7ebaed0a2d4a49c250c Mon Sep 17 00:00:00 2001
+From cb9327a1f95eb020a67405f220090899882ad5bf Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 2 Dec 2025 11:58:17 +0100
+Date: Wed, 17 Dec 2025 17:49:23 +0100
 Subject: [PATCH 09/14] Fix command killall
 
 ---
@@ -164,5 +164,5 @@ index 65e7ad9a6..13a26aede 100644
      }
  
 -- 
-2.50.1.windows.1
+2.52.0.windows.1
 

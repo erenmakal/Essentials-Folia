@@ -1,6 +1,6 @@
-From e4bf8550a8eb718b2830cab77faab1f16acec883 Mon Sep 17 00:00:00 2001
+From 1d75e80c4372e7ea24183124d424e130870b1405 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 2 Dec 2025 12:21:22 +0100
+Date: Wed, 17 Dec 2025 17:49:27 +0100
 Subject: [PATCH 14/14] Fix dispatch command afk
 
 ---
@@ -44,5 +44,5 @@ index 7a6807edb..5f597a1db 100644
          }
          final long autoafk = ess.getSettings().getAutoAfk();
 -- 
-2.50.1.windows.1
+2.52.0.windows.1
 
