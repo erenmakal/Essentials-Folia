@@ -1,6 +1,6 @@
-From daacee716e6e209d49da191a040eb06c18cc96d2 Mon Sep 17 00:00:00 2001
-From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 17 Dec 2025 17:49:21 +0100
+From 33ae5f2669030be3df4a32214e78c25d1229e620 Mon Sep 17 00:00:00 2001
+From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
+Date: Sun, 4 Jan 2026 14:47:00 +0100
 Subject: [PATCH 04/14] Replace scheduler
 
 ---
@@ -838,11 +838,11 @@ index 09e1a9fad..b30a36eec 100644
                  Bukkit.dispatchCommand(new DiscordCommandSender(jda, Bukkit.getConsoleSender(), message -> event.reply(MessageUtil.sanitizeDiscordMarkdown(message))).getSender(), command);
              } catch (CommandException e) {
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/interactions/commands/MessageCommand.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/interactions/commands/MessageCommand.java
-index 94f00faf6..d9ec76894 100644
+index 28a6ee0d5..a9b4a4ae2 100644
 --- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/interactions/commands/MessageCommand.java
 +++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/interactions/commands/MessageCommand.java
 @@ -55,7 +55,7 @@ public class MessageCommand extends InteractionCommandImpl {
-         user.sendTl("msgFormat", event.getMember().getTag(), AdventureUtil.parsed(user.playerTl("meRecipient")), message);
+         user.sendTl("msgFormat", event.getMember().getName(), AdventureUtil.parsed(user.playerTl("meRecipient")), message);
          // We use an atomic reference here so that java will garbage collect the recipient
          final AtomicReference<DiscordMessageRecipient> ref = new AtomicReference<>(new DiscordMessageRecipient(event.getMember()));
 -        jda.getPlugin().getEss().runTaskLaterAsynchronously(() -> ref.set(null), 6000); // Expires after 5 minutes

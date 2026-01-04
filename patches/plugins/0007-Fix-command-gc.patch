@@ -1,6 +1,6 @@
-From 3ecec4aeae690cb0a52650dd7fb60c1831843080 Mon Sep 17 00:00:00 2001
-From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Wed, 17 Dec 2025 17:49:22 +0100
+From ef65c3dd7242b0651ad69c030e9ecd02f4d282b6 Mon Sep 17 00:00:00 2001
+From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
+Date: Sun, 4 Jan 2026 14:47:01 +0100
 Subject: [PATCH 07/14] Fix command gc
 
 ---
