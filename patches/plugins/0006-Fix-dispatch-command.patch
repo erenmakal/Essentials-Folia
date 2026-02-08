@@ -1,6 +1,6 @@
-From 2066aea826db0f1e77a5d4e9785924420790afa2 Mon Sep 17 00:00:00 2001
+From a566cbe77ce0544067f157fa595ccd5413a37723 Mon Sep 17 00:00:00 2001
 From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 4 Jan 2026 14:47:00 +0100
+Date: Mon, 9 Feb 2026 00:20:19 +0100
 Subject: [PATCH 06/14] Fix dispatch command
 
 ---
@@ -32,10 +32,10 @@ index 7261b7903..c9285c6e3 100644
          ess.getAsyncScheduler().runNow(ess, scheduledTask -> { // Euphyllia
              try {
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Kit.java b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
-index e32ade33e..a33e714e9 100644
+index 9213890a6..69cfb06ee 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Kit.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
-@@ -262,9 +262,11 @@ public class Kit {
+@@ -287,9 +287,11 @@ public class Kit {
                  t.pay(user, OverflowType.DROP);
              }
  

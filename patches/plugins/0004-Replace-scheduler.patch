@@ -1,6 +1,6 @@
-From 33ae5f2669030be3df4a32214e78c25d1229e620 Mon Sep 17 00:00:00 2001
+From 349fa6bb425ae17ad82ed1959a3c028d47ad41c1 Mon Sep 17 00:00:00 2001
 From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 4 Jan 2026 14:47:00 +0100
+Date: Mon, 9 Feb 2026 00:20:18 +0100
 Subject: [PATCH 04/14] Replace scheduler
 
 ---
@@ -470,10 +470,10 @@ index 19e156f66..0f37ebfbe 100644
  
  }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandcreatekit.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandcreatekit.java
-index 7325a75b7..bb611ccd5 100644
+index 0c5189f82..904044b69 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandcreatekit.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandcreatekit.java
-@@ -72,7 +72,7 @@ public class Commandcreatekit extends EssentialsCommand {
+@@ -73,7 +73,7 @@ public class Commandcreatekit extends EssentialsCommand {
      }
  
      private void uploadPaste(final CommandSource sender, final String kitName, final long delay, final List<String> list) {
@@ -483,7 +483,7 @@ index 7325a75b7..bb611ccd5 100644
                  final StringWriter sw = new StringWriter();
                  final YamlConfigurationLoader loader = YamlConfigurationLoader.builder().sink(() -> new BufferedWriter(sw)).indent(2).nodeStyle(NodeStyle.BLOCK).build();
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
-index 09c710b3f..0c9a8ce87 100644
+index 1efae5e9c..03a931afb 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandessentials.java
 @@ -38,7 +38,7 @@ import org.bukkit.inventory.ItemStack;

@@ -1,6 +1,6 @@
-From e1ad36ce7792f1d2ee4208f22b317067b0442bc4 Mon Sep 17 00:00:00 2001
+From b0cf690fe3a540c8603f0f1707f6f60f8a45d708 Mon Sep 17 00:00:00 2001
 From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 4 Jan 2026 14:47:02 +0100
+Date: Mon, 9 Feb 2026 00:20:21 +0100
 Subject: [PATCH 13/14] Patch com.earth2me.essentials.EssentialsPlayerListen
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH 13/14] Patch com.earth2me.essentials.EssentialsPlayerListen
  1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index f33efcf8a..3d3b9e5ec 100644
+index 8fc09fdcb..58b5c5e0a 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 @@ -95,7 +95,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
@@ -84,7 +84,7 @@ index f33efcf8a..3d3b9e5ec 100644
      }
  
      // Makes the compass item ingame always point to the first essentials home.  #EasterEgg
-@@ -740,7 +740,7 @@ public class EssentialsPlayerListener implements Listener {
+@@ -752,7 +752,7 @@ public class EssentialsPlayerListener implements Listener {
          final User user = ess.getUser(event.getPlayer());
          if (user.hasUnlimited(new ItemStack(event.getBucket()))) {
              event.getItemStack().setType(event.getBucket());
@@ -93,7 +93,7 @@ index f33efcf8a..3d3b9e5ec 100644
          }
      }
  
-@@ -998,7 +998,7 @@ public class EssentialsPlayerListener implements Listener {
+@@ -1010,7 +1010,7 @@ public class EssentialsPlayerListener implements Listener {
                  }
              }
  
@@ -102,7 +102,7 @@ index f33efcf8a..3d3b9e5ec 100644
          } catch (final Exception ex) {
              if (ess.getSettings().isDebug()) {
                  ess.getLogger().log(Level.WARNING, ex.getMessage(), ex);
-@@ -1029,7 +1029,7 @@ public class EssentialsPlayerListener implements Listener {
+@@ -1041,7 +1041,7 @@ public class EssentialsPlayerListener implements Listener {
                      }
                  }
  
@@ -111,7 +111,7 @@ index f33efcf8a..3d3b9e5ec 100644
  
              }
          }
-@@ -1091,7 +1091,7 @@ public class EssentialsPlayerListener implements Listener {
+@@ -1103,7 +1103,7 @@ public class EssentialsPlayerListener implements Listener {
          }
  
          if (refreshPlayer != null) {
@@ -120,7 +120,7 @@ index f33efcf8a..3d3b9e5ec 100644
          }
      }
  
-@@ -1154,7 +1154,7 @@ public class EssentialsPlayerListener implements Listener {
+@@ -1166,7 +1166,7 @@ public class EssentialsPlayerListener implements Listener {
          }
  
          if (refreshPlayer != null) {
@@ -129,7 +129,7 @@ index f33efcf8a..3d3b9e5ec 100644
          }
      }
  
-@@ -1178,10 +1178,10 @@ public class EssentialsPlayerListener implements Listener {
+@@ -1190,10 +1190,10 @@ public class EssentialsPlayerListener implements Listener {
          final Player player = event.getPlayer();
          if (player.isFlying() && player.getAllowFlight() && user.isAuthorized("essentials.fly")) {
              // The gamemode change happens after the event, so we need to delay the flight enable
