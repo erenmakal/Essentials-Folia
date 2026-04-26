@@ -1,14 +1,14 @@
-From c0cb297d719479d427af2f3ceaca21da5ac653a3 Mon Sep 17 00:00:00 2001
+From 5153907be17d02aff00639ace5a6c963160638f1 Mon Sep 17 00:00:00 2001
 From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Mon, 9 Feb 2026 00:20:20 +0100
-Subject: [PATCH 10/14] Fix commands thor player
+Date: Sun, 26 Apr 2026 13:47:07 +0200
+Subject: [PATCH 10/13] Fix commands thor player
 
 ---
  .../com/earth2me/essentials/commands/Commandlightning.java     | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
-index a8a53db62..89e89dead 100644
+index 046923c68..fe10fd43e 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandlightning.java
 @@ -33,6 +33,7 @@ public class Commandlightning extends EssentialsLoopCommand {

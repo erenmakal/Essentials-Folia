@@ -1,0 +1,33 @@
+From 357831a8de91b8daf5c085659c229195a5d85cb2 Mon Sep 17 00:00:00 2001
+From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
+Date: Sun, 26 Apr 2026 13:49:15 +0200
+Subject: [PATCH 12/13] Fix dispatch command afk
+
+---
+ Essentials/src/main/java/com/earth2me/essentials/User.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/User.java b/Essentials/src/main/java/com/earth2me/essentials/User.java
+index 2ab8ca2c0..26f80be06 100644
+--- a/Essentials/src/main/java/com/earth2me/essentials/User.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/User.java
+@@ -892,6 +892,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
+                 }
+             } else {
+                 // If `afk-timeout-commands` in config.yml is populated, execute the command(s) instead of kicking the player.
++                ess.getGlobalRegionScheduler().execute(ess, () -> {
+                 for (final String command : ess.getSettings().getAfkTimeoutCommands()) {
+                     if (command == null || command.isEmpty()){
+                         continue;
+@@ -899,7 +900,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
+                     // Replace placeholders in the command with actual values.
+                     final String cmd = command.replace("{USERNAME}", getName()).replace("{KICKTIME}", String.valueOf(kickTime));
+                     ess.getServer().dispatchCommand(ess.getServer().getConsoleSender(), cmd);
+-                }
++                }});
+             }
+         }
+         final long autoafk = ess.getSettings().getAutoAfk();
+-- 
+2.52.0.windows.1
+

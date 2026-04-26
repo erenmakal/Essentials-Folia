@@ -1,63 +1,26 @@
-From a8d87ca2d8f931b4fd55a9daa4f5cac65ce593b8 Mon Sep 17 00:00:00 2001
+From 07baf278a59a5f62ba6cf1392047d6aaf5639cc4 Mon Sep 17 00:00:00 2001
 From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Mon, 9 Feb 2026 00:20:19 +0100
-Subject: [PATCH 05/14] Fix command time
+Date: Sun, 26 Apr 2026 13:36:29 +0200
+Subject: [PATCH 05/13] Fix command time
 
 ---
- .../essentials/commands/Commandtime.java      | 26 ++++++++++---------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ .../java/com/earth2me/essentials/commands/Commandtime.java     | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandtime.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandtime.java
-index 4e85d7b4c..2002335f8 100644
+index f4ab38193..68034ced0 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandtime.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandtime.java
-@@ -33,7 +33,7 @@ public class Commandtime extends EssentialsCommand {
-     public void run(final Server server, final CommandSource sender, final String commandLabel, final String[] args) throws Exception {
-         final long timeTick;
-         final Set<World> worlds;
--        boolean add = false;
-+        final java.util.concurrent.atomic.AtomicBoolean add = new java.util.concurrent.atomic.AtomicBoolean(false); // Euphyllia - fix command time
-         if (args.length == 0) {
-             worlds = getWorlds(server, sender, null);
-             if (commandLabel.endsWith("day") || commandLabel.endsWith("night")) {
-@@ -52,7 +52,7 @@ public class Commandtime extends EssentialsCommand {
-         } else {
-             if (args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("add")) {
-                 try {
--                    add = args[0].equalsIgnoreCase("add");
-+                    add.set(args[0].equalsIgnoreCase("add")); // Euphyllia - fix command time
-                     timeTick = DescParseTickFormat.parse(NumberUtil.isInt(args[1]) ? (args[1] + "t") : args[1]);
-                     worlds = getWorlds(server, sender, args.length > 2 ? args[2] : null);
-                 } catch (final NumberFormatException e) {
-@@ -81,16 +81,18 @@ public class Commandtime extends EssentialsCommand {
-         }
- 
-         final StringJoiner joiner = new StringJoiner(", ");
--        for (final World world : worlds) {
--            long time = world.getTime();
--            if (!add) {
--                time -= time % 24000;
--            }
+@@ -97,7 +97,8 @@ public class Commandtime extends EssentialsCommand {
+             if (!add) {
+                 time -= time % 24000;
+             }
 -            world.setTime(time + (add ? 0 : 24000) + timeTick);
--            joiner.add(world.getName());
--        }
--
--        sender.sendTl(add ? "timeWorldAdd" : "timeWorldSet", DescParseTickFormat.formatTicks(timeTick), joiner.toString());
-+        // Euphyllia start - fix command time
-+        ess.getGlobalRegionScheduler().execute(ess, () -> {
-+            worlds.forEach(world -> {
-+                long time = world.getTime();
-+                if (!add.get()) {
-+                    time -= time % 24000;
-+                }
-+                world.setTime(time + (add.get() ? 0 : 24000) + timeTick);
-+                joiner.add(world.getName());
-+            });
-+            sender.sendTl(add.get() ? "timeWorldAdd" : "timeWorldSet", DescParseTickFormat.formatTicks(timeTick), joiner.toString());
-+        });
-     }
++            final long timeFinal = time + (add ? 0 : 24000) + timeTick;
++            ess.getGlobalRegionScheduler().execute(ess, () -> world.setTime(timeFinal));
  
-     private void getWorldsTime(final CommandSource sender, final Collection<World> worlds) {
+             // Re-apply ptime offsets so players maintain their intended visible time
+             final long newWorldTime = world.getTime();
 -- 
 2.52.0.windows.1
 

@@ -1,52 +1,49 @@
-From a566cbe77ce0544067f157fa595ccd5413a37723 Mon Sep 17 00:00:00 2001
+From 6bcf59fc04dab92e4c3f7bed31c72f368bda9468 Mon Sep 17 00:00:00 2001
 From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Mon, 9 Feb 2026 00:20:19 +0100
-Subject: [PATCH 06/14] Fix dispatch command
+Date: Sun, 26 Apr 2026 13:38:38 +0200
+Subject: [PATCH 06/13] Fix dispatch command
 
 ---
- .../src/main/java/com/earth2me/essentials/Backup.java     | 6 +++---
- Essentials/src/main/java/com/earth2me/essentials/Kit.java | 8 +++++---
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ Essentials/src/main/java/com/earth2me/essentials/Backup.java | 5 +++--
+ Essentials/src/main/java/com/earth2me/essentials/Kit.java    | 3 ++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Backup.java b/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-index 7261b7903..c9285c6e3 100644
+index 483608052..25bb04d0f 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Backup.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-@@ -77,15 +77,15 @@ public class Backup implements Runnable {
+@@ -74,15 +74,16 @@ public class Backup implements Runnable {
          taskLock = new CompletableFuture<>();
          if ("save-all".equalsIgnoreCase(command)) {
              final CommandSender cs = server.getConsoleSender();
 -            server.dispatchCommand(cs, "save-all");
-+            ess.getGlobalRegionScheduler().execute(ess, () -> server.dispatchCommand(cs, "save-all")); // Euphyllia - Fix dispatch command
++            ess.getGlobalRegionScheduler().execute(ess, () -> server.dispatchCommand(cs, "save-all"));
              active = false;
              taskLock.complete(new Object());
              return;
          }
-         ess.getLogger().log(Level.INFO, AdventureUtil.miniToLegacy(tlLiteral("backupStarted")));
+         ess.getLogger().log(Level.INFO, ess.getAdventureFacet().miniToLegacy(tlLiteral("backupStarted")));
          final CommandSender cs = server.getConsoleSender();
--        server.dispatchCommand(cs, "save-all");
++        ess.getGlobalRegionScheduler().execute(ess, () -> {
+         server.dispatchCommand(cs, "save-all");
 -        server.dispatchCommand(cs, "save-off");
-+        ess.getGlobalRegionScheduler().execute(ess, () -> server.dispatchCommand(cs, "save-all")); // Euphyllia - Fix dispatch command
-+        ess.getGlobalRegionScheduler().execute(ess, () -> server.dispatchCommand(cs, "save-off")); // Euphyllia - Fix dispatch command
++        server.dispatchCommand(cs, "save-off");});
  
          ess.getAsyncScheduler().runNow(ess, scheduledTask -> { // Euphyllia
              try {
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Kit.java b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
-index 9213890a6..69cfb06ee 100644
+index 895b13d82..21374ca99 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Kit.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
-@@ -287,9 +287,11 @@ public class Kit {
+@@ -286,9 +286,10 @@ public class Kit {
                  t.pay(user, OverflowType.DROP);
              }
  
--            for (final String cmd : commandQueue) {
--                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
++            ess.getGlobalRegionScheduler().execute(ess, () -> {
+             for (final String cmd : commandQueue) {
+                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 -            }
-+            ess.getGlobalRegionScheduler().execute(ess, () -> { // Euphyllia start - Fix dispatch command
-+                for (final String cmd : commandQueue) {
-+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
-+                }
-+            }); // Euphyllia end - Fix dispatch command
++            }});
  
              if (spew) {
                  user.sendTl("kitInvFull");
