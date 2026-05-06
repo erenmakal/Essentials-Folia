@@ -1,12 +1,11 @@
-From aea01d1b1343173139ca3f76660bdaf2fd1126d9 Mon Sep 17 00:00:00 2001
-From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 26 Apr 2026 13:43:42 +0200
-Subject: [PATCH 08/13] Module Discord Fix Stop Server task
+From 8238a3195a7ad775c1d84b5d0d9ab513cceec687 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 7 May 2026 00:30:11 +0200
+Subject: [PATCH 08/18] Module Discord Fix Stop Server task
 
 ---
  .../java/net/essentialsx/discord/EssentialsDiscord.java     | 6 ++++++
- .../java/net/essentialsx/discord/JDADiscordService.java     | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ 1 file changed, 6 insertions(+)
 
 diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/EssentialsDiscord.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/EssentialsDiscord.java
 index bda1bb69b..00881ae12 100644
@@ -39,19 +38,6 @@ index bda1bb69b..00881ae12 100644
      public boolean isInvalidStartup() {
          return jda != null && jda.isInvalidStartup();
      }
-diff --git a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-index 3df7226e6..6c11d81dd 100644
---- a/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-+++ b/EssentialsDiscord/src/main/java/net/essentialsx/discord/JDADiscordService.java
-@@ -292,7 +292,7 @@ public class JDADiscordService implements DiscordService, IEssentialsModule {
-         if (Bukkit.getServer().isPrimaryThread()) {
-             Bukkit.getPluginManager().callEvent(event);
-         } else {
--            getPlugin().getEss().getGlobalRegionScheduler().execute(getPlugin(), () -> Bukkit.getPluginManager().callEvent(event)); // Euphyllia
-+             if (!getPlugin().isDisabled()) getPlugin().getEss().getGlobalRegionScheduler().execute(getPlugin(), () -> Bukkit.getPluginManager().callEvent(event)); // Euphyllia
-         }
-     }
- 
 -- 
-2.52.0.windows.1
+2.54.0.windows.1
 

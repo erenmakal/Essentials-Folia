@@ -1,7 +1,7 @@
-From 357831a8de91b8daf5c085659c229195a5d85cb2 Mon Sep 17 00:00:00 2001
-From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 26 Apr 2026 13:49:15 +0200
-Subject: [PATCH 12/13] Fix dispatch command afk
+From c8f9825f09baad764c8bac3b963c5c4f3a3c53a1 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 7 May 2026 00:30:12 +0200
+Subject: [PATCH 12/18] Fix dispatch command afk
 
 ---
  Essentials/src/main/java/com/earth2me/essentials/User.java | 3 ++-
@@ -29,5 +29,5 @@ index 2ab8ca2c0..26f80be06 100644
          }
          final long autoafk = ess.getSettings().getAutoAfk();
 -- 
-2.52.0.windows.1
+2.54.0.windows.1
 

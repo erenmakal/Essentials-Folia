@@ -1,7 +1,7 @@
-From 07baf278a59a5f62ba6cf1392047d6aaf5639cc4 Mon Sep 17 00:00:00 2001
-From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 26 Apr 2026 13:36:29 +0200
-Subject: [PATCH 05/13] Fix command time
+From 377fe965107c33c9b7b895bb03b585f3c0e549b0 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 7 May 2026 00:30:11 +0200
+Subject: [PATCH 05/18] Fix command time
 
 ---
  .../java/com/earth2me/essentials/commands/Commandtime.java     | 3 ++-
@@ -22,5 +22,5 @@ index f4ab38193..68034ced0 100644
              // Re-apply ptime offsets so players maintain their intended visible time
              final long newWorldTime = world.getTime();
 -- 
-2.52.0.windows.1
+2.54.0.windows.1
 

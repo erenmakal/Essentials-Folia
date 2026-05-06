@@ -1,7 +1,7 @@
-From a05c24f04a8e9cc5e426526e60c6dd34ac6165d4 Mon Sep 17 00:00:00 2001
-From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 26 Apr 2026 14:06:57 +0200
-Subject: [PATCH 13/13] Fix teleport Folia 26
+From c0788fde520fea4ef25b224aca7d3d16f8b5d758 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 7 May 2026 00:30:12 +0200
+Subject: [PATCH 13/18] Fix teleport Folia 26
 
 ---
  .../earth2me/essentials/AsyncTeleport.java    | 37 +++++++++++++++++++
@@ -63,5 +63,5 @@ index f691d30d8..b5414c409 100644
              Location loc = targetLoc;
              if (LocationUtil.isBlockUnsafeForUser(ess, teleportee, chunk.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())) {
 -- 
-2.52.0.windows.1
+2.54.0.windows.1
 

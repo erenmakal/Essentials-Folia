@@ -1,36 +1,12 @@
-From 6bcf59fc04dab92e4c3f7bed31c72f368bda9468 Mon Sep 17 00:00:00 2001
-From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 26 Apr 2026 13:38:38 +0200
-Subject: [PATCH 06/13] Fix dispatch command
+From 617319575e474965117ef4973cedd3f8f9b61f59 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 7 May 2026 00:30:11 +0200
+Subject: [PATCH 06/18] Fix dispatch command
 
 ---
- Essentials/src/main/java/com/earth2me/essentials/Backup.java | 5 +++--
- Essentials/src/main/java/com/earth2me/essentials/Kit.java    | 3 ++-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ Essentials/src/main/java/com/earth2me/essentials/Kit.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Essentials/src/main/java/com/earth2me/essentials/Backup.java b/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-index 483608052..25bb04d0f 100644
---- a/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-+++ b/Essentials/src/main/java/com/earth2me/essentials/Backup.java
-@@ -74,15 +74,16 @@ public class Backup implements Runnable {
-         taskLock = new CompletableFuture<>();
-         if ("save-all".equalsIgnoreCase(command)) {
-             final CommandSender cs = server.getConsoleSender();
--            server.dispatchCommand(cs, "save-all");
-+            ess.getGlobalRegionScheduler().execute(ess, () -> server.dispatchCommand(cs, "save-all"));
-             active = false;
-             taskLock.complete(new Object());
-             return;
-         }
-         ess.getLogger().log(Level.INFO, ess.getAdventureFacet().miniToLegacy(tlLiteral("backupStarted")));
-         final CommandSender cs = server.getConsoleSender();
-+        ess.getGlobalRegionScheduler().execute(ess, () -> {
-         server.dispatchCommand(cs, "save-all");
--        server.dispatchCommand(cs, "save-off");
-+        server.dispatchCommand(cs, "save-off");});
- 
-         ess.getAsyncScheduler().runNow(ess, scheduledTask -> { // Euphyllia
-             try {
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Kit.java b/Essentials/src/main/java/com/earth2me/essentials/Kit.java
 index 895b13d82..21374ca99 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Kit.java
@@ -48,5 +24,5 @@ index 895b13d82..21374ca99 100644
              if (spew) {
                  user.sendTl("kitInvFull");
 -- 
-2.52.0.windows.1
+2.54.0.windows.1
 

@@ -1,7 +1,7 @@
-From a93aa52d858b0465fe9b71109dfe310f8b689d88 Mon Sep 17 00:00:00 2001
-From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 26 Apr 2026 12:56:15 +0200
-Subject: [PATCH 03/13] Replace BukkitRunnable to FoliaRunnable
+From a4b9f28762e41134abb3ee97dd897f53a7050642 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 7 May 2026 00:30:10 +0200
+Subject: [PATCH 03/18] Replace BukkitRunnable to FoliaRunnable
 
 ---
  .../earth2me/essentials/commands/essentials/NyanCommand.java | 5 +++--
@@ -33,5 +33,5 @@ index 9e42fc503..172b6c331 100644
              this.sound = sound;
              this.players = players;
 -- 
-2.52.0.windows.1
+2.54.0.windows.1
 

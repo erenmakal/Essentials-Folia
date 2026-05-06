@@ -1,47 +1,59 @@
-From e26b50f50a1adc7bbde97038c915469874c7addf Mon Sep 17 00:00:00 2001
-From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 26 Apr 2026 13:42:14 +0200
-Subject: [PATCH 07/13] Fix command gc
+From 65410da925f443f7b1a60f3dd88b798ad62a5975 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 7 May 2026 00:30:11 +0200
+Subject: [PATCH 07/18] Fix command gc
 
 ---
- .../essentials/commands/Commandgc.java        | 107 +++++++++++++++---
- .../essentials/utils/VersionUtil.java         |   9 ++
- 2 files changed, 103 insertions(+), 13 deletions(-)
+ .../essentials/commands/Commandgc.java        | 211 ++++++++++++------
+ .../essentials/utils/VersionUtil.java         |   9 +
+ 2 files changed, 155 insertions(+), 65 deletions(-)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgc.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgc.java
-index b35449507..231e47be6 100644
+index b35449507..40a214b22 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgc.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgc.java
-@@ -3,6 +3,7 @@ package com.earth2me.essentials.commands;
- import com.earth2me.essentials.CommandSource;
- import com.earth2me.essentials.utils.DateUtil;
- import com.earth2me.essentials.utils.NumberUtil;
-+import com.earth2me.essentials.utils.VersionUtil;
- import net.ess3.provider.TileEntityProvider;
- import org.bukkit.ChatColor;
- import org.bukkit.Chunk;
-@@ -11,6 +12,8 @@ import org.bukkit.World;
- 
- import java.lang.management.ManagementFactory;
- import java.util.List;
-+import java.util.concurrent.atomic.AtomicInteger;
-+import java.util.function.Consumer;
- import java.util.logging.Level;
- 
- public class Commandgc extends EssentialsCommand {
-@@ -31,7 +34,7 @@ public class Commandgc extends EssentialsCommand {
-         }
- 
-         sender.sendTl("uptime", DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime()));
+@@ -1,65 +1,146 @@
+-package com.earth2me.essentials.commands;
+-
+-import com.earth2me.essentials.CommandSource;
+-import com.earth2me.essentials.utils.DateUtil;
+-import com.earth2me.essentials.utils.NumberUtil;
+-import net.ess3.provider.TileEntityProvider;
+-import org.bukkit.ChatColor;
+-import org.bukkit.Chunk;
+-import org.bukkit.Server;
+-import org.bukkit.World;
+-
+-import java.lang.management.ManagementFactory;
+-import java.util.List;
+-import java.util.logging.Level;
+-
+-public class Commandgc extends EssentialsCommand {
+-    public Commandgc() {
+-        super("gc");
+-    }
+-
+-    @Override
+-    protected void run(final Server server, final CommandSource sender, final String commandLabel, final String[] args) throws Exception {
+-        final double tps = ess.getTimer().getAverageTPS();
+-        final ChatColor color;
+-        if (tps >= 18.0) {
+-            color = ChatColor.GREEN;
+-        } else if (tps >= 15.0) {
+-            color = ChatColor.YELLOW;
+-        } else {
+-            color = ChatColor.RED;
+-        }
+-
+-        sender.sendTl("uptime", DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime()));
 -        sender.sendTl("tps", "" + color + NumberUtil.formatDouble(tps));
-+        if (!VersionUtil.isFoliaServer()) sender.sendTl("tps", "" + color + NumberUtil.formatDouble(tps));
-         sender.sendTl("gcmax", Runtime.getRuntime().maxMemory() / 1024 / 1024);
-         sender.sendTl("gctotal", Runtime.getRuntime().totalMemory() / 1024 / 1024);
-         sender.sendTl("gcfree", Runtime.getRuntime().freeMemory() / 1024 / 1024);
-@@ -39,27 +42,105 @@ public class Commandgc extends EssentialsCommand {
-         final List<World> worlds = server.getWorlds();
-         final TileEntityProvider tileEntityProvider = ess.provider(TileEntityProvider.class);
-         for (final World w : worlds) {
+-        sender.sendTl("gcmax", Runtime.getRuntime().maxMemory() / 1024 / 1024);
+-        sender.sendTl("gctotal", Runtime.getRuntime().totalMemory() / 1024 / 1024);
+-        sender.sendTl("gcfree", Runtime.getRuntime().freeMemory() / 1024 / 1024);
+-
+-        final List<World> worlds = server.getWorlds();
+-        final TileEntityProvider tileEntityProvider = ess.provider(TileEntityProvider.class);
+-        for (final World w : worlds) {
 -            String worldType = "World";
 -            switch (w.getEnvironment()) {
 -                case NETHER:
@@ -51,6 +63,65 @@ index b35449507..231e47be6 100644
 -                    worldType = "The End";
 -                    break;
 -            }
+-
+-            int tileEntities = 0;
+-
+-            try {
+-                for (final Chunk chunk : w.getLoadedChunks()) {
+-                    tileEntities += tileEntityProvider.getTileEntities(chunk).length;
+-                }
+-            } catch (final java.lang.ClassCastException ex) {
+-                ess.getLogger().log(Level.SEVERE, "Corrupted chunk data on world " + w, ex);
+-            }
+-
+-            sender.sendTl("gcWorld", worldType, w.getName(), w.getLoadedChunks().length, w.getEntities().size(), tileEntities);
+-        }
+-    }
+-}
++package com.earth2me.essentials.commands;
++
++import com.earth2me.essentials.CommandSource;
++import com.earth2me.essentials.utils.DateUtil;
++import com.earth2me.essentials.utils.NumberUtil;
++import com.earth2me.essentials.utils.VersionUtil;
++import net.ess3.provider.TileEntityProvider;
++import org.bukkit.ChatColor;
++import org.bukkit.Chunk;
++import org.bukkit.Server;
++import org.bukkit.World;
++
++import java.lang.management.ManagementFactory;
++import java.util.List;
++import java.util.concurrent.atomic.AtomicInteger;
++import java.util.function.Consumer;
++import java.util.logging.Level;
++
++public class Commandgc extends EssentialsCommand {
++    public Commandgc() {
++        super("gc");
++    }
++
++    @Override
++    protected void run(final Server server, final CommandSource sender, final String commandLabel, final String[] args) throws Exception {
++        final double tps = ess.getTimer().getAverageTPS();
++        final ChatColor color;
++        if (tps >= 18.0) {
++            color = ChatColor.GREEN;
++        } else if (tps >= 15.0) {
++            color = ChatColor.YELLOW;
++        } else {
++            color = ChatColor.RED;
++        }
++
++        sender.sendTl("uptime", DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime()));
++        if (!VersionUtil.isFoliaServer()) sender.sendTl("tps", "" + color + NumberUtil.formatDouble(tps));
++        sender.sendTl("gcmax", Runtime.getRuntime().maxMemory() / 1024 / 1024);
++        sender.sendTl("gctotal", Runtime.getRuntime().totalMemory() / 1024 / 1024);
++        sender.sendTl("gcfree", Runtime.getRuntime().freeMemory() / 1024 / 1024);
++
++        final List<World> worlds = server.getWorlds();
++        final TileEntityProvider tileEntityProvider = ess.provider(TileEntityProvider.class);
++        for (final World w : worlds) {
 +            getChunkStatsAsync(tileEntityProvider, w, result -> {
 +                sender.sendTl("gcWorld",
 +                        getWorldType(w),
@@ -73,7 +144,7 @@ index b35449507..231e47be6 100644
 +                return "World";
 +        }
 +    }
- 
++
 +    private void getChunkStatsAsync(TileEntityProvider tileEntityProvider, World w, Consumer<Result> callback) {
 +
 +        Chunk[] chunks = w.getLoadedChunks();
@@ -84,18 +155,16 @@ index b35449507..231e47be6 100644
 +        }
 +
 +        if (!VersionUtil.isFoliaServer()) {
-             int tileEntities = 0;
- 
-             try {
--                for (final Chunk chunk : w.getLoadedChunks()) {
++            int tileEntities = 0;
++
++            try {
 +                for (final Chunk chunk : chunks) {
-                     tileEntities += tileEntityProvider.getTileEntities(chunk).length;
-                 }
-             } catch (final java.lang.ClassCastException ex) {
-                 ess.getLogger().log(Level.SEVERE, "Corrupted chunk data on world " + w, ex);
-             }
- 
--            sender.sendTl("gcWorld", worldType, w.getName(), w.getLoadedChunks().length, w.getEntities().size(), tileEntities);
++                    tileEntities += tileEntityProvider.getTileEntities(chunk).length;
++                }
++            } catch (final java.lang.ClassCastException ex) {
++                ess.getLogger().log(Level.SEVERE, "Corrupted chunk data on world " + w, ex);
++            }
++
 +            callback.accept(new Result(
 +                    tileEntities,
 +                    w.getEntities().size()
@@ -152,9 +221,8 @@ index b35449507..231e47be6 100644
 +
 +        public int getEntities() {
 +            return entities;
-         }
-     }
--}
++        }
++    }
 +}
 \ No newline at end of file
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/utils/VersionUtil.java b/Essentials/src/main/java/com/earth2me/essentials/utils/VersionUtil.java
@@ -192,5 +260,5 @@ index 1698345ae..90ed007e5 100644
          if (serverVersion == null) {
              serverVersion = BukkitVersion.fromString(Bukkit.getServer().getBukkitVersion());
 -- 
-2.52.0.windows.1
+2.54.0.windows.1
 

@@ -1,7 +1,7 @@
-From a81c597e2c7b45b88fec5c3d4d8190190737becc Mon Sep 17 00:00:00 2001
-From: Bierque Euphyllia <bierque.euphyllia@gmail.com>
-Date: Sun, 26 Apr 2026 12:51:36 +0200
-Subject: [PATCH 01/13] Rebrand
+From e0046f091eea66f3809c1e6be921b26d5c8b8af3 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 7 May 2026 00:30:10 +0200
+Subject: [PATCH 01/18] Rebrand
 
 ---
  Essentials/src/main/resources/plugin.yml      |  1 +
@@ -18,7 +18,7 @@ Subject: [PATCH 01/13] Rebrand
  11 files changed, 113 insertions(+), 103 deletions(-)
 
 diff --git a/Essentials/src/main/resources/plugin.yml b/Essentials/src/main/resources/plugin.yml
-index b18e7f06f..d671422c9 100644
+index 15fdd34ed..c63e7f8af 100644
 --- a/Essentials/src/main/resources/plugin.yml
 +++ b/Essentials/src/main/resources/plugin.yml
 @@ -7,6 +7,7 @@ description: Provides an essential, core set of commands for Bukkit.
@@ -340,5 +340,5 @@ index 566f22925..8c006bfc5 100644
  project.ext {
      GIT_COMMIT = !indraGit.isPresent() ? "unknown" : indraGit.commit().abbreviate(7).name()
 -- 
-2.52.0.windows.1
+2.54.0.windows.1
 
