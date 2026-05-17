@@ -1,7 +1,7 @@
-From c855fa99cfe58fa2aca3d9aa1dc90662f12b22e5 Mon Sep 17 00:00:00 2001
+From 740c4c4c79b68c5c8e93fcf49b6d3a92fce8200c Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 7 May 2026 00:30:13 +0200
-Subject: [PATCH 16/18] Patch RoleSyncManager
+Date: Sun, 17 May 2026 19:43:56 +0200
+Subject: [PATCH 16/21] Patch RoleSyncManager
 
 ---
  .../discordlink/rolesync/RoleSyncManager.java      | 14 +++++++-------

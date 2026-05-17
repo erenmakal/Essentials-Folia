@@ -1,0 +1,34 @@
+From 433d57184a14f53e2bf98cc1b21b269f335ccde5 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Sun, 17 May 2026 19:52:21 +0200
+Subject: [PATCH 19/21] Fix EssentialsPlayerListener#updateCompass
+
+---
+ .../earth2me/essentials/EssentialsPlayerListener.java | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
+index dda65453f..5298cf1a5 100644
+--- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
+@@ -622,6 +622,17 @@ public class EssentialsPlayerListener implements Listener {
+ 
+         final Location loc = user.getHome(user.getLocation());
+         if (loc == null) {
++            if (VersionUtil.isFoliaServer()) {
++                final Player player = user.getBase();
++                final Location bedLocation = player.getRespawnLocation();
++                if (bedLocation == null) return;
++                player.teleportAsync(bedLocation, TeleportCause.PLUGIN).thenAccept(success -> {
++                    if (success) {
++                        player.setCompassTarget(bedLocation);
++                    }
++                });
++                return;
++            }
+             PaperLib.getBedSpawnLocationAsync(user.getBase(), false).thenAccept(location -> {
+                 if (location != null) {
+                     user.getBase().setCompassTarget(location);
+-- 
+2.54.0.windows.1
+

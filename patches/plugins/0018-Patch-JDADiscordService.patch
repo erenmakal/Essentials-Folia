@@ -1,7 +1,7 @@
-From 207297d216b82efe3cdcb65449a3968c07cf3087 Mon Sep 17 00:00:00 2001
+From d180cffbb4d688cd76aa6b5b67676015f5990e48 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 7 May 2026 00:30:13 +0200
-Subject: [PATCH 18/18] Patch JDADiscordService
+Date: Sun, 17 May 2026 19:43:57 +0200
+Subject: [PATCH 18/21] Patch JDADiscordService
 
 ---
  .../main/java/net/essentialsx/discord/JDADiscordService.java  | 4 ++--

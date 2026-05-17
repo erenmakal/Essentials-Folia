@@ -1,7 +1,7 @@
-From 345ffae6aad113c9fe027561e55ed3bc20e301d8 Mon Sep 17 00:00:00 2001
+From 578e3f50b5119d63f4cfd6c9e3d0b6c67ed86afd Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 7 May 2026 00:30:13 +0200
-Subject: [PATCH 17/18] Patch Backup
+Date: Sun, 17 May 2026 19:43:56 +0200
+Subject: [PATCH 17/21] Patch Backup
 
 ---
  .../java/com/earth2me/essentials/Backup.java  | 24 +++++++++----------

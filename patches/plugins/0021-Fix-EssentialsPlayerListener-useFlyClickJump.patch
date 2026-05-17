@@ -1,0 +1,27 @@
+From 849c9a25edbc4c76802dd0e7f814992b0c39b075 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Sun, 17 May 2026 19:55:22 +0200
+Subject: [PATCH 21/21] Fix EssentialsPlayerListener#useFlyClickJump
+
+---
+ .../com/earth2me/essentials/EssentialsPlayerListener.java     | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
+index 5298cf1a5..f93119f05 100644
+--- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
+@@ -1037,7 +1037,9 @@ public class EssentialsPlayerListener implements Listener {
+                     while (LocationUtil.isBlockDamaging(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ())) {
+                         loc.setY(loc.getY() + 1d);
+                     }
+-                    PaperLib.teleportAsync(user.getBase(), loc, TeleportCause.PLUGIN);
++                    if (VersionUtil.isFoliaServer()) {
++                        user.getBase().teleportAsync(loc, TeleportCause.PLUGIN);
++                    } else PaperLib.teleportAsync(user.getBase(), loc, TeleportCause.PLUGIN);
+                 }
+             }
+ 
+-- 
+2.54.0.windows.1
+

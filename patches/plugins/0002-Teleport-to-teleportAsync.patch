@@ -1,7 +1,7 @@
-From 2cc7b756a86113cddb3b8cf789259c819b58611d Mon Sep 17 00:00:00 2001
+From 7bd611748fbff00e2fc0902646879f027f9f0f31 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 7 May 2026 00:30:10 +0200
-Subject: [PATCH 02/18] Teleport to teleportAsync
+Date: Sun, 17 May 2026 19:43:50 +0200
+Subject: [PATCH 02/21] Teleport to teleportAsync
 
 ---
  .../main/java/com/earth2me/essentials/AsyncTeleport.java | 9 +++++----

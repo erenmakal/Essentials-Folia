@@ -1,7 +1,7 @@
-From 65410da925f443f7b1a60f3dd88b798ad62a5975 Mon Sep 17 00:00:00 2001
+From db2b616678d926f6a90ff557e4641f69cddbba51 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 7 May 2026 00:30:11 +0200
-Subject: [PATCH 07/18] Fix command gc
+Date: Sun, 17 May 2026 19:43:52 +0200
+Subject: [PATCH 07/21] Fix command gc
 
 ---
  .../essentials/commands/Commandgc.java        | 211 ++++++++++++------

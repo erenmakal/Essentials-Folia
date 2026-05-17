@@ -1,7 +1,7 @@
-From 1bc57f3473efdb096a918f7a0ffc4619cf73fb35 Mon Sep 17 00:00:00 2001
+From 075dbde896fae6b50cd9a0ac94ef4e2a1d4e847c Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 7 May 2026 00:30:11 +0200
-Subject: [PATCH 09/18] Fix command remove
+Date: Sun, 17 May 2026 19:43:53 +0200
+Subject: [PATCH 09/21] Fix command remove
 
 ---
  .../essentials/commands/Commandremove.java    | 298 ++++++++++--------

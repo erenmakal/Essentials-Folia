@@ -1,0 +1,27 @@
+From cfcb8b3f75adb6b94783648eda55ae8a7916e0ef Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Sun, 17 May 2026 19:53:43 +0200
+Subject: [PATCH 20/21] Fix AsyncTeleport#nowUnsafe
+
+---
+ .../src/main/java/com/earth2me/essentials/AsyncTeleport.java  | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
+index b5414c409..1caade377 100644
+--- a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
+@@ -135,6 +135,10 @@ public class AsyncTeleport implements IAsyncTeleport {
+ 
+     @Override
+     public void nowUnsafe(Location loc, TeleportCause cause, CompletableFuture<Boolean> future) {
++        if (VersionUtil.isFoliaServer()) {
++            teleportOwner.getBase().teleportAsync(loc, cause).thenAccept(future::complete);
++            return;
++        }
+         final CompletableFuture<Boolean> paperFuture = PaperLib.teleportAsync(teleportOwner.getBase(), loc, cause);
+         paperFuture.thenAccept(future::complete);
+         paperFuture.exceptionally(future::completeExceptionally);
+-- 
+2.54.0.windows.1
+

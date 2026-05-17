@@ -1,7 +1,7 @@
-From b897d9802129f8db286c43eee384d432f6bebb14 Mon Sep 17 00:00:00 2001
+From 48660726cc8fdb0fc3c4f46e01d8c23ff4bf2663 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Thu, 7 May 2026 00:30:12 +0200
-Subject: [PATCH 14/18] Patch IEssentials
+Date: Sun, 17 May 2026 19:43:55 +0200
+Subject: [PATCH 14/21] Patch IEssentials
 
 ---
  .../main/java/com/earth2me/essentials/IEssentials.java    | 8 ++++++++
