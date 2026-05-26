@@ -1,7 +1,7 @@
-From 6f838d8e9142f3e985067ed3b0e7936ea4e13268 Mon Sep 17 00:00:00 2001
+From 048078a95cbb974165d61acbba465f89705e71e3 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 19 May 2026 12:15:33 +0200
-Subject: [PATCH 04/21] Replace scheduler
+Date: Tue, 26 May 2026 15:49:11 +0200
+Subject: [PATCH 04/22] Replace scheduler
 
 ---
  .../essentials/AsyncTimedTeleport.java        |  12 +-

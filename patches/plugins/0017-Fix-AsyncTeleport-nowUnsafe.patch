@@ -1,7 +1,7 @@
-From 3263a3855b4c909ac7d28a2e11b2ea9964d2eb50 Mon Sep 17 00:00:00 2001
+From cb4f3940a894f0393e89141b6f09a5df68018618 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 19 May 2026 12:15:36 +0200
-Subject: [PATCH 19/21] Fix AsyncTeleport nowUnsafe
+Date: Tue, 26 May 2026 15:49:13 +0200
+Subject: [PATCH 17/22] Fix AsyncTeleport nowUnsafe
 
 ---
  .../src/main/java/com/earth2me/essentials/AsyncTeleport.java  | 4 ++++

@@ -1,7 +1,7 @@
-From 35f500f2ad682c451e9bc727809f9f09ef39d1a4 Mon Sep 17 00:00:00 2001
+From c313cb5c556841ec7c6b3b0306b38b6331fb27f6 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 19 May 2026 12:15:35 +0200
-Subject: [PATCH 13/21] Fix teleport Folia 26
+Date: Tue, 26 May 2026 15:49:12 +0200
+Subject: [PATCH 11/22] Fix teleport Folia 26
 
 ---
  .../earth2me/essentials/AsyncTeleport.java    | 37 +++++++++++++++++++

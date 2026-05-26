@@ -1,7 +1,7 @@
-From 2cf8b5c2fb9887be3f351dfe1818b88bea19ef63 Mon Sep 17 00:00:00 2001
+From 94df9c022443c2a0b8d322c93da268f791244b2e Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 19 May 2026 12:15:33 +0200
-Subject: [PATCH 06/21] Fix dispatch command
+Date: Tue, 26 May 2026 15:49:11 +0200
+Subject: [PATCH 06/22] Fix dispatch command
 
 ---
  Essentials/src/main/java/com/earth2me/essentials/Kit.java | 3 ++-

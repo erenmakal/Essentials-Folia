@@ -1,14 +1,14 @@
-From 2adf927351f789c4dda5b34f3841c41d2f0d7ae9 Mon Sep 17 00:00:00 2001
+From a2421fd402b8a2e9e28c4a39e193df756560d795 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 19 May 2026 12:27:03 +0200
-Subject: [PATCH 21/21] Fix EssentialsPlayerListener#updateCompass
+Date: Tue, 26 May 2026 15:49:14 +0200
+Subject: [PATCH 19/22] Fix EssentialsPlayerListener updateCompass
 
 ---
  .../earth2me/essentials/EssentialsPlayerListener.java | 11 +++++++++++
  1 file changed, 11 insertions(+)
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index a90a56c47..9ee14b52e 100644
+index a90a56c47..2a370ddfc 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 @@ -622,6 +622,17 @@ public class EssentialsPlayerListener implements Listener {

@@ -1,7 +1,7 @@
-From f4caeaa832964a7236b21677ad7ff91a0e4551c4 Mon Sep 17 00:00:00 2001
+From 67a02e568c974008c84d532cb3e7bf6475e8f6b6 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 19 May 2026 12:15:33 +0200
-Subject: [PATCH 05/21] Fix command time
+Date: Tue, 26 May 2026 15:49:11 +0200
+Subject: [PATCH 05/22] Fix command time
 
 ---
  .../java/com/earth2me/essentials/commands/Commandtime.java     | 3 ++-
