@@ -1,6 +1,6 @@
-From b8bfca519078c696e8f919a5dfc4220afd929cc1 Mon Sep 17 00:00:00 2001
+From 34da6338490dfd8b63bac3ee481de241af4e8334 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 26 May 2026 16:06:26 +0200
+Date: Mon, 1 Jun 2026 21:50:33 +0200
 Subject: [PATCH 20/22] PR 6518 Misc. Folia fixes
 
 ---
@@ -216,7 +216,7 @@ index 1698345ae..cb2af7609 100644
              serverVersion = BukkitVersion.fromString(Bukkit.getServer().getBukkitVersion());
 diff --git a/providers/BaseProviders/src/main/java/net/ess3/provider/WorldTileEntityCountProvider.java b/providers/BaseProviders/src/main/java/net/ess3/provider/WorldTileEntityCountProvider.java
 new file mode 100644
-index 000000000..c43add23b
+index 000000000..fbf3500c0
 --- /dev/null
 +++ b/providers/BaseProviders/src/main/java/net/ess3/provider/WorldTileEntityCountProvider.java
 @@ -0,0 +1,7 @@
@@ -230,7 +230,7 @@ index 000000000..c43add23b
 \ No newline at end of file
 diff --git a/providers/BaseProviders/src/main/java/net/ess3/provider/providers/BukkitWorldTileEntityCountProvider.java b/providers/BaseProviders/src/main/java/net/ess3/provider/providers/BukkitWorldTileEntityCountProvider.java
 new file mode 100644
-index 000000000..00d704a51
+index 000000000..fe2a3ca2d
 --- /dev/null
 +++ b/providers/BaseProviders/src/main/java/net/ess3/provider/providers/BukkitWorldTileEntityCountProvider.java
 @@ -0,0 +1,20 @@
@@ -257,7 +257,7 @@ index 000000000..00d704a51
 \ No newline at end of file
 diff --git a/providers/PaperProvider/src/main/java/net/ess3/provider/providers/PaperWorldTileEntityCountProvider.java b/providers/PaperProvider/src/main/java/net/ess3/provider/providers/PaperWorldTileEntityCountProvider.java
 new file mode 100644
-index 000000000..173693645
+index 000000000..cb9ccb15d
 --- /dev/null
 +++ b/providers/PaperProvider/src/main/java/net/ess3/provider/providers/PaperWorldTileEntityCountProvider.java
 @@ -0,0 +1,13 @@

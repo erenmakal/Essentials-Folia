@@ -1,6 +1,6 @@
-From a2421fd402b8a2e9e28c4a39e193df756560d795 Mon Sep 17 00:00:00 2001
+From 8ed80eeb30ed945048dba9a84329ba6f7c4e8cf0 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 26 May 2026 15:49:14 +0200
+Date: Mon, 1 Jun 2026 21:50:33 +0200
 Subject: [PATCH 19/22] Fix EssentialsPlayerListener updateCompass
 
 ---

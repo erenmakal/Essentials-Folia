@@ -1,6 +1,6 @@
-From ac9800db7468fae64c1a9671e0226dd995deefe2 Mon Sep 17 00:00:00 2001
+From 4428071a0590efdf4685dc6602cf2c7ee44622da Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 26 May 2026 15:49:13 +0200
+Date: Mon, 1 Jun 2026 21:50:32 +0200
 Subject: [PATCH 14/22] Patch RoleSyncManager
 
 ---

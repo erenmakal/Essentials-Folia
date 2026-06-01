@@ -1,6 +1,6 @@
-From 6a9ee596cc5e38786677834a0aae6cc5acd15839 Mon Sep 17 00:00:00 2001
+From dce7ec31135e68c6bce78a4eead02fd5c59770be Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 26 May 2026 15:49:14 +0200
+Date: Mon, 1 Jun 2026 21:50:33 +0200
 Subject: [PATCH 18/22] Fix EssentialsPlayerListener useFlyClickJump
 
 ---

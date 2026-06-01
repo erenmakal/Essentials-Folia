@@ -1,6 +1,6 @@
-From 71347327840e60e50dae341cb30e4c0ab140c02b Mon Sep 17 00:00:00 2001
+From 8a5bca6123d6dda7ea3a83d9f3b29a8664af440a Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
-Date: Tue, 26 May 2026 15:49:12 +0200
+Date: Mon, 1 Jun 2026 21:50:30 +0200
 Subject: [PATCH 08/22] Fix command remove
 
 ---
