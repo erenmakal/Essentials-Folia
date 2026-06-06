@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - folia-patches
-  pull_request:
-    branches:
-      - folia-patches
 
 permissions: write-all
 
