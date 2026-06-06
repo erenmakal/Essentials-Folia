@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
 Date: Sat, 6 Jun 2026 05:46:08 +0200
-Subject: [PATCH]  Replace BukkitRunnable to FoliaRunnable
+Subject: [PATCH] Replace BukkitRunnable to FoliaRunnable
 
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/essentials/NyanCommand.java b/Essentials/src/main/java/com/earth2me/essentials/commands/essentials/NyanCommand.java
