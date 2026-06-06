@@ -9,7 +9,7 @@ A fork of [EssentialsX](https://github.com/EssentialsX/Essentials) adapted for [
 
 ## Download
 
-Compiled JARs are available here: https://github.com/Euphillya/Essentials-Folia/actions
+Compiled JARs are available here: https://github.com/Euphillya/Essentials-Folia/releases
 
 ## Installation
 
