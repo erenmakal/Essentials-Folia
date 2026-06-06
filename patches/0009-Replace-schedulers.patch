@@ -207,7 +207,7 @@ index 1d1fbff1eec066e7fa1b6b80fee4b09a118d8ffc..ac72113f91004fb20fb4740398907878
                      event.setCancelled(true);
                      return;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index 5e1adf19960211405256dda0133e3322d2ea092d..0048a77b342f0ea29a26218e493ff2ee5110553b 100644
+index ef04f0f7e6ee88170488b4478bdfe1efedd4dc10..3a13a7620db9ca14868a7ede3b59afb831a0be44 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 @@ -94,7 +94,7 @@ import static com.earth2me.essentials.I18n.tlLiteral;
@@ -1099,7 +1099,7 @@ index 72353afb73582c301efc6135734c7434e1b67a9a..251e47165931e4ecdb7b6d26656c12fa
                  sync(event.getPlayer().getUniqueId(), ess.getLinkManager().getDiscordId(event.getPlayer().getUniqueId()));
              }
 diff --git a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
-index bf6e19492d31835f7cf03ea801228e01f6561520..c11e7aced092f74b9dcdc9ad51d73b4496babadf 100644
+index bf6e19492d31835f7cf03ea801228e01f6561520..c55403845f0be906b507e3b4e2b040eb9e902a95 100644
 --- a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
 +++ b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
 @@ -50,7 +50,7 @@ class EssentialsSpawnPlayerListener implements Listener {
@@ -1107,7 +1107,7 @@ index bf6e19492d31835f7cf03ea801228e01f6561520..c11e7aced092f74b9dcdc9ad51d73b44
                  // cannot nuke this sync load due to the event being sync so it would hand either way
                  if(VersionUtil.getServerBukkitVersion().isHigherThanOrEqualTo(VersionUtil.v1_20_4_R01)) {
 -                    respawnLocation = user.getBase().getRespawnLocation();
-+                    respawnLocation = user.getBase().getRespawnLocation(false);
++                    respawnLocation = user.getRespawnLocationCompat();
                  } else { // For versions prior to 1.20.4.
                      respawnLocation = user.getBase().getBedSpawnLocation();
                  }

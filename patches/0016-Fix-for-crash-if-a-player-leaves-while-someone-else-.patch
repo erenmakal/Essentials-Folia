@@ -6,7 +6,7 @@ Subject: [PATCH] Fix for crash if a player leaves while someone else /invsee
 
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
-index 0048a77b342f0ea29a26218e493ff2ee5110553b..f074786dc3b663dbc31d331ae9a301f8956ef8b7 100644
+index 3a13a7620db9ca14868a7ede3b59afb831a0be44..31b4c8ffb95e58e1f799ebabdaf5af884bb303a4 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/EssentialsPlayerListener.java
 @@ -323,13 +323,13 @@ public class EssentialsPlayerListener implements Listener {
