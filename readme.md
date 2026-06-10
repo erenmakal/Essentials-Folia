@@ -38,11 +38,11 @@ This command will:
 
 ## Gradle Tasks
 
-| Task | Description |
-|---|---|
-| `./gradlew applyPatches` | Initializes the submodule and applies patches |
-| `./gradlew makePatches` | Regenerates `.patch` files from local commits |
-| `./gradlew updateSubmodules` | Updates the submodule from upstream |
+| Task                         | Description                                   |
+|------------------------------|-----------------------------------------------|
+| `./gradlew applyPatches`     | Initializes the submodule and applies patches |
+| `./gradlew makePatches`      | Regenerates `.patch` files from local commits |
+| `./gradlew updateSubmodules` | Updates the submodule from upstream           |
 
 ## Development Workflow
 
