@@ -151,10 +151,10 @@ index 2dddd71260381520356aabd3a56afbe8c8e1aa20..7dc83ca3ff9f7dc2ea5eb6c6446bbe38
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index fecd50fa9be109707ed249a8a66df9f7479c5dec..fe3e83de46204eb42b63ead0d29d574d0b6f8631 100644
+index d899ccb92c4c2e958177613a5548a80a0d6647ec..ab01c083f0608120eae5b08d1a23aa91458c0893 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -430,7 +430,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -435,7 +435,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              alternativeCommandsHandler = new AlternativeCommandsHandler(this);
  
              timer = new EssentialsTimer(this);
@@ -163,7 +163,7 @@ index fecd50fa9be109707ed249a8a66df9f7479c5dec..fe3e83de46204eb42b63ead0d29d574d
  
              Economy.setEss(this);
              execTimer.mark("RegHandler");
-@@ -441,7 +441,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -446,7 +446,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
              if (!TESTING) {
                  updateChecker = new UpdateChecker(this);
