@@ -49,19 +49,19 @@ index b5e687f255720db2191b3c221f5efe176066b55b..592f94cfccf90bbd946dd2c76397c32f
  import net.ess3.api.IUser;
  import net.ess3.api.TranslatableException;
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index 5170a694a63fb08390371353509c549bacf144d4..1e45769a574433b5d6928d8081e19a9c56bbafe0 100644
+index 1629f8e4328e73471575472f130bd8565d29ede5..4a0ec635e61d12064cbafc52c3afcead45098399 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -47,7 +47,7 @@ import com.earth2me.essentials.updatecheck.UpdateChecker;
- import com.earth2me.essentials.userstorage.ModernUserMap;
+@@ -48,7 +48,7 @@ import com.earth2me.essentials.userstorage.ModernUserMap;
  import com.earth2me.essentials.utils.FormatUtil;
+ import com.earth2me.essentials.utils.PasteUtil;
  import com.earth2me.essentials.utils.VersionUtil;
 -import io.papermc.lib.PaperLib;
 +//import io.papermc.lib.PaperLib;
  import net.ess3.api.Economy;
  import com.earth2me.essentials.config.EssentialsConfiguration;
  import net.ess3.api.IEssentials;
-@@ -409,7 +409,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -410,7 +410,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              }
  
              // Event Providers

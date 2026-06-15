@@ -5,10 +5,10 @@ Subject: [PATCH] PR 6518 Misc. Folia fixes
 
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index ab01c083f0608120eae5b08d1a23aa91458c0893..b9629314e3fdafd70ca22cb7285e838c4a5ac261 100644
+index ed2d1b5198c3cd062e152976faec5a22e7febbe7..09b9e762a0df55a1ba5b6b3f3ea5b1608d2c04cb 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -401,6 +401,9 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -402,6 +402,9 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
              // Tile Entity Provider
              providerFactory.registerProvider(BukkitTileEntityProvider.class, PaperTileEntityProvider.class);
  

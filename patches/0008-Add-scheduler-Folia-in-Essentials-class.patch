@@ -5,10 +5,10 @@ Subject: [PATCH] Add scheduler Folia in Essentials class
 
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index 1e45769a574433b5d6928d8081e19a9c56bbafe0..d899ccb92c4c2e958177613a5548a80a0d6647ec 100644
+index 4a0ec635e61d12064cbafc52c3afcead45098399..a5759fec531adb66d393285c16906b113a007726 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-@@ -1239,34 +1239,60 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+@@ -1244,34 +1244,60 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
  
      @Override
      public BukkitTask runTaskAsynchronously(final Runnable run) {
