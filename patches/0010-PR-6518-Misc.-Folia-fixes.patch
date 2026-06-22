@@ -5,7 +5,7 @@ Subject: [PATCH] PR 6518 Misc. Folia fixes
 
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index ed2d1b5198c3cd062e152976faec5a22e7febbe7..09b9e762a0df55a1ba5b6b3f3ea5b1608d2c04cb 100644
+index 6de39e68f5527c2d63d5a83daffb44d53fd55ec5..05effcb79efe57e6679227a7ee093982f9cb0eb1 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 @@ -402,6 +402,9 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {

@@ -151,7 +151,7 @@ index 2dddd71260381520356aabd3a56afbe8c8e1aa20..7dc83ca3ff9f7dc2ea5eb6c6446bbe38
      }
  
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
-index a5759fec531adb66d393285c16906b113a007726..ed2d1b5198c3cd062e152976faec5a22e7febbe7 100644
+index a5759fec531adb66d393285c16906b113a007726..6de39e68f5527c2d63d5a83daffb44d53fd55ec5 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/Essentials.java
 @@ -436,7 +436,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
@@ -172,6 +172,17 @@ index a5759fec531adb66d393285c16906b113a007726..ed2d1b5198c3cd062e152976faec5a22
                      getLogger().log(Level.INFO, getAdventureFacet().miniToLegacy(tlLiteral("versionFetching")));
                      for (final ComponentHolder component : updateChecker.getVersionMessages(false, true, new CommandSource(this, Bukkit.getConsoleSender()))) {
                          getLogger().log(getSettings().isUpdateCheckEnabled() ? Level.WARNING : Level.INFO, getAdventureFacet().adventureToLegacy(component));
+@@ -589,7 +589,9 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
+ 
+         EssentialsConfiguration.shutdownExecutor();
+         PasteUtil.shutdownExecutor();
+-        getServer().getScheduler().cancelTasks(this);
++        //getServer().getScheduler().cancelTasks(this);
++        getServer().getGlobalRegionScheduler().cancelTasks(this);
++        getServer().getAsyncScheduler().cancelTasks(this);
+ 
+         HandlerList.unregisterAll(this);
+     }
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/EssentialsBlockListener.java b/Essentials/src/main/java/com/earth2me/essentials/EssentialsBlockListener.java
 index 2890bc2a79e000bf919780cb5476ab962bc3d96a..d9886fffe3ff2366f2e9f69b9322935099c501ce 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/EssentialsBlockListener.java

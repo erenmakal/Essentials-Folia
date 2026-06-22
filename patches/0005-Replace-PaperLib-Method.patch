@@ -199,7 +199,7 @@ index 7911b71037329121575586891ede9be6cb861021..ff9a7327ebe8dab0770b437f70ea4ed3
 +++ b/Essentials/src/main/java/net/ess3/api/IUser.java
 @@ -1,5 +1,8 @@
  package net.ess3.api;
-
+ 
 +import org.bukkit.Location;
 +import org.bukkit.entity.Player;
 +
@@ -209,7 +209,7 @@ index 7911b71037329121575586891ede9be6cb861021..ff9a7327ebe8dab0770b437f70ea4ed3
 @@ -7,4 +10,19 @@ package net.ess3.api;
   */
  public interface IUser extends com.earth2me.essentials.IUser {
-
+ 
 +    /**
 +     * Returns the respawn location of the player (bed or respawn anchor).
 +     * Compatible with all server versions: uses {@code getRespawnLocation(boolean)} on 1.21.11+,
