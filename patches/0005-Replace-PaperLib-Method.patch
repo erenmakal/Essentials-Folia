@@ -114,7 +114,7 @@ index 40375cc6690fc7f1c9bb284a1f02cbb084090fad..4a160114d08e4487534bf22a729e91d8
                  location.setY(getNetherYAt(location));
              } else {
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandhome.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandhome.java
-index 37065f98c69c04029824e0f35356880e66fc002f..554f418c87d26229cb447b1103fdfca37309fe07 100644
+index 37065f98c69c04029824e0f35356880e66fc002f..e043d45f0d27b43f6794e231fd8d5dfe9df55840 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandhome.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandhome.java
 @@ -10,6 +10,7 @@ import net.ess3.api.TranslatableException;
@@ -173,7 +173,7 @@ index 37065f98c69c04029824e0f35356880e66fc002f..554f418c87d26229cb447b1103fdfca3
              }
              goHome(user, player, homeName.toLowerCase(Locale.ENGLISH), charge, getNewExceptionFuture(user.getSource(), commandLabel));
          } catch (final NotEnoughArgumentsException e) {
-@@ -113,7 +118,18 @@ public class Commandhome extends EssentialsCommand {
+@@ -113,7 +118,19 @@ public class Commandhome extends EssentialsCommand {
                  message.complete(null);
                  return;
              }
@@ -181,6 +181,7 @@ index 37065f98c69c04029824e0f35356880e66fc002f..554f418c87d26229cb447b1103fdfca3
 +            Player bukkitPlayer = player.getBase();
 +            Location bedLocation = player.getRespawnLocationCompat();
 +            if (bedLocation == null || bedLocation.getWorld() == null) {
++                message.complete(null);
 +                return;
 +            }
 +            bedLocation.getWorld().getChunkAtAsync(bedLocation.getBlockX() >> 4, bedLocation.getBlockZ() >> 4, false, true).thenAccept(location -> {
