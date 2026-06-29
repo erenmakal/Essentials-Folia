@@ -114,83 +114,50 @@ index 40375cc6690fc7f1c9bb284a1f02cbb084090fad..4a160114d08e4487534bf22a729e91d8
                  location.setY(getNetherYAt(location));
              } else {
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandhome.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandhome.java
-index 37065f98c69c04029824e0f35356880e66fc002f..e043d45f0d27b43f6794e231fd8d5dfe9df55840 100644
+index 37065f98c69c04029824e0f35356880e66fc002f..4280917f9da623fcf530460e15542645152bf93e 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandhome.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandhome.java
-@@ -10,6 +10,7 @@ import net.ess3.api.TranslatableException;
- import net.ess3.api.events.UserTeleportHomeEvent;
- import org.bukkit.Location;
- import org.bukkit.Server;
-+import org.bukkit.entity.Player;
- import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
- 
- import java.util.Collections;
-@@ -48,25 +49,29 @@ public class Commandhome extends EssentialsCommand {
+@@ -48,10 +48,16 @@ public class Commandhome extends EssentialsCommand {
                  if (!player.getBase().isOnline() || player.getBase() instanceof OfflinePlayerStub) {
                      throw new TranslatableException("bedOffline");
                  }
 -                PaperLib.getBedSpawnLocationAsync(player.getBase(), true).thenAccept(location -> {
--                    final CompletableFuture<Boolean> future = getNewExceptionFuture(user.getSource(), commandLabel);
--                    if (location != null) {
--                        final UserTeleportHomeEvent event = new UserTeleportHomeEvent(user, "bed", location, UserTeleportHomeEvent.HomeType.BED);
--                        server.getPluginManager().callEvent(event);
--                        if (event.isCancelled()) {
--                            return;
--                        }
--                        future.thenAccept(success -> {
--                            if (success) {
--                                user.sendTl("teleportHome", "bed");
-+
-+                Location bedLocation = player.getRespawnLocationCompat();
-+                if (bedLocation != null && bedLocation.getWorld() != null) {
-+                    bedLocation.getWorld().getChunkAtAsync(bedLocation.getBlockX() >> 4, bedLocation.getBlockZ() >> 4, false, true).thenAccept(location -> {
-+                        final CompletableFuture<Boolean> future = getNewExceptionFuture(user.getSource(), commandLabel);
-+                        if (location != null) {
-+                            final UserTeleportHomeEvent event = new UserTeleportHomeEvent(user, "bed", bedLocation, UserTeleportHomeEvent.HomeType.BED);
-+                            server.getPluginManager().callEvent(event);
-+                            if (event.isCancelled()) {
-+                                return;
-                             }
--                        });
--                        user.getAsyncTeleport().teleport(location, charge, TeleportCause.COMMAND, future);
--                    } else {
--                        showError(user.getBase(), new TranslatableException("bedMissing"), commandLabel);
--                    }
--                });
--                throw new NoChargeException();
-+                            future.thenAccept(success -> {
-+                                if (success) {
-+                                    user.sendTl("teleportHome", "bed");
-+                                }
-+                            });
-+                            user.getAsyncTeleport().teleport(bedLocation, charge, TeleportCause.COMMAND, future);
-+                        } else {
-+                            showError(user.getBase(), new TranslatableException("bedMissing"), commandLabel);
-+                        }
-+                    });
++                final Location bedLocation = player.getRespawnLocationCompat();
++                if (bedLocation == null || bedLocation.getWorld() == null) {
++                    showError(user.getBase(), new TranslatableException("bedMissing"), commandLabel);
 +                    throw new NoChargeException();
 +                }
-             }
-             goHome(user, player, homeName.toLowerCase(Locale.ENGLISH), charge, getNewExceptionFuture(user.getSource(), commandLabel));
-         } catch (final NotEnoughArgumentsException e) {
-@@ -113,7 +118,19 @@ public class Commandhome extends EssentialsCommand {
++
++                bedLocation.getWorld().getChunkAtAsync(bedLocation.getBlockX() >> 4, bedLocation.getBlockZ() >> 4, false, true).thenAccept(chunk -> {
+                     final CompletableFuture<Boolean> future = getNewExceptionFuture(user.getSource(), commandLabel);
+-                    if (location != null) {
+-                        final UserTeleportHomeEvent event = new UserTeleportHomeEvent(user, "bed", location, UserTeleportHomeEvent.HomeType.BED);
++                    if (chunk != null) {
++                        final UserTeleportHomeEvent event = new UserTeleportHomeEvent(user, "bed", bedLocation, UserTeleportHomeEvent.HomeType.BED);
+                         server.getPluginManager().callEvent(event);
+                         if (event.isCancelled()) {
+                             return;
+@@ -61,7 +67,7 @@ public class Commandhome extends EssentialsCommand {
+                                 user.sendTl("teleportHome", "bed");
+                             }
+                         });
+-                        user.getAsyncTeleport().teleport(location, charge, TeleportCause.COMMAND, future);
++                        user.getAsyncTeleport().teleport(bedLocation, charge, TeleportCause.COMMAND, future);
+                     } else {
+                         showError(user.getBase(), new TranslatableException("bedMissing"), commandLabel);
+                     }
+@@ -113,7 +119,13 @@ public class Commandhome extends EssentialsCommand {
                  message.complete(null);
                  return;
              }
 -            PaperLib.getBedSpawnLocationAsync(player.getBase(), true).thenAccept(message::complete);
-+            Player bukkitPlayer = player.getBase();
-+            Location bedLocation = player.getRespawnLocationCompat();
++            final Location bedLocation = player.getRespawnLocationCompat();
 +            if (bedLocation == null || bedLocation.getWorld() == null) {
 +                message.complete(null);
 +                return;
 +            }
-+            bedLocation.getWorld().getChunkAtAsync(bedLocation.getBlockX() >> 4, bedLocation.getBlockZ() >> 4, false, true).thenAccept(location -> {
-+                if (location != null) {
-+                    message.complete(bedLocation);
-+                } else {
-+                    message.complete(null);
-+                }
-+            });
++            bedLocation.getWorld().getChunkAtAsync(bedLocation.getBlockX() >> 4, bedLocation.getBlockZ() >> 4, false, true)
++                    .thenAccept(chunk -> message.complete(chunk != null ? bedLocation : null));
          }
          throw new NoChargeException();
      }
