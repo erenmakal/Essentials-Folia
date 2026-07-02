@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Thu, 2 Jul 2026 21:40:20 +0200
+Subject: [PATCH] Fix TickGuard Canvas
+
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgamemode.java b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgamemode.java
+index bb9860c80c59bf475720d4c9d2c6b94d1b3651aa..05a5743560de961d2750d8373f35df2885b48522 100644
+--- a/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgamemode.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgamemode.java
+@@ -4,8 +4,10 @@ import com.earth2me.essentials.CommandSource;
+ import com.earth2me.essentials.IUser;
+ import com.earth2me.essentials.User;
+ import com.google.common.collect.ImmutableList;
++import org.bukkit.Bukkit;
+ import org.bukkit.GameMode;
+ import org.bukkit.Server;
++import org.bukkit.entity.Player;
+ 
+ import java.util.Collections;
+ import java.util.List;
+@@ -73,8 +75,17 @@ public class Commandgamemode extends EssentialsLoopCommand {
+             return;
+         }
+ 
+-        user.getBase().setGameMode(gameMode);
+-        sender.sendTl("gameMode", sender.tl(gameMode.toString().toLowerCase(Locale.ENGLISH)), user.getDisplayName());
++        Player player = user.getBase();
++        final Runnable task = () -> {
++            player.setGameMode(gameMode);
++            sender.sendTl("gameMode", sender.tl(gameMode.toString().toLowerCase(Locale.ENGLISH)), user.getDisplayName());
++        };
++
++        if (Bukkit.isOwnedByCurrentRegion(player)) {
++            task.run();
++        } else {
++            ess.getEntityScheduler(player).run(ess, scheduledTask -> task.run(), null);
++        }
+     }
+ 
+     // essentials.gamemode will let them change to any but essentials.gamemode.survival would only let them change to survival.
