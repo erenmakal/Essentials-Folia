@@ -40,7 +40,7 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
      private void runOnMain(final Runnable runnable) throws ExecutionException, InterruptedException {
          if (VersionUtil.isFoliaServer()) throw new UnsupportedOperationException("Not supported on Folia");
          if (Bukkit.isPrimaryThread()) {
-@@ -181,44 +198,52 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -181,45 +198,52 @@ public class AsyncTeleport implements IAsyncTeleport {
              teleportee.setLastLocation();
          }
  
@@ -121,13 +121,13 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
          }).exceptionally(th -> {
              future.completeExceptionally(th);
              return null;
-@@ -298,5 +323,4 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -298,5 +322,4 @@ public class AsyncTeleport implements IAsyncTeleport {
                      return;
                  }
              }
 -            future.complete(true);
              return;
-@@ -349,5 +373,4 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -349,5 +372,4 @@ public class AsyncTeleport implements IAsyncTeleport {
                      return;
                  }
              }
