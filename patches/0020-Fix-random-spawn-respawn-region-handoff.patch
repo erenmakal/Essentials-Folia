@@ -14,7 +14,7 @@ left the teleport future unresolved.
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 --- a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
-@@ -396,8 +396,16 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -396,8 +396,15 @@ public class AsyncTeleport implements IAsyncTeleport {
          final Player player = teleportee.getBase();
          Location bedLocation = teleportee.getRespawnLocationCompat();
          if (bedLocation == null || bedLocation.getWorld() == null) {
