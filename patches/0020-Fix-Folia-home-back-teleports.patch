@@ -83,6 +83,7 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
 +                                loc = LocationUtil.getSafeDestination(ess, loc);
 +                            }
                          } else {
+-                    } else {
 -                        try {
 -                            //There's a chance the safer location is outside the loaded chunk so still teleport async here.
 -                            teleportee.getBase().teleportAsync(LocationUtil.getSafeDestination(ess, teleportee, loc), cause);
