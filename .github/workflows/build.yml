@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: recursive
+          submodules: false
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -34,8 +34,8 @@ jobs:
 
       - name: Apply patches
         run: |
-          chmod +x gradlew
-          ./gradlew applyPatches --stacktrace
+          chmod +x gradlew 
+          ./gradlew applyPatches
 
       - name: Build
         run: ./gradlew -p Essentials-Patched build --stacktrace -x test -x checkstyleMain --refresh-dependencies --continue
