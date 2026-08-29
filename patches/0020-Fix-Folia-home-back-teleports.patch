@@ -39,7 +39,7 @@ diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
      private void runOnMain(final Runnable runnable) throws ExecutionException, InterruptedException {
          if (VersionUtil.isFoliaServer()) throw new UnsupportedOperationException("Not supported on Folia");
          if (Bukkit.isPrimaryThread()) {
-@@ -181,44 +198,53 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -181,43 +198,51 @@ public class AsyncTeleport implements IAsyncTeleport {
              teleportee.setLastLocation();
          }
  
@@ -119,13 +119,13 @@ diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
          }).exceptionally(th -> {
              future.completeExceptionally(th);
              return null;
-@@ -298,5 +324,4 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -298,5 +323,4 @@ public class AsyncTeleport implements IAsyncTeleport {
                      return;
                  }
              }
 -            future.complete(true);
              return;
-@@ -349,5 +374,4 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -349,5 +373,4 @@ public class AsyncTeleport implements IAsyncTeleport {
                      return;
                  }
              }
