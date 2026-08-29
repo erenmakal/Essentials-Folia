@@ -13,6 +13,7 @@ Folia region and removes premature successful completion of the shared
 teleport pipeline.
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
+index a010b7dde3d0395e1ffadff6201f75a030b0f853..0000000000000000000000000000000000000000 100644
 --- a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 +++ b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 @@ -138,6 +138,23 @@ public class AsyncTeleport implements IAsyncTeleport {
