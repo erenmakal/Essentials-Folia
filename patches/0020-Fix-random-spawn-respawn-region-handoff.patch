@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: erenmakal <erenmakal@users.noreply.github.com>
+Date: Sat, 29 Aug 2026 14:46:00 +0300
+Subject: [PATCH] Fix random spawn/respawn region handoff
+
+Random teleport location discovery completes on the destination region.  Do not
+continue the player teleport pipeline from that unrelated region; hand the
+operation back to the player's EntityScheduler first.
+
+Also restore the vanilla/Essentials respawn fallback when no bed or respawn
+anchor exists.  The Folia PaperLib replacement previously returned early and
+left the teleport future unresolved.
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
+--- a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
+@@ -396,8 +396,16 @@ public class AsyncTeleport implements IAsyncTeleport {
+         final Player player = teleportee.getBase();
+         Location bedLocation = teleportee.getRespawnLocationCompat();
+         if (bedLocation == null || bedLocation.getWorld() == null) {
++            if (ess.getSettings().isDebug()) {
++                ess.getLogger().info("Could not find bed spawn, forcing respawn event.");
++            }
++            final PlayerRespawnEvent pre = new PlayerRespawnEvent(player, player.getWorld().getSpawnLocation(), false);
++            ess.getServer().getPluginManager().callEvent(pre);
++            nowAsync(teleportee, new LocationTarget(pre.getRespawnLocation()), cause, future);
+             return;
+         }
++
+         bedLocation.getWorld().getChunkAtAsync(bedLocation.getBlockX() >> 4, bedLocation.getBlockZ() >> 4, false, true).thenAccept(location -> {
+             if (location != null) {
+                 nowAsync(teleportee, new LocationTarget(bedLocation), cause, future);
+diff --git a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
+--- a/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
++++ b/EssentialsSpawn/src/main/java/com/earth2me/essentials/spawn/EssentialsSpawnPlayerListener.java
+@@ -170,10 +170,15 @@ class EssentialsSpawnPlayerListener implements Listener {
+         if (!ess.getRandomTeleport().hasLocation(name)) {
+             return false;
+         }
+         ess.getRandomTeleport().getRandomLocation(name).thenAccept(location -> {
+-            final CompletableFuture<Boolean> future = new CompletableFuture<>();
+-            user.getAsyncTeleport().now(location, false, PlayerTeleportEvent.TeleportCause.PLUGIN, future);
++            ess.getEntityScheduler(user.getBase()).run(ess, scheduledTask -> {
++                if (!user.getBase().isOnline()) {
++                    return;
++                }
++                final CompletableFuture<Boolean> future = new CompletableFuture<>();
++                user.getAsyncTeleport().now(location, false, PlayerTeleportEvent.TeleportCause.PLUGIN, future);
++            }, null);
+         });
+         return true;
+     }
+ }
+-- 
+2.51.0
