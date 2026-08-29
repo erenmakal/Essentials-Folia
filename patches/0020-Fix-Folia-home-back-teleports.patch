@@ -4,11 +4,13 @@ Date: Sun, 30 Aug 2026 01:24:00 +0300
 Subject: [PATCH] Fix Folia home and back teleport ordering
 
 Keep location safety work on the destination region and entity teleport work
-on the player's entity scheduler. Also keep the Essentials teleport future
-pending until Folia's teleportAsync has actually completed.
+on the player's entity scheduler. Snapshot player state before leaving the
+entity-owned command context and keep the Essentials teleport future pending
+until Folia's teleportAsync has actually completed.
 
-This prevents overlapping /home and /back teleports from completing out of
-order and avoids reading destination block data from the wrong Folia region.
+This prevents /home and /back from doing destination block work on the wrong
+Folia region and removes premature successful completion of the shared
+teleport pipeline.
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 --- a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
@@ -35,9 +37,9 @@ diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 +    }
 +
      private void runOnMain(final Runnable runnable) throws ExecutionException, InterruptedException {
+         if (VersionUtil.isFoliaServer()) throw new UnsupportedOperationException("Not supported on Folia");
          if (Bukkit.isPrimaryThread()) {
-             runnable.run();
-@@ -181,48 +198,58 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -181,44 +198,53 @@ public class AsyncTeleport implements IAsyncTeleport {
              teleportee.setLastLocation();
          }
  
@@ -45,6 +47,11 @@ diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 +        // Never mutate a Location supplied by a home/back target while the asynchronous
 +        // teleport is in flight. Folia may finish the operation on a later region tick.
 +        final Location targetLoc = target.getLocation().clone();
++        final org.bukkit.GameMode gameMode = teleportee.getBase().getGameMode();
++        final boolean bypassUnsafeCheck = teleportee.getBase().isOnline()
++                && targetLoc.getWorld().equals(teleportee.getBase().getWorld())
++                && (gameMode == org.bukkit.GameMode.CREATIVE || gameMode == org.bukkit.GameMode.SPECTATOR || teleportee.isGodModeEnabled())
++                && teleportee.getBase().getAllowFlight();
          if (ess.getSettings().isTeleportSafetyEnabled() && !ess.getSettings().isForceDisableTeleportSafety() && LocationUtil.isBlockOutsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockX(), targetLoc.getBlockZ())) {
              targetLoc.setX(LocationUtil.getXInsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockX()));
              targetLoc.setZ(LocationUtil.getZInsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockZ()));
@@ -66,10 +73,13 @@ diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 +            ess.getRegionScheduler().execute(ess, targetLoc, () -> {
 +                try {
 +                    Location loc = targetLoc.clone();
-+                    if (LocationUtil.isBlockUnsafeForUser(ess, teleportee, loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())) {
++                    final boolean unsafe = !bypassUnsafeCheck
++                            && (LocationUtil.isBlockUnsafe(ess, loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())
++                            || LocationUtil.isBlockOutsideWorldBorder(loc.getWorld(), loc.getBlockX(), loc.getBlockZ()));
++                    if (unsafe) {
 +                        if (ess.getSettings().isTeleportSafetyEnabled()) {
 +                            if (!ess.getSettings().isForceDisableTeleportSafety()) {
-+                                loc = LocationUtil.getSafeDestination(ess, teleportee, loc);
++                                loc = LocationUtil.getSafeDestination(ess, loc);
 +                            }
                          } else {
 -                        try {
@@ -97,9 +107,8 @@ diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 -                    //There's a *small* chance the rounded destination produces a location outside the loaded chunk so still teleport async here.
 -                    teleportee.getBase().teleportAsync(loc, cause);
 +
-+                    // Entity operations belong to the entity scheduler. Completing the
-+                    // caller future here used to report success before teleportAsync was
-+                    // done, allowing an older teleport to win a race against /home or /back.
++                    // Entity operations belong to the entity scheduler. The caller future
++                    // is completed only after Folia's teleportAsync has really finished.
 +                    teleportOnEntityThread(teleportee, loc, cause, future);
 +                } catch (final Throwable throwable) {
 +                    future.completeExceptionally(throwable);
@@ -110,21 +119,17 @@ diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
          }).exceptionally(th -> {
              future.completeExceptionally(th);
              return null;
-@@ -292,7 +319,6 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -298,5 +324,4 @@ public class AsyncTeleport implements IAsyncTeleport {
                      return;
                  }
              }
 -            future.complete(true);
              return;
-         }
- 
-@@ -343,7 +369,6 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -349,5 +374,4 @@ public class AsyncTeleport implements IAsyncTeleport {
                      return;
                  }
              }
 -            future.complete(true);
              return;
-         }
- 
 -- 
 2.51.0
