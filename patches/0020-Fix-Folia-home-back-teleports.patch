@@ -3,14 +3,9 @@ From: erenmakal <erenmakal@users.noreply.github.com>
 Date: Sun, 30 Aug 2026 01:24:00 +0300
 Subject: [PATCH] Fix Folia home and back teleport ordering
 
-Keep location safety work on the destination region and entity teleport work
-on the player's entity scheduler. Snapshot player state before leaving the
-entity-owned command context and keep the Essentials teleport future pending
-until Folia's teleportAsync has actually completed.
-
-This prevents /home and /back from doing destination block work on the wrong
-Folia region and removes premature successful completion of the shared
-teleport pipeline.
+Run destination block safety reads on the owning Folia region and the final
+player teleport on the player's entity scheduler. Keep the caller future
+pending until teleportAsync actually completes.
 
 diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
 index a010b7dde3d0395e1ffadff6201f75a030b0f853..0000000000000000000000000000000000000000 100644
@@ -22,7 +17,7 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
  
 +    private void teleportOnEntityThread(final IUser teleportee, final Location loc, final TeleportCause cause, final CompletableFuture<Boolean> future) {
 +        final Location destination = loc.clone();
-+        ess.getEntityScheduler(teleportee.getBase()).run(ess, scheduledTask -> {
++        teleportee.getBase().getScheduler().run(ess, scheduledTask -> {
 +            try {
 +                teleportee.getBase().teleportAsync(destination, cause).whenComplete((success, throwable) -> {
 +                    if (throwable != null) {
@@ -40,13 +35,13 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
      private void runOnMain(final Runnable runnable) throws ExecutionException, InterruptedException {
          if (VersionUtil.isFoliaServer()) throw new UnsupportedOperationException("Not supported on Folia");
          if (Bukkit.isPrimaryThread()) {
-@@ -181,45 +198,52 @@ public class AsyncTeleport implements IAsyncTeleport {
+@@ -179,46 +196,50 @@ public class AsyncTeleport implements IAsyncTeleport {
+         if (teleportee.isAuthorized("essentials.back.onteleport")) {
              teleportee.setLastLocation();
          }
  
 -        final Location targetLoc = target.getLocation();
-+        // Never mutate a Location supplied by a home/back target while the asynchronous
-+        // teleport is in flight. Folia may finish the operation on a later region tick.
++        // Snapshot the target and player state before asynchronous region work.
 +        final Location targetLoc = target.getLocation().clone();
 +        final org.bukkit.GameMode gameMode = teleportee.getBase().getGameMode();
 +        final boolean bypassUnsafeCheck = teleportee.getBase().isOnline()
@@ -64,14 +59,19 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
 -                    if (ess.getSettings().isForceDisableTeleportSafety()) {
 -                        //The chunk we're teleporting to is 100% going to be loaded here, no need to teleport async.
 -                        teleportee.getBase().teleportAsync(loc, cause);
+-                    } else {
+-                        try {
+-                            //There's a chance the safer location is outside the loaded chunk so still teleport async here.
+-                            teleportee.getBase().teleportAsync(LocationUtil.getSafeDestination(ess, teleportee, loc), cause);
+-                        } catch (final Exception e) {
+-                            future.completeExceptionally(e);
 +            if (chunk == null) {
 +                future.complete(false);
 +                return;
 +            }
 +
-+            // getChunkAtAsync only guarantees that the chunk is loaded. Folia still
-+            // requires world/block access to happen on the region that owns it.
-+            ess.getRegionScheduler().execute(ess, targetLoc, () -> {
++            // Chunk loading is async, but block safety reads still belong to the target region.
++            Bukkit.getServer().getRegionScheduler().execute(ess, targetLoc, () -> {
 +                try {
 +                    Location loc = targetLoc.clone();
 +                    final boolean unsafe = !bypassUnsafeCheck
@@ -82,13 +82,7 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
 +                            if (!ess.getSettings().isForceDisableTeleportSafety()) {
 +                                loc = LocationUtil.getSafeDestination(ess, loc);
 +                            }
-                         } else {
--                    } else {
--                        try {
--                            //There's a chance the safer location is outside the loaded chunk so still teleport async here.
--                            teleportee.getBase().teleportAsync(LocationUtil.getSafeDestination(ess, teleportee, loc), cause);
--                        } catch (final Exception e) {
--                            future.completeExceptionally(e);
++                        } else {
 +                            future.completeExceptionally(new TranslatableException("unsafeTeleportDestination", loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
                              return;
                          }
@@ -109,8 +103,6 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
 -                    //There's a *small* chance the rounded destination produces a location outside the loaded chunk so still teleport async here.
 -                    teleportee.getBase().teleportAsync(loc, cause);
 +
-+                    // Entity operations belong to the entity scheduler. The caller future
-+                    // is completed only after Folia's teleportAsync has really finished.
 +                    teleportOnEntityThread(teleportee, loc, cause, future);
 +                } catch (final Throwable throwable) {
 +                    future.completeExceptionally(throwable);
@@ -121,17 +113,22 @@ index a010b7dde3d0395e1ffadff6201f75a030b0f853..00000000000000000000000000000000
          }).exceptionally(th -> {
              future.completeExceptionally(th);
              return null;
-@@ -298,5 +322,4 @@ public class AsyncTeleport implements IAsyncTeleport {
+         });
+@@ -292,7 +313,6 @@ public class AsyncTeleport implements IAsyncTeleport {
+                 if (future.isCompletedExceptionally()) {
                      return;
                  }
              }
 -            future.complete(true);
              return;
-@@ -349,5 +372,4 @@ public class AsyncTeleport implements IAsyncTeleport {
+         }
+@@ -344,7 +364,6 @@ public class AsyncTeleport implements IAsyncTeleport {
+                 if (future.isCompletedExceptionally()) {
                      return;
                  }
              }
 -            future.complete(true);
              return;
+         }
 -- 
 2.51.0
