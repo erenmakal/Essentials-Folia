@@ -1,0 +1,103 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: erenmakal <erenmakal@users.noreply.github.com>
+Date: Tue, 1 Sep 2026 03:20:00 +0300
+Subject: [PATCH] Fix Canvas 26.2 cross-world async teleport ownership
+
+Always enter the destination region before touching the target world or
+starting its asynchronous chunk load. Re-enter the destination region after
+the chunk future completes because CompletableFuture callbacks are not
+region-affine. Also route nowUnsafe through the player's EntityScheduler so
+all final player teleports execute on the entity-owning region.
+
+diff --git a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
+--- a/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
++++ b/Essentials/src/main/java/com/earth2me/essentials/AsyncTeleport.java
+@@ -134,8 +134,6 @@ public class AsyncTeleport implements IAsyncTeleport {
+     @Override
+     public void nowUnsafe(Location loc, TeleportCause cause, CompletableFuture<Boolean> future) {
+-        final CompletableFuture<Boolean> paperFuture = teleportOwner.getBase().teleportAsync(loc, cause);
+-        paperFuture.thenAccept(future::complete);
+-        paperFuture.exceptionally(future::completeExceptionally);
++        teleportOnEntityThread(teleportOwner, loc, cause, future);
+     }
+ 
+     private void teleportOnEntityThread(final IUser teleportee, final Location loc, final TeleportCause cause, final CompletableFuture<Boolean> future) {
+@@ -207,39 +205,44 @@ public class AsyncTeleport implements IAsyncTeleport {
+-        if (ess.getSettings().isTeleportSafetyEnabled() && !ess.getSettings().isForceDisableTeleportSafety() && LocationUtil.isBlockOutsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockX(), targetLoc.getBlockZ())) {
+-            targetLoc.setX(LocationUtil.getXInsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockX()));
+-            targetLoc.setZ(LocationUtil.getZInsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockZ()));
+-        }
+-        targetLoc.getWorld().getChunkAtAsync(targetLoc.getBlockX() >> 4, targetLoc.getBlockZ() >> 4, true, true).thenAccept(chunk -> {
+-            if (chunk == null) {
+-                future.complete(false);
+-                return;
++        // Canvas/Folia 26.2: enter the destination region before touching the target world
++        // or starting its chunk load. The async completion is re-routed to the destination
++        // region again because CompletableFuture completion threads are not region-affine.
++        Bukkit.getServer().getRegionScheduler().execute(ess, targetLoc, () -> {
++            if (ess.getSettings().isTeleportSafetyEnabled() && !ess.getSettings().isForceDisableTeleportSafety() && LocationUtil.isBlockOutsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockX(), targetLoc.getBlockZ())) {
++                targetLoc.setX(LocationUtil.getXInsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockX()));
++                targetLoc.setZ(LocationUtil.getZInsideWorldBorder(targetLoc.getWorld(), targetLoc.getBlockZ()));
+             }
++            targetLoc.getWorld().getChunkAtAsync(targetLoc.getBlockX() >> 4, targetLoc.getBlockZ() >> 4, true, true).thenAccept(chunk -> {
++                if (chunk == null) {
++                    future.complete(false);
++                    return;
++                }
+ 
+-            // Chunk loading is async, but block safety reads still belong to the target region.
+-            Bukkit.getServer().getRegionScheduler().execute(ess, targetLoc, () -> {
+-                try {
+-                    Location loc = targetLoc.clone();
+-                    final boolean unsafe = !bypassUnsafeCheck
+-                            && (LocationUtil.isBlockUnsafe(ess, loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())
+-                            || LocationUtil.isBlockOutsideWorldBorder(loc.getWorld(), loc.getBlockX(), loc.getBlockZ()));
+-                    if (unsafe) {
+-                        if (ess.getSettings().isTeleportSafetyEnabled()) {
+-                            if (!ess.getSettings().isForceDisableTeleportSafety()) {
+-                                loc = LocationUtil.getSafeDestination(ess, loc);
++                // Chunk loading is async, but block safety reads still belong to the target region.
++                Bukkit.getServer().getRegionScheduler().execute(ess, targetLoc, () -> {
++                    try {
++                        Location loc = targetLoc.clone();
++                        final boolean unsafe = !bypassUnsafeCheck
++                                && (LocationUtil.isBlockUnsafe(ess, loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())
++                                || LocationUtil.isBlockOutsideWorldBorder(loc.getWorld(), loc.getBlockX(), loc.getBlockZ()));
++                        if (unsafe) {
++                            if (ess.getSettings().isTeleportSafetyEnabled()) {
++                                if (!ess.getSettings().isForceDisableTeleportSafety()) {
++                                    loc = LocationUtil.getSafeDestination(ess, loc);
++                                }
++                            } else {
++                                future.completeExceptionally(new TranslatableException("unsafeTeleportDestination", loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
++                                return;
+                             }
+-                        } else {
+-                            future.completeExceptionally(new TranslatableException("unsafeTeleportDestination", loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+-                            return;
++                        } else if (!ess.getSettings().isForceDisableTeleportSafety() && ess.getSettings().isTeleportToCenterLocation()) {
++                            loc = LocationUtil.getRoundedDestination(loc);
+                         }
+-                    } else if (!ess.getSettings().isForceDisableTeleportSafety() && ess.getSettings().isTeleportToCenterLocation()) {
+-                        loc = LocationUtil.getRoundedDestination(loc);
++
++                        teleportOnEntityThread(teleportee, loc, cause, future);
++                    } catch (final Throwable throwable) {
++                        future.completeExceptionally(throwable);
+                     }
+-
+-                    teleportOnEntityThread(teleportee, loc, cause, future);
+-                } catch (final Throwable throwable) {
+-                    future.completeExceptionally(throwable);
+-                }
++                });
++            }).exceptionally(th -> {
++                future.completeExceptionally(th);
++                return null;
+             });
+-        }).exceptionally(th -> {
+-            future.completeExceptionally(th);
+-            return null;
+         });
+ -- 
+2.51.0
